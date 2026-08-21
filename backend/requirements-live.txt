@@ -1,0 +1,4 @@
+# Optional: only needed for LIVE_MODE (real ESM-2 inference).
+# DEMO_MODE (default) works fully offline without these.
+torch>=2.4
+fair-esm>=2.0.0

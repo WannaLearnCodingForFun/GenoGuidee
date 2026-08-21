@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #050816;
+  --color-panel: #0b1120;
+  --color-panel2: #111827;
+  --color-cyan: #00e5ff;
+  --color-violet: #8b5cf6;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-fg: #f8fafc;
+  --color-muted: #94a3b8;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: #050816;
+  color: #f8fafc;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: rgba(0, 229, 255, 0.25);
+}
+
+/* Panel card with subtle glowing border */
+.card {
+  background: linear-gradient(180deg, rgba(11, 17, 32, 0.92), rgba(11, 17, 32, 0.75));
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 1rem;
+}
+
+.card-glow-cyan {
+  border-color: rgba(0, 229, 255, 0.25);
+  box-shadow: 0 0 24px -8px rgba(0, 229, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.card-glow-violet {
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: 0 0 24px -8px rgba(139, 92, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.card-glow-success {
+  border-color: rgba(34, 197, 94, 0.35);
+  box-shadow: 0 0 28px -8px rgba(34, 197, 94, 0.35);
+}
+
+.card-glow-warning {
+  border-color: rgba(245, 158, 11, 0.4);
+  box-shadow: 0 0 28px -8px rgba(245, 158, 11, 0.4);
+}
+
+/* Sparse glassmorphism — used only on floating overlays */
+.glass {
+  background: rgba(11, 17, 32, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.mono {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/* Thin custom scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 229, 255, 0.25) transparent;
+}
+*::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(0, 229, 255, 0.2);
+  border-radius: 3px;
+}
+
+/* Subtle grid texture for hero */
+.grid-texture {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 75%);
+}
+
+.text-gradient {
+  background: linear-gradient(92deg, #00e5ff 0%, #8b5cf6 60%, #00e5ff 120%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+.pulse-glow {
+  animation: pulse-glow 2.2s ease-in-out infinite;
+}
