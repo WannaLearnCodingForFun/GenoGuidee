@@ -85,6 +85,22 @@ except Exception as _v1_err:  # noqa: BLE001 — legacy demo API must keep worki
     logging.getLogger("genoguide").warning("API v1 unavailable: %s", _v1_err)
 
 # ---------------------------------------------------------------------------
+# Drug Recommendation Module Router Integration
+# ---------------------------------------------------------------------------
+import sys
+from pathlib import Path
+_med_dir = Path(__file__).resolve().parent.parent.parent / "Medical_DrugRecommendation"
+if str(_med_dir) not in sys.path:
+    sys.path.insert(0, str(_med_dir))
+
+try:
+    from api.routes import router as drug_rec_router
+    app.include_router(drug_rec_router)
+except Exception as _e:
+    print(f"Notice: Drug recommendation router load error: {_e}")
+
+
+# ---------------------------------------------------------------------------
 # System status / overview
 # ---------------------------------------------------------------------------
 

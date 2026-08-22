@@ -1,38 +1,33 @@
 # Python
 __pycache__/
-*.pyc
-backend/.venv/
-.pytest_cache/
-.mypy_cache/
+*.py[cod]
+*.pyo
 
-# Node / Next.js
-frontend/node_modules/
-frontend/.next/
-frontend/out/
-frontend/npm-debug.log*
+# Virtual environments
+.venv/
+venv/
+env/
 
-# Databases (runtime state, not source)
-backend/app/genoguide.db
-backend/genoguide.db
-
-# Research data: never commit datasets — commit manifests, scripts, checksums instead
-research/data/raw/
-research/data/interim/
-research/data/processed/
-research/data/external_holdout/
-
-# Model weights: registry metadata is committed, binary artifacts are not
-models/pretrained/
-models/checkpoints/
-models/production/*.bin
-models/production/*.pt
-models/production/*.ubj
-
-# Small legacy demo model stays committed for reproducibility of the demo;
-# new large artifacts must not be committed.
-
-# OS / editor
-.DS_Store
-*.log
+# Environment variables
 .env
 .env.*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Large genomic dataset
+Medical_DrugRecommendation/Data/variant_summary.txt.gz
+
+# ML artifacts
+*.joblib
+*.h5
+*.pt
+*.pth
