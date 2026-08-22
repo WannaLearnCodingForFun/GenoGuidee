@@ -55,8 +55,13 @@ def _seed_ledger() -> None:
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     provenance.init_ledger()
-    init_xgboost()
-    _seed_ledger()
+    try:
+        init_xgboost()
+        if xgb_status().get("ready"):
+            _seed_ledger()
+    except Exception as exc:  # noqa: BLE001 — demo ML must not block the API
+        import logging
+        logging.getLogger("genoguide").warning("demo XGBoost not started: %s", exc)
     yield
 
 
@@ -68,6 +73,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Research-engine API v1 (legacy /api/* endpoints above/below are preserved
+# unchanged for the existing frontend). Optional: v1 requires the research
+# data stores; if unavailable the router still mounts and reports states.
+try:
+    from .api.v1 import router as v1_router
+    app.include_router(v1_router)
+except Exception as _v1_err:  # noqa: BLE001 — legacy demo API must keep working
+    import logging
+    logging.getLogger("genoguide").warning("API v1 unavailable: %s", _v1_err)
 
 # ---------------------------------------------------------------------------
 # System status / overview

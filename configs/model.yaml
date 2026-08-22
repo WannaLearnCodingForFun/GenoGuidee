@@ -1,0 +1,31 @@
+# GenoGuide baseline training configuration
+seed: 62
+dataset: research/data/processed/training_dataset.parquet
+
+# stratified cap applied to the TRAIN partition only — val/test are never
+# resampled or oversampled
+train_sample_cap: 300000
+eval_sample_cap: 120000
+
+splits: [random, gene_disjoint, chromosome_disjoint, temporal]
+
+models: [logreg, random_forest, xgboost, lightgbm, mlp]
+
+imbalance:
+  strategy: class_weight        # class_weight | balanced_sampling (ablation)
+
+calibration:
+  method: temperature           # fit on validation only
+  binary_method: isotonic
+
+selection_policy:               # section 52 — never accuracy-only
+  primary: macro_auprc_ovr
+  secondary: [mcc, macro_auroc_ovr]
+  safety: ece
+  headline_split: gene_disjoint
+
+xgboost: {n_estimators: 300, max_depth: 8, learning_rate: 0.1, tree_method: hist}
+lightgbm: {n_estimators: 300, num_leaves: 63, learning_rate: 0.1}
+random_forest: {n_estimators: 200, max_depth: 16}
+mlp: {hidden: [64, 32], max_iter: 40}
+logreg: {max_iter: 2000, C: 1.0}

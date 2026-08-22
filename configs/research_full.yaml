@@ -1,0 +1,8 @@
+# GenoGuide research-run config (does not auto-download or auto-train)
+seed: 62
+dataset: research/data/processed/training_dataset.parquet
+models: [logreg, xgboost]
+splits: [gene_disjoint]
+note: >
+  Full experimental sweep is `python -m cli.genoguide benchmark --all`.
+  This file is the cheap default for `genoguide research run`.

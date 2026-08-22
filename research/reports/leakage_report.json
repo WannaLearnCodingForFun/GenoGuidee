@@ -1,0 +1,21 @@
+{
+  "generated": "2026-08-22T11:54:59.951967+00:00",
+  "n_rows": 3899394,
+  "splits": {
+    "gene_disjoint": {
+      "strategy": "gene_disjoint",
+      "n_train": 2922114,
+      "n_test": 587332,
+      "exact_coordinate_overlap": 0,
+      "variation_id_overlap": 0,
+      "gene_protein_change_overlap": 0,
+      "gene_protein_change_overlap_fraction": 0.0,
+      "severity": "OK",
+      "note": "gene+protein-change overlap across DIFFERENT genomic variants is expected in random/temporal splits and is exactly why gene-disjoint evaluation is the headline benchmark"
+    }
+  },
+  "policy": {
+    "SEVERE": "training refuses to run",
+    "WARNING": "reported; gene-disjoint split unaffected"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "gene": "EGFR",
+  "variant": "L858R",
+  "disease": "NSCLC",
+  "recommendations": [
+    {"drug": "Sunvozertinib", "rank": 1, "score": 0.968, "response": "Sensitivity", "evidence_level": "A", "evidence_count": 7},
+    {"drug": "Amivantamab", "rank": 2, "score": 0.9505, "response": "Sensitivity", "evidence_level": "A", "evidence_count": 4},
+    {"drug": "Osimertinib", "rank": 3, "score": 0.9439, "response": "Sensitivity", "evidence_level": "A", "evidence_count": 25},
+    {"drug": "Afatinib", "rank": 4, "score": 0.9383, "response": "Sensitivity", "evidence_level": "A", "evidence_count": 29},
+    {"drug": "Gefitinib", "rank": 5, "score": 0.8914, "response": "Sensitivity", "evidence_level": "A", "evidence_count": 74},
+    {"drug": "Dacomitinib", "rank": 6, "score": 0.8899, "response": "Sensitivity", "evidence_level": "A", "evidence_count": 8},
+    {"drug": "Ramucirumab", "rank": 7, "score": 0.8891, "response": "Sensitivity", "evidence_level": "A", "evidence_count": 1},
+    {"drug": "Mobocertinib", "rank": 8, "score": 0.879, "response": "Sensitivity", "evidence_level": "A", "evidence_count": 1},
+    {"drug": "Lazertinib", "rank": 9, "score": 0.8786, "response": "Sensitivity", "evidence_level": "A", "evidence_count": 1},
+    {"drug": "Chemotherapy", "rank": 10, "score": 0.878, "response": "Sensitivity", "evidence_level": "A", "evidence_count": 2}
+  ]
+}

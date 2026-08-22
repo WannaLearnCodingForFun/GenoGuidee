@@ -172,9 +172,14 @@ def _build_training_set() -> tuple[np.ndarray, np.ndarray]:
 
 def init_xgboost() -> None:
     global _xgb_model, _xgb_val_accuracy
-    import xgboost as xgb
-    from sklearn.metrics import accuracy_score
-    from sklearn.model_selection import train_test_split
+    try:
+        import xgboost as xgb
+        from sklearn.metrics import accuracy_score
+        from sklearn.model_selection import train_test_split
+    except ImportError:
+        # Demo classifier is optional: research /api/v1 and ACMG tests must
+        # still boot if the environment only has FastAPI + numpy.
+        return
 
     model = xgb.XGBClassifier(
         objective="multi:softprob", num_class=len(CLASSES),

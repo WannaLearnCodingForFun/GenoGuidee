@@ -24,3 +24,14 @@ CONTRACT_CONSENT = "ConsentContract"
 LEDGER_CHANNEL = "genoguide-provenance-local"
 
 RANDOM_SEED = 42
+
+# Optional somatic oncology ranking engine (disabled so offline demo/pytest
+# never depend on an external host). Ngrok URLs change — set via env, never
+# hardcode. Drug scores MUST NOT enter ACMG or ML features.
+#   GENOGUIDE_DRUG_API_URL=https://host.example
+#   GENOGUIDE_DRUG_API_ENABLED=true
+#   GENOGUIDE_DRUG_API_TIMEOUT=4
+DRUG_API_URL = os.environ.get("GENOGUIDE_DRUG_API_URL", "").rstrip("/")
+DRUG_API_ENABLED = os.environ.get("GENOGUIDE_DRUG_API_ENABLED", "false").lower() in (
+    "1", "true", "yes", "on",
+)

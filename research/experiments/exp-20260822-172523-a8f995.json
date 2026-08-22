@@ -1,0 +1,1284 @@
+{
+  "experiment_id": "exp-20260822-172523-a8f995",
+  "recorded": "2026-08-22T11:55:23.073694+00:00",
+  "git_commit": "f0e2278be7ae39472bd56d9fa13c307a78232e79",
+  "task": "clinvar_5class_baselines",
+  "config": {
+    "seed": 62,
+    "dataset": "research/data/processed/training_dataset.parquet",
+    "train_sample_cap": 300000,
+    "eval_sample_cap": 120000,
+    "splits": [
+      "random",
+      "gene_disjoint",
+      "chromosome_disjoint",
+      "temporal"
+    ],
+    "models": [
+      "logreg",
+      "random_forest",
+      "xgboost",
+      "lightgbm",
+      "mlp"
+    ],
+    "imbalance": {
+      "strategy": "class_weight"
+    },
+    "calibration": {
+      "method": "temperature",
+      "binary_method": "isotonic"
+    },
+    "selection_policy": {
+      "primary": "macro_auprc_ovr",
+      "secondary": [
+        "mcc",
+        "macro_auroc_ovr"
+      ],
+      "safety": "ece",
+      "headline_split": "gene_disjoint"
+    },
+    "xgboost": {
+      "n_estimators": 300,
+      "max_depth": 8,
+      "learning_rate": 0.1,
+      "tree_method": "hist"
+    },
+    "lightgbm": {
+      "n_estimators": 300,
+      "num_leaves": 63,
+      "learning_rate": 0.1
+    },
+    "random_forest": {
+      "n_estimators": 200,
+      "max_depth": 16
+    },
+    "mlp": {
+      "hidden": [
+        64,
+        32
+      ],
+      "max_iter": 40
+    },
+    "logreg": {
+      "max_iter": 2000,
+      "C": 1.0
+    }
+  },
+  "hardware": {
+    "platform": "macOS-26.5.1-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpu_count": 10,
+    "omp_num_threads": null,
+    "mkl_num_threads": null,
+    "cuda_visible_devices": null,
+    "device": "cpu",
+    "torch": null,
+    "device_note": "Apple Silicon detected; MPS usable once torch is installed"
+  },
+  "dataset": {
+    "path": "research/data/processed/training_dataset.parquet",
+    "size_bytes": 215205297,
+    "mtime": "2026-08-22T11:52:29.825198+00:00"
+  },
+  "splits": {
+    "gene_disjoint": {
+      "strategy": "gene_disjoint",
+      "seed": 62,
+      "n_train": 2922114,
+      "n_val": 389948,
+      "n_test": 587332,
+      "n_test_genes": 3130,
+      "n_val_genes": 1787,
+      "gene_overlap_train_test": 0,
+      "gene_overlap_train_val": 0
+    }
+  },
+  "results": {
+    "gene_disjoint": {
+      "meta": {
+        "strategy": "gene_disjoint",
+        "seed": 62,
+        "n_train": 2922114,
+        "n_val": 389948,
+        "n_test": 587332,
+        "n_test_genes": 3130,
+        "n_val_genes": 1787,
+        "gene_overlap_train_test": 0,
+        "gene_overlap_train_val": 0
+      },
+      "sampled": {
+        "train": 300000,
+        "val": 119999,
+        "test": 120000,
+        "expert_holdout": 1049
+      },
+      "leakage": {
+        "strategy": "gene_disjoint",
+        "n_train": 2922114,
+        "n_test": 587332,
+        "exact_coordinate_overlap": 0,
+        "variation_id_overlap": 0,
+        "gene_protein_change_overlap": 0,
+        "gene_protein_change_overlap_fraction": 0.0,
+        "severity": "OK",
+        "note": "gene+protein-change overlap across DIFFERENT genomic variants is expected in random/temporal splits and is exactly why gene-disjoint evaluation is the headline benchmark"
+      },
+      "ood_test_distribution": {
+        "OUT_OF_DISTRIBUTION": 159,
+        "LOW_CONFIDENCE": 6090,
+        "IN_DISTRIBUTION": 113751
+      },
+      "models": {
+        "xgboost": {
+          "runtime_sec": 9.7,
+          "temperature": 0.891,
+          "val": {
+            "n": 119999,
+            "accuracy": 0.7532396103300861,
+            "balanced_accuracy": 0.5950519053517805,
+            "macro_f1": 0.5402304524053416,
+            "weighted_f1": 0.7731286341415877,
+            "mcc": 0.60931343296646,
+            "brier_multiclass": 0.37990352511405945,
+            "ece": 0.07010932579552255,
+            "confusion_matrix": [
+              [
+                3458,
+                1467,
+                825,
+                63,
+                49
+              ],
+              [
+                10193,
+                23537,
+                3517,
+                183,
+                147
+              ],
+              [
+                2791,
+                1218,
+                59283,
+                2546,
+                611
+              ],
+              [
+                144,
+                85,
+                1344,
+                1241,
+                2874
+              ],
+              [
+                110,
+                39,
+                684,
+                721,
+                2869
+              ]
+            ],
+            "labels": [
+              "benign",
+              "likely_benign",
+              "vus",
+              "likely_pathogenic",
+              "pathogenic"
+            ],
+            "macro_auroc_ovr": 0.895228960126914,
+            "macro_auprc_ovr": 0.5319764182101447,
+            "per_class": {
+              "benign": {
+                "support": 5862,
+                "precision": 0.2071154767609008,
+                "recall_sensitivity": 0.5899010576595018,
+                "specificity": 0.884016576570262
+              },
+              "likely_benign": {
+                "support": 37577,
+                "precision": 0.8933803993016017,
+                "recall_sensitivity": 0.6263671926976608,
+                "specificity": 0.9659192933925408
+              },
+              "vus": {
+                "support": 66449,
+                "precision": 0.9029747307815332,
+                "recall_sensitivity": 0.8921578955289019,
+                "specificity": 0.8810457516339869
+              },
+              "likely_pathogenic": {
+                "support": 5688,
+                "precision": 0.2610433319310055,
+                "recall_sensitivity": 0.2181786216596343,
+                "specificity": 0.9692680494440605
+              },
+              "pathogenic": {
+                "support": 4423,
+                "precision": 0.43801526717557254,
+                "recall_sensitivity": 0.6486547592132037,
+                "specificity": 0.9681508271613484
+              }
+            },
+            "reliability": [
+              {
+                "bin": "(0.2,0.3]",
+                "n": 154,
+                "mean_confidence": 0.2774380147457123,
+                "empirical_accuracy": 0.21428571428571427
+              },
+              {
+                "bin": "(0.3,0.4]",
+                "n": 4262,
+                "mean_confidence": 0.3569124937057495,
+                "empirical_accuracy": 0.664946034725481
+              },
+              {
+                "bin": "(0.4,0.5]",
+                "n": 11506,
+                "mean_confidence": 0.4660032093524933,
+                "empirical_accuracy": 0.5621414913957935
+              },
+              {
+                "bin": "(0.5,0.6]",
+                "n": 18685,
+                "mean_confidence": 0.5439711809158325,
+                "empirical_accuracy": 0.5792346802247792
+              },
+              {
+                "bin": "(0.6,0.7]",
+                "n": 19988,
+                "mean_confidence": 0.6490440368652344,
+                "empirical_accuracy": 0.6787572543526116
+              },
+              {
+                "bin": "(0.7,0.8]",
+                "n": 34916,
+                "mean_confidence": 0.7627758979797363,
+                "empirical_accuracy": 0.8342593653339443
+              },
+              {
+                "bin": "(0.8,0.9]",
+                "n": 27667,
+                "mean_confidence": 0.8455326557159424,
+                "empirical_accuracy": 0.9049047601836122
+              },
+              {
+                "bin": "(0.9,1.0]",
+                "n": 2821,
+                "mean_confidence": 0.9227791428565979,
+                "empirical_accuracy": 0.8855015951790145
+              }
+            ]
+          },
+          "test": {
+            "n": 120000,
+            "accuracy": 0.74385,
+            "balanced_accuracy": 0.6038991563884337,
+            "macro_f1": 0.554436459630694,
+            "weighted_f1": 0.7686719570881282,
+            "mcc": 0.5922360182686977,
+            "brier_multiclass": 0.3867233991622925,
+            "ece": 0.08512287426019707,
+            "confusion_matrix": [
+              [
+                3993,
+                1278,
+                750,
+                110,
+                55
+              ],
+              [
+                11953,
+                18493,
+                3386,
+                346,
+                94
+              ],
+              [
+                3514,
+                872,
+                61996,
+                2801,
+                558
+              ],
+              [
+                230,
+                43,
+                1360,
+                1384,
+                1429
+              ],
+              [
+                174,
+                29,
+                565,
+                1191,
+                3396
+              ]
+            ],
+            "labels": [
+              "benign",
+              "likely_benign",
+              "vus",
+              "likely_pathogenic",
+              "pathogenic"
+            ],
+            "macro_auroc_ovr": 0.8979739596589082,
+            "macro_auprc_ovr": 0.5595234192660687,
+            "per_class": {
+              "benign": {
+                "support": 6186,
+                "precision": 0.20101691502215063,
+                "recall_sensitivity": 0.6454898157129001,
+                "specificity": 0.8605531832639218
+              },
+              "likely_benign": {
+                "support": 34272,
+                "precision": 0.8927347332850591,
+                "recall_sensitivity": 0.539595004668534,
+                "specificity": 0.9740808137364688
+              },
+              "vus": {
+                "support": 69741,
+                "precision": 0.9109422983675448,
+                "recall_sensitivity": 0.888946243959794,
+                "specificity": 0.879404683738236
+              },
+              "likely_pathogenic": {
+                "support": 4446,
+                "precision": 0.23731138545953362,
+                "recall_sensitivity": 0.3112910481331534,
+                "specificity": 0.9615071741350364
+              },
+              "pathogenic": {
+                "support": 5355,
+                "precision": 0.613882863340564,
+                "recall_sensitivity": 0.6341736694677871,
+                "specificity": 0.9813685725500458
+              }
+            },
+            "reliability": [
+              {
+                "bin": "(0.2,0.3]",
+                "n": 129,
+                "mean_confidence": 0.27696847915649414,
+                "empirical_accuracy": 0.14728682170542637
+              },
+              {
+                "bin": "(0.3,0.4]",
+                "n": 5546,
+                "mean_confidence": 0.3578796982765198,
+                "empirical_accuracy": 0.7320591417237649
+              },
+              {
+                "bin": "(0.4,0.5]",
+                "n": 9726,
+                "mean_confidence": 0.45592665672302246,
+                "empirical_accuracy": 0.6013777503598602
+              },
+              {
+                "bin": "(0.5,0.6]",
+                "n": 20462,
+                "mean_confidence": 0.5459164977073669,
+                "empirical_accuracy": 0.5305444238099892
+              },
+              {
+                "bin": "(0.6,0.7]",
+                "n": 19304,
+                "mean_confidence": 0.6478517055511475,
+                "empirical_accuracy": 0.5954206382096975
+              },
+              {
+                "bin": "(0.7,0.8]",
+                "n": 30726,
+                "mean_confidence": 0.7581534385681152,
+                "empirical_accuracy": 0.8360020829265118
+              },
+              {
+                "bin": "(0.8,0.9]",
+                "n": 31205,
+                "mean_confidence": 0.8420689105987549,
+                "empirical_accuracy": 0.9193718955295626
+              },
+              {
+                "bin": "(0.9,1.0]",
+                "n": 2902,
+                "mean_confidence": 0.9241828918457031,
+                "empirical_accuracy": 0.8986905582356995
+              }
+            ]
+          },
+          "test_calibrated": {
+            "n": 120000,
+            "accuracy": 0.74385,
+            "balanced_accuracy": 0.6038991563884337,
+            "macro_f1": 0.554436459630694,
+            "weighted_f1": 0.7686719570881282,
+            "mcc": 0.5922360182686977,
+            "brier_multiclass": 0.38259902596473694,
+            "ece": 0.06827261669114232,
+            "confusion_matrix": [
+              [
+                3993,
+                1278,
+                750,
+                110,
+                55
+              ],
+              [
+                11953,
+                18493,
+                3386,
+                346,
+                94
+              ],
+              [
+                3514,
+                872,
+                61996,
+                2801,
+                558
+              ],
+              [
+                230,
+                43,
+                1360,
+                1384,
+                1429
+              ],
+              [
+                174,
+                29,
+                565,
+                1191,
+                3396
+              ]
+            ],
+            "labels": [
+              "benign",
+              "likely_benign",
+              "vus",
+              "likely_pathogenic",
+              "pathogenic"
+            ],
+            "macro_auroc_ovr": 0.8974905721122937,
+            "macro_auprc_ovr": 0.5581391194154632,
+            "per_class": {
+              "benign": {
+                "support": 6186,
+                "precision": 0.20101691502215063,
+                "recall_sensitivity": 0.6454898157129001,
+                "specificity": 0.8605531832639218
+              },
+              "likely_benign": {
+                "support": 34272,
+                "precision": 0.8927347332850591,
+                "recall_sensitivity": 0.539595004668534,
+                "specificity": 0.9740808137364688
+              },
+              "vus": {
+                "support": 69741,
+                "precision": 0.9109422983675448,
+                "recall_sensitivity": 0.888946243959794,
+                "specificity": 0.879404683738236
+              },
+              "likely_pathogenic": {
+                "support": 4446,
+                "precision": 0.23731138545953362,
+                "recall_sensitivity": 0.3112910481331534,
+                "specificity": 0.9615071741350364
+              },
+              "pathogenic": {
+                "support": 5355,
+                "precision": 0.613882863340564,
+                "recall_sensitivity": 0.6341736694677871,
+                "specificity": 0.9813685725500458
+              }
+            },
+            "reliability": [
+              {
+                "bin": "(0.2,0.3]",
+                "n": 97,
+                "mean_confidence": 0.27828100323677063,
+                "empirical_accuracy": 0.14432989690721648
+              },
+              {
+                "bin": "(0.3,0.4]",
+                "n": 4971,
+                "mean_confidence": 0.36977481842041016,
+                "empirical_accuracy": 0.7447193723596862
+              },
+              {
+                "bin": "(0.4,0.5]",
+                "n": 7596,
+                "mean_confidence": 0.45837345719337463,
+                "empirical_accuracy": 0.644681411269089
+              },
+              {
+                "bin": "(0.5,0.6]",
+                "n": 18812,
+                "mean_confidence": 0.5509173274040222,
+                "empirical_accuracy": 0.5256751009993621
+              },
+              {
+                "bin": "(0.6,0.7]",
+                "n": 17172,
+                "mean_confidence": 0.6519048810005188,
+                "empirical_accuracy": 0.5333682739343116
+              },
+              {
+                "bin": "(0.7,0.8]",
+                "n": 19893,
+                "mean_confidence": 0.756232738494873,
+                "empirical_accuracy": 0.7529281656864224
+              },
+              {
+                "bin": "(0.8,0.9]",
+                "n": 41919,
+                "mean_confidence": 0.8501445651054382,
+                "empirical_accuracy": 0.903814499391684
+              },
+              {
+                "bin": "(0.9,1.0]",
+                "n": 9540,
+                "mean_confidence": 0.9232481122016907,
+                "empirical_accuracy": 0.9157232704402516
+              }
+            ]
+          },
+          "test_binary_path_spectrum": {
+            "n": 50259,
+            "prevalence": 0.19500984898227183,
+            "auroc": 0.9781781405680189,
+            "auprc": 0.9374259731192502,
+            "brier": 0.04073366895318031,
+            "mcc": 0.8028615790750382,
+            "precision_at_0.5": 0.9305467862103801,
+            "recall_at_0.5": 0.7518620548923579,
+            "precision_at_10": 1.0,
+            "recall_at_10": 0.001020304050607081,
+            "precision_at_50": 1.0,
+            "recall_at_50": 0.005101520253035404,
+            "precision_at_200": 1.0,
+            "recall_at_200": 0.020406081012141617,
+            "recall_at_fpr_0.01": 0.7418630751964085,
+            "recall_at_fpr_0.05": 0.8818487909397
+          },
+          "uncertainty": {
+            "mean_entropy": 0.7481005191802979,
+            "mean_max_prob": 0.7199503779411316
+          },
+          "expert_holdout": {
+            "n": 1049,
+            "accuracy": 0.5424213536701621,
+            "balanced_accuracy": 0.5149203102671336,
+            "macro_f1": 0.4898313005591626,
+            "weighted_f1": 0.5510246797187732,
+            "mcc": 0.41345889720826173,
+            "brier_multiclass": 0.6402746438980103,
+            "ece": 0.12329466809990067,
+            "confusion_matrix": [
+              [
+                48,
+                7,
+                17,
+                1,
+                1
+              ],
+              [
+                46,
+                85,
+                34,
+                1,
+                0
+              ],
+              [
+                44,
+                3,
+                231,
+                23,
+                6
+              ],
+              [
+                8,
+                4,
+                73,
+                22,
+                27
+              ],
+              [
+                20,
+                3,
+                84,
+                78,
+                183
+              ]
+            ],
+            "labels": [
+              "benign",
+              "likely_benign",
+              "vus",
+              "likely_pathogenic",
+              "pathogenic"
+            ],
+            "macro_auroc_ovr": 0.7739624369137934,
+            "macro_auprc_ovr": 0.45947781295860796,
+            "per_class": {
+              "benign": {
+                "support": 74,
+                "precision": 0.2891566265060241,
+                "recall_sensitivity": 0.6486486486486487,
+                "specificity": 0.8789743589743589
+              },
+              "likely_benign": {
+                "support": 166,
+                "precision": 0.8333333333333334,
+                "recall_sensitivity": 0.5120481927710844,
+                "specificity": 0.9807474518686297
+              },
+              "vus": {
+                "support": 307,
+                "precision": 0.5261958997722096,
+                "recall_sensitivity": 0.752442996742671,
+                "specificity": 0.7196765498652291
+              },
+              "likely_pathogenic": {
+                "support": 134,
+                "precision": 0.176,
+                "recall_sensitivity": 0.16417910447761194,
+                "specificity": 0.8874316939890711
+              },
+              "pathogenic": {
+                "support": 368,
+                "precision": 0.8433179723502304,
+                "recall_sensitivity": 0.49728260869565216,
+                "specificity": 0.9500734214390602
+              }
+            },
+            "reliability": [
+              {
+                "bin": "(0.2,0.3]",
+                "n": 1,
+                "mean_confidence": 0.2574566602706909,
+                "empirical_accuracy": 0.0
+              },
+              {
+                "bin": "(0.3,0.4]",
+                "n": 44,
+                "mean_confidence": 0.3725290596485138,
+                "empirical_accuracy": 0.20454545454545456
+              },
+              {
+                "bin": "(0.4,0.5]",
+                "n": 31,
+                "mean_confidence": 0.45520251989364624,
+                "empirical_accuracy": 0.03225806451612903
+              },
+              {
+                "bin": "(0.5,0.6]",
+                "n": 228,
+                "mean_confidence": 0.5383688807487488,
+                "empirical_accuracy": 0.5043859649122807
+              },
+              {
+                "bin": "(0.6,0.7]",
+                "n": 388,
+                "mean_confidence": 0.6426721811294556,
+                "empirical_accuracy": 0.5541237113402062
+              },
+              {
+                "bin": "(0.7,0.8]",
+                "n": 100,
+                "mean_confidence": 0.7514203786849976,
+                "empirical_accuracy": 0.56
+              },
+              {
+                "bin": "(0.8,0.9]",
+                "n": 219,
+                "mean_confidence": 0.845176637172699,
+                "empirical_accuracy": 0.6894977168949772
+              },
+              {
+                "bin": "(0.9,1.0]",
+                "n": 38,
+                "mean_confidence": 0.9272485971450806,
+                "empirical_accuracy": 0.5789473684210527
+              }
+            ]
+          }
+        },
+        "logreg": {
+          "runtime_sec": 1.5,
+          "temperature": 0.808,
+          "val": {
+            "n": 119999,
+            "accuracy": 0.7530396086634056,
+            "balanced_accuracy": 0.6179425739987596,
+            "macro_f1": 0.5492959520379755,
+            "weighted_f1": 0.7755146280522164,
+            "mcc": 0.6144919684351992,
+            "brier_multiclass": 0.4027491807937622,
+            "ece": 0.1657550894322189,
+            "confusion_matrix": [
+              [
+                3630,
+                1296,
+                794,
+                56,
+                86
+              ],
+              [
+                10495,
+                23218,
+                3364,
+                264,
+                236
+              ],
+              [
+                3271,
+                919,
+                58951,
+                2406,
+                902
+              ],
+              [
+                180,
+                27,
+                1157,
+                1326,
+                2998
+              ],
+              [
+                135,
+                26,
+                506,
+                517,
+                3239
+              ]
+            ],
+            "labels": [
+              "benign",
+              "likely_benign",
+              "vus",
+              "likely_pathogenic",
+              "pathogenic"
+            ],
+            "macro_auroc_ovr": 0.8945623731289285,
+            "macro_auprc_ovr": 0.5269748497945927,
+            "per_class": {
+              "benign": {
+                "support": 5862,
+                "precision": 0.20495737112528936,
+                "recall_sensitivity": 0.6192425793244627,
+                "specificity": 0.8766307157188291
+              },
+              "likely_benign": {
+                "support": 37577,
+                "precision": 0.9110099662559836,
+                "recall_sensitivity": 0.6178779572610905,
+                "specificity": 0.972483074907185
+              },
+              "vus": {
+                "support": 66449,
+                "precision": 0.9101309207682332,
+                "recall_sensitivity": 0.8871615825670816,
+                "specificity": 0.891297852474323
+              },
+              "likely_pathogenic": {
+                "support": 5688,
+                "precision": 0.2902166776099803,
+                "recall_sensitivity": 0.23312236286919832,
+                "specificity": 0.971630026856558
+              },
+              "pathogenic": {
+                "support": 4423,
+                "precision": 0.43412411204932316,
+                "recall_sensitivity": 0.7323083879719647,
+                "specificity": 0.96346992455181
+              }
+            },
+            "reliability": [
+              {
+                "bin": "(0.2,0.3]",
+                "n": 142,
+                "mean_confidence": 0.28265252709388733,
+                "empirical_accuracy": 0.08450704225352113
+              },
+              {
+                "bin": "(0.3,0.4]",
+                "n": 6704,
+                "mean_confidence": 0.38197460770606995,
+                "empirical_accuracy": 0.5114856801909308
+              },
+              {
+                "bin": "(0.4,0.5]",
+                "n": 23732,
+                "mean_confidence": 0.462546706199646,
+                "empirical_accuracy": 0.7780212371481544
+              },
+              {
+                "bin": "(0.5,0.6]",
+                "n": 15162,
+                "mean_confidence": 0.5438439846038818,
+                "empirical_accuracy": 0.4315393747526712
+              },
+              {
+                "bin": "(0.6,0.7]",
+                "n": 16613,
+                "mean_confidence": 0.6610555052757263,
+                "empirical_accuracy": 0.6320351531932824
+              },
+              {
+                "bin": "(0.7,0.8]",
+                "n": 48281,
+                "mean_confidence": 0.7471802234649658,
+                "empirical_accuracy": 0.9101302789917359
+              },
+              {
+                "bin": "(0.8,0.9]",
+                "n": 9365,
+                "mean_confidence": 0.847599983215332,
+                "empirical_accuracy": 0.798077949813134
+              }
+            ]
+          },
+          "test": {
+            "n": 120000,
+            "accuracy": 0.7552833333333333,
+            "balanced_accuracy": 0.6217207058914657,
+            "macro_f1": 0.5669800643695131,
+            "weighted_f1": 0.7772649308572493,
+            "mcc": 0.6096669489172958,
+            "brier_multiclass": 0.39766934514045715,
+            "ece": 0.16028770732084907,
+            "confusion_matrix": [
+              [
+                4075,
+                1208,
+                757,
+                93,
+                53
+              ],
+              [
+                11486,
+                18999,
+                3390,
+                282,
+                115
+              ],
+              [
+                3996,
+                610,
+                62422,
+                1938,
+                775
+              ],
+              [
+                257,
+                18,
+                1412,
+                1073,
+                1686
+              ],
+              [
+                199,
+                9,
+                558,
+                524,
+                4065
+              ]
+            ],
+            "labels": [
+              "benign",
+              "likely_benign",
+              "vus",
+              "likely_pathogenic",
+              "pathogenic"
+            ],
+            "macro_auroc_ovr": 0.9010801142697673,
+            "macro_auprc_ovr": 0.5791671200223771,
+            "per_class": {
+              "benign": {
+                "support": 6186,
+                "precision": 0.2036176485284565,
+                "recall_sensitivity": 0.6587455544778532,
+                "specificity": 0.8599645034881473
+              },
+              "likely_benign": {
+                "support": 34272,
+                "precision": 0.9114853195164075,
+                "recall_sensitivity": 0.554359243697479,
+                "specificity": 0.9784784434490481
+              },
+              "vus": {
+                "support": 69741,
+                "precision": 0.9107515429171712,
+                "recall_sensitivity": 0.8950545590111986,
+                "specificity": 0.8782904554408165
+              },
+              "likely_pathogenic": {
+                "support": 4446,
+                "precision": 0.2744245524296675,
+                "recall_sensitivity": 0.24134053081421503,
+                "specificity": 0.9754487079633765
+              },
+              "pathogenic": {
+                "support": 5355,
+                "precision": 0.6072602330445175,
+                "recall_sensitivity": 0.7591036414565826,
+                "specificity": 0.9770683414017184
+              }
+            },
+            "reliability": [
+              {
+                "bin": "(0.2,0.3]",
+                "n": 131,
+                "mean_confidence": 0.2821364104747772,
+                "empirical_accuracy": 0.13740458015267176
+              },
+              {
+                "bin": "(0.3,0.4]",
+                "n": 7307,
+                "mean_confidence": 0.3838711678981781,
+                "empirical_accuracy": 0.5793075133433694
+              },
+              {
+                "bin": "(0.4,0.5]",
+                "n": 19588,
+                "mean_confidence": 0.4622255563735962,
+                "empirical_accuracy": 0.7915560547273841
+              },
+              {
+                "bin": "(0.5,0.6]",
+                "n": 16950,
+                "mean_confidence": 0.5463815927505493,
+                "empirical_accuracy": 0.3981710914454277
+              },
+              {
+                "bin": "(0.6,0.7]",
+                "n": 18868,
+                "mean_confidence": 0.6598976850509644,
+                "empirical_accuracy": 0.6412974348102608
+              },
+              {
+                "bin": "(0.7,0.8]",
+                "n": 54442,
+                "mean_confidence": 0.7482094168663025,
+                "empirical_accuracy": 0.9111347856434371
+              },
+              {
+                "bin": "(0.8,0.9]",
+                "n": 2714,
+                "mean_confidence": 0.8177304267883301,
+                "empirical_accuracy": 0.893515106853353
+              }
+            ]
+          },
+          "test_calibrated": {
+            "n": 120000,
+            "accuracy": 0.7552833333333333,
+            "balanced_accuracy": 0.6217207058914657,
+            "macro_f1": 0.5669800643695131,
+            "weighted_f1": 0.7772649308572493,
+            "mcc": 0.6096669489172958,
+            "brier_multiclass": 0.3805791139602661,
+            "ece": 0.11647169048289459,
+            "confusion_matrix": [
+              [
+                4075,
+                1208,
+                757,
+                93,
+                53
+              ],
+              [
+                11486,
+                18999,
+                3390,
+                282,
+                115
+              ],
+              [
+                3996,
+                610,
+                62422,
+                1938,
+                775
+              ],
+              [
+                257,
+                18,
+                1412,
+                1073,
+                1686
+              ],
+              [
+                199,
+                9,
+                558,
+                524,
+                4065
+              ]
+            ],
+            "labels": [
+              "benign",
+              "likely_benign",
+              "vus",
+              "likely_pathogenic",
+              "pathogenic"
+            ],
+            "macro_auroc_ovr": 0.8981792741203621,
+            "macro_auprc_ovr": 0.5723171744232386,
+            "per_class": {
+              "benign": {
+                "support": 6186,
+                "precision": 0.2036176485284565,
+                "recall_sensitivity": 0.6587455544778532,
+                "specificity": 0.8599645034881473
+              },
+              "likely_benign": {
+                "support": 34272,
+                "precision": 0.9114853195164075,
+                "recall_sensitivity": 0.554359243697479,
+                "specificity": 0.9784784434490481
+              },
+              "vus": {
+                "support": 69741,
+                "precision": 0.9107515429171712,
+                "recall_sensitivity": 0.8950545590111986,
+                "specificity": 0.8782904554408165
+              },
+              "likely_pathogenic": {
+                "support": 4446,
+                "precision": 0.2744245524296675,
+                "recall_sensitivity": 0.24134053081421503,
+                "specificity": 0.9754487079633765
+              },
+              "pathogenic": {
+                "support": 5355,
+                "precision": 0.6072602330445175,
+                "recall_sensitivity": 0.7591036414565826,
+                "specificity": 0.9770683414017184
+              }
+            },
+            "reliability": [
+              {
+                "bin": "(0.2,0.3]",
+                "n": 58,
+                "mean_confidence": 0.2828753590583801,
+                "empirical_accuracy": 0.15517241379310345
+              },
+              {
+                "bin": "(0.3,0.4]",
+                "n": 1447,
+                "mean_confidence": 0.3631539046764374,
+                "empirical_accuracy": 0.16378714581893572
+              },
+              {
+                "bin": "(0.4,0.5]",
+                "n": 11732,
+                "mean_confidence": 0.4504644274711609,
+                "empirical_accuracy": 0.7057620184111831
+              },
+              {
+                "bin": "(0.5,0.6]",
+                "n": 24011,
+                "mean_confidence": 0.5527440309524536,
+                "empirical_accuracy": 0.5972262712923243
+              },
+              {
+                "bin": "(0.6,0.7]",
+                "n": 12837,
+                "mean_confidence": 0.6505202651023865,
+                "empirical_accuracy": 0.6034899119732025
+              },
+              {
+                "bin": "(0.7,0.8]",
+                "n": 17698,
+                "mean_confidence": 0.7506275773048401,
+                "empirical_accuracy": 0.6511470222624025
+              },
+              {
+                "bin": "(0.8,0.9]",
+                "n": 51795,
+                "mean_confidence": 0.8331313729286194,
+                "empirical_accuracy": 0.929336808572256
+              },
+              {
+                "bin": "(0.9,1.0]",
+                "n": 422,
+                "mean_confidence": 0.9062119722366333,
+                "empirical_accuracy": 0.8578199052132701
+              }
+            ]
+          },
+          "test_binary_path_spectrum": {
+            "n": 50259,
+            "prevalence": 0.19500984898227183,
+            "auroc": 0.9799319650021537,
+            "auprc": 0.9373382926801413,
+            "brier": 0.03894054889678955,
+            "mcc": 0.7941309289304297,
+            "precision_at_0.5": 0.9096813725490196,
+            "recall_at_0.5": 0.7573716967656362,
+            "precision_at_10": 1.0,
+            "recall_at_10": 0.001020304050607081,
+            "precision_at_50": 0.98,
+            "recall_at_50": 0.004999489847974697,
+            "precision_at_200": 0.995,
+            "recall_at_200": 0.02030405060708091,
+            "recall_at_fpr_0.01": 0.738904193449648,
+            "recall_at_fpr_0.05": 0.8456279971431486
+          },
+          "uncertainty": {
+            "mean_entropy": 0.7955484390258789,
+            "mean_max_prob": 0.7022372484207153
+          },
+          "expert_holdout": {
+            "n": 1049,
+            "accuracy": 0.5996186844613918,
+            "balanced_accuracy": 0.5442458758085694,
+            "macro_f1": 0.5183552488259344,
+            "weighted_f1": 0.5996888388991971,
+            "mcc": 0.4835495866600075,
+            "brier_multiclass": 0.5899931192398071,
+            "ece": 0.14531577724405878,
+            "confusion_matrix": [
+              [
+                48,
+                7,
+                17,
+                2,
+                0
+              ],
+              [
+                48,
+                83,
+                32,
+                3,
+                0
+              ],
+              [
+                46,
+                1,
+                248,
+                6,
+                6
+              ],
+              [
+                14,
+                1,
+                75,
+                18,
+                26
+              ],
+              [
+                23,
+                2,
+                85,
+                26,
+                232
+              ]
+            ],
+            "labels": [
+              "benign",
+              "likely_benign",
+              "vus",
+              "likely_pathogenic",
+              "pathogenic"
+            ],
+            "macro_auroc_ovr": 0.7944958652202656,
+            "macro_auprc_ovr": 0.47739966170213693,
+            "per_class": {
+              "benign": {
+                "support": 74,
+                "precision": 0.2681564245810056,
+                "recall_sensitivity": 0.6486486486486487,
+                "specificity": 0.8656410256410256
+              },
+              "likely_benign": {
+                "support": 166,
+                "precision": 0.8829787234042553,
+                "recall_sensitivity": 0.5,
+                "specificity": 0.9875424688561721
+              },
+              "vus": {
+                "support": 307,
+                "precision": 0.5426695842450766,
+                "recall_sensitivity": 0.8078175895765473,
+                "specificity": 0.7183288409703504
+              },
+              "likely_pathogenic": {
+                "support": 134,
+                "precision": 0.32727272727272727,
+                "recall_sensitivity": 0.13432835820895522,
+                "specificity": 0.9595628415300547
+              },
+              "pathogenic": {
+                "support": 368,
+                "precision": 0.8787878787878788,
+                "recall_sensitivity": 0.6304347826086957,
+                "specificity": 0.9530102790014684
+              }
+            },
+            "reliability": [
+              {
+                "bin": "(0.3,0.4]",
+                "n": 27,
+                "mean_confidence": 0.3552742600440979,
+                "empirical_accuracy": 0.1111111111111111
+              },
+              {
+                "bin": "(0.4,0.5]",
+                "n": 48,
+                "mean_confidence": 0.44578251242637634,
+                "empirical_accuracy": 0.14583333333333334
+              },
+              {
+                "bin": "(0.5,0.6]",
+                "n": 447,
+                "mean_confidence": 0.5317813158035278,
+                "empirical_accuracy": 0.5883668903803132
+              },
+              {
+                "bin": "(0.6,0.7]",
+                "n": 229,
+                "mean_confidence": 0.6424471139907837,
+                "empirical_accuracy": 0.5065502183406113
+              },
+              {
+                "bin": "(0.7,0.8]",
+                "n": 170,
+                "mean_confidence": 0.7468224763870239,
+                "empirical_accuracy": 0.8352941176470589
+              },
+              {
+                "bin": "(0.8,0.9]",
+                "n": 128,
+                "mean_confidence": 0.8357374668121338,
+                "empirical_accuracy": 0.765625
+              }
+            ]
+          }
+        }
+      },
+      "ensemble_variance_mean": 0.0016574827022850513
+    }
+  },
+  "selection": {
+    "policy": {
+      "primary": "macro_auprc_ovr",
+      "secondary": [
+        "mcc",
+        "macro_auroc_ovr"
+      ],
+      "safety": "ece",
+      "headline_split": "gene_disjoint"
+    },
+    "best_model": "logreg",
+    "ranking": [
+      "logreg",
+      "xgboost"
+    ]
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "generated": "2026-08-22T11:47:11.532825+00:00",
+  "source_file": "variant_summary_2026-08.txt.gz",
+  "output": "research/data/processed/clinvar_grch38.parquet",
+  "stages": {
+    "raw_rows_both_builds": 9044810,
+    "grch38_rows": 4488630,
+    "germline_valid_alleles": 4162449,
+    "after_coordinate_dedup": 4162441,
+    "coordinate_duplicates_removed": 8,
+    "labeled_rows": 3990596,
+    "conflicting_rows_preserved_unlabeled": 165753
+  },
+  "class_distribution": {
+    "vus": 2311028,
+    "likely_benign": 1157159,
+    "benign": 205514,
+    "pathogenic": 174499,
+    "NaN": 171845,
+    "likely_pathogenic": 142396
+  },
+  "confidence_tier_distribution": {
+    "1": 3209653,
+    "2": 668386,
+    "0": 262279,
+    "3": 22072,
+    "4": 51
+  },
+  "consequence_distribution": {
+    "missense_variant": 2441420,
+    "synonymous_variant": 736924,
+    "unknown": 612238,
+    "frameshift_variant": 135638,
+    "coding_indel_unspecified": 105459,
+    "stop_gained": 82944,
+    "splice_donor_or_acceptor": 47525,
+    "start_lost": 293
+  },
+  "variant_type_distribution": {
+    "SNV": 3887225,
+    "deletion": 174865,
+    "insertion": 88512,
+    "MNV": 11839
+  },
+  "n_genes": 20277,
+  "chromosome_distribution": {
+    "1": 376287,
+    "2": 368521,
+    "17": 251006,
+    "11": 245876,
+    "19": 239937,
+    "3": 228568,
+    "16": 217530,
+    "7": 204304,
+    "5": 202539,
+    "12": 191154,
+    "9": 186679,
+    "6": 186373,
+    "10": 157698,
+    "X": 150102,
+    "4": 148945,
+    "15": 146623,
+    "8": 141267,
+    "14": 134330,
+    "22": 90829,
+    "20": 90294,
+    "13": 82780,
+    "18": 70417,
+    "21": 46461,
+    "MT": 3041,
+    "Y": 880
+  },
+  "missingness": {
+    "label": 171845,
+    "gene": 0,
+    "pos": 0,
+    "last_evaluated_year": 20727
+  },
+  "notes": [
+    "labels are ClinVar germline aggregate classifications with review-status tiers",
+    "conflicting classifications preserved with label=NULL, excluded from training",
+    "consequence derived from Name HGVS heuristic until offline VEP is configured"
+  ]
+}

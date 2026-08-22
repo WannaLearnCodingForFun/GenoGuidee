@@ -1,0 +1,81 @@
+{
+  "model_id": "genoguide-tabular-logreg-v0.1.0",
+  "registered": "2026-08-22T11:55:23.103340+00:00",
+  "git_commit": "f0e2278be7ae39472bd56d9fa13c307a78232e79",
+  "artifact": "models/production/logreg_gene_disjoint.joblib",
+  "artifact_sha256": "d1de075a3e0f177b2863871c6f7032b65cd47a8dd7ddc2b136bad2b56d31c5ed",
+  "experiment_id": "exp-20260822-172523-a8f995",
+  "training_dataset": {
+    "path": "research/data/processed/training_dataset.parquet",
+    "size_bytes": 215205297,
+    "mtime": "2026-08-22T11:52:29.825198+00:00"
+  },
+  "feature_schema": [
+    "csq_missense_variant",
+    "csq_synonymous_variant",
+    "csq_stop_gained",
+    "csq_frameshift_variant",
+    "csq_splice_donor_or_acceptor",
+    "csq_start_lost",
+    "csq_coding_indel_unspecified",
+    "csq_unknown",
+    "vt_SNV",
+    "vt_MNV",
+    "vt_insertion",
+    "vt_deletion",
+    "ref_len",
+    "alt_len",
+    "len_delta",
+    "loeuf",
+    "pli",
+    "mis_z",
+    "syn_z",
+    "gene_feat_missing",
+    "clingen_validity",
+    "clingen_n_diseases",
+    "am_pathogenicity",
+    "am_missing"
+  ],
+  "labels": [
+    "benign",
+    "likely_benign",
+    "vus",
+    "likely_pathogenic",
+    "pathogenic"
+  ],
+  "hyperparameters": {
+    "max_iter": 2000,
+    "C": 1.0
+  },
+  "metrics_gene_disjoint_test": {
+    "macro_auprc_ovr": 0.5723171744232386,
+    "macro_auroc_ovr": 0.8981792741203621,
+    "mcc": 0.6096669489172958,
+    "ece": 0.11647169048289459,
+    "balanced_accuracy": 0.6217207058914657,
+    "macro_f1": 0.5669800643695131
+  },
+  "binary_path_spectrum": {
+    "n": 50259,
+    "prevalence": 0.19500984898227183,
+    "auroc": 0.9799319650021537,
+    "auprc": 0.9373382926801413,
+    "brier": 0.03894054889678955,
+    "mcc": 0.7941309289304297,
+    "precision_at_0.5": 0.9096813725490196,
+    "recall_at_0.5": 0.7573716967656362,
+    "precision_at_10": 1.0,
+    "recall_at_10": 0.001020304050607081,
+    "precision_at_50": 0.98,
+    "recall_at_50": 0.004999489847974697,
+    "precision_at_200": 0.995,
+    "recall_at_200": 0.02030405060708091,
+    "recall_at_fpr_0.01": 0.738904193449648,
+    "recall_at_fpr_0.05": 0.8456279971431486
+  },
+  "calibration": {
+    "method": "temperature",
+    "T": 0.808
+  },
+  "seed": 62
+}
