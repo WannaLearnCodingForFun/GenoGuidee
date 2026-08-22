@@ -82,9 +82,9 @@ export default function Overview() {
       {/* Hero background */}
       <div className="absolute inset-0 grid-texture" />
       <div className="absolute -right-24 top-0 h-[620px] w-[620px] opacity-70">
-        <DnaHelix className="h-full w-full" />
+        <DnaHelix className="h-full w-full" strandA="#b4182d" strandB="#fda481" rung="#37415c" />
       </div>
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_20%,rgba(0,229,255,0.07),transparent_70%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_20%,rgba(180,24,45,0.07),transparent_70%)]" />
 
       <div className="relative z-10 mx-auto max-w-6xl px-8 py-14">
         {/* Hero */}
@@ -112,7 +112,7 @@ export default function Overview() {
           <div className="mt-8 flex items-center gap-4">
             <Link
               href="/variant-lab"
-              className="group inline-flex items-center gap-2 rounded-xl border border-cyan/40 bg-cyan/10 px-6 py-3 text-sm font-semibold text-cyan transition-all hover:bg-cyan/20 hover:shadow-[0_0_32px_-8px_#00e5ff]"
+              className="group inline-flex items-center gap-2 rounded-xl border border-cyan/40 bg-cyan/10 px-6 py-3 text-sm font-semibold text-cyan transition-all hover:bg-cyan/20 hover:shadow-[0_0_32px_-8px_#b4182d]"
             >
               <FlaskConical className="size-4" />
               Open Variant Lab
@@ -120,7 +120,7 @@ export default function Overview() {
             </Link>
             <Link
               href="/patient-context"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-6 py-3 text-sm text-muted transition-colors hover:border-violet/40 hover:text-violet"
+              className="inline-flex items-center gap-2 rounded-xl border border-navy-950/10 px-6 py-3 text-sm text-muted transition-colors hover:border-violet/40 hover:text-violet"
             >
               <UserRound className="size-4" />
               Patient G-1027 showcase
@@ -130,7 +130,7 @@ export default function Overview() {
           {offline && (
             <p className="mt-4 text-sm text-warning">
               Backend not reachable — start it with{" "}
-              <code className="mono rounded bg-white/5 px-1.5 py-0.5">uvicorn app.main:app --port 8000</code>
+              <code className="mono rounded bg-navy-950/5 px-1.5 py-0.5">uvicorn app.main:app --port 8000</code>
             </p>
           )}
         </motion.div>
@@ -178,7 +178,7 @@ export default function Overview() {
                   transition={{ delay: 0.6 + i * 0.08 }}
                   className="flex w-[104px] flex-col items-center gap-2 text-center"
                 >
-                  <span className="grid size-11 place-items-center rounded-xl border border-white/10 bg-panel2 transition-colors hover:border-cyan/40">
+                  <span className="grid size-11 place-items-center rounded-xl border border-navy-950/10 bg-panel2 transition-colors hover:border-cyan/40">
                     <stage.icon className="size-5 text-cyan" />
                   </span>
                   <span className="text-[11px] font-semibold leading-tight">{stage.label}</span>

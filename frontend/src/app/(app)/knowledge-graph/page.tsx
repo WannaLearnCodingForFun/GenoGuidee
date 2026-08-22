@@ -6,9 +6,9 @@ import { Network, X } from "lucide-react";
 import { api, type GraphEdge, type GraphNode } from "@/lib/api";
 
 const NODE_STYLE: Record<string, { color: string; r: number; label: string }> = {
-  patient: { color: "#00e5ff", r: 26, label: "Patient" },
+  patient: { color: "#b4182d", r: 26, label: "Patient" },
   variant: { color: "#f59e0b", r: 19, label: "Variant" },
-  gene: { color: "#8b5cf6", r: 17, label: "Gene" },
+  gene: { color: "#fda481", r: 17, label: "Gene" },
   disease: { color: "#ef4444", r: 16, label: "Disease" },
   phenotype: { color: "#22c55e", r: 13, label: "Phenotype" },
   drug: { color: "#f472b6", r: 13, label: "Drug" },
@@ -137,7 +137,7 @@ export default function KnowledgeGraph() {
               className={`rounded-lg border px-4 py-2 text-sm font-semibold transition-all ${
                 id === selectedPatient
                   ? "border-cyan/50 bg-cyan/10 text-cyan"
-                  : "border-white/10 text-muted hover:border-white/25"
+                  : "border-navy-950/10 text-muted hover:border-navy-950/25"
               }`}
             >
               {id}
@@ -168,7 +168,7 @@ export default function KnowledgeGraph() {
                       y1={a.y}
                       x2={b.x}
                       y2={b.y}
-                      stroke={active ? "#00e5ff" : "rgba(148,163,184,0.25)"}
+                      stroke={active ? "#b4182d" : "rgba(55,65,92,0.25)"}
                       strokeWidth={active ? 2 : 1}
                       opacity={dimmed ? 0.15 : 1}
                     />
@@ -179,7 +179,7 @@ export default function KnowledgeGraph() {
                         textAnchor="middle"
                         className="mono"
                         fontSize={9}
-                        fill="#00e5ff"
+                        fill="#b4182d"
                       >
                         {e.relation}
                       </text>
@@ -224,7 +224,7 @@ export default function KnowledgeGraph() {
                     textAnchor="middle"
                     fontSize={10}
                     fontWeight={600}
-                    fill={dimmed ? "rgba(148,163,184,0.4)" : "#f8fafc"}
+                    fill={dimmed ? "rgba(55,65,92,0.4)" : "#f8fafc"}
                   >
                     {n.label.length > 26 ? n.label.slice(0, 24) + "…" : n.label}
                   </text>
@@ -282,7 +282,7 @@ export default function KnowledgeGraph() {
                     <li key={i}>
                       <button
                         onClick={() => setSelectedNode(otherId)}
-                        className="w-full rounded-lg border border-white/8 bg-panel2 px-3 py-2 text-left text-xs transition-colors hover:border-cyan/40"
+                        className="w-full rounded-lg border border-navy-950/8 bg-panel2 px-3 py-2 text-left text-xs transition-colors hover:border-cyan/40"
                       >
                         <span className="text-muted">{e.relation} → </span>
                         <span className="font-medium">{other?.label}</span>
