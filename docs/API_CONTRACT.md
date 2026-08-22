@@ -39,3 +39,16 @@ oncology engine (protein shorthand e.g. `L858R`, not genomic IDs). Default
 not ACMG evidence and are not CPIC/PGx.
 
 Env: `GENOGUIDE_DRUG_API_URL`, `GENOGUIDE_DRUG_API_ENABLED`, `GENOGUIDE_DRUG_API_TIMEOUT`.
+
+## Frontend bridge (ngrok)
+
+`POST /api/v1/frontend/therapy` is the UI integration layer. It accepts
+`{mutation, clinical}`, rejects identifiers, normalizes to `{gene, variant, disease}`,
+and invokes the existing `recommend()` pipeline unchanged.
+
+`GET /api/v1/frontend/health` does not call the model.
+
+When `GENOGUIDE_TUNNEL_KEY` is set, requests must send `X-GenoGuide-Key`.
+Browsers calling an ngrok-free URL must send `ngrok-skip-browser-warning: true`.
+
+See `docs/FRONTEND_TUNNEL.md`.

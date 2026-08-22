@@ -19,6 +19,7 @@ Commands:
     leakage                      run the split leakage audit
     provenance verify ID         verify an interpretation on the ledger
     therapy --gene G --variant V --disease D   optional somatic oncology ranking
+    tunnel                       how to expose the local API via ngrok for the UI
     demo                         guaranteed terminal showcase (BRCA1/TP53/CFTR)
     pipeline --vcf F --patient P end-to-end interpretation pipeline
 """
@@ -105,6 +106,13 @@ def main(argv: list[str] | None = None) -> int:
                       help="live therapy engine base URL (overrides GENOGUIDE_DRUG_API_URL)")
     p_th.add_argument("--reset-circuit", dest="reset_circuit", action="store_true")
 
+    p_tun = sub.add_parser("tunnel")
+    p_tun.add_argument("--port", type=int, default=8000,
+                      help="local uvicorn port (default 8000, not 80)")
+    p_tun.add_argument("--url", default=None,
+                      help="reserved ngrok https URL (default: roxanna-matterless-frightenedly.ngrok-free.dev)")
+    p_tun.add_argument("--start", action="store_true", help="exec ngrok http <port> --url … if installed")
+
     p_pipe = sub.add_parser("pipeline")
     p_pipe.add_argument("--vcf", required=True)
     p_pipe.add_argument("--patient", default=None)
@@ -158,6 +166,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "therapy":
         from cli.commands import therapy_cmd
         return therapy_cmd.run(args)
+    if args.command == "tunnel":
+        from cli.commands import tunnel_cmd
+        return tunnel_cmd.run(args)
     if args.command == "pipeline":
         from cli.commands import pipeline_cmd
         return pipeline_cmd.run(args)

@@ -92,6 +92,69 @@ def test_patient_cannot_call_therapy_recommend():
         assert r.status_code == 403
 
 
+def test_frontend_health():
+    with _client() as client:
+        r = client.get("/api/v1/frontend/health")
+        assert r.status_code == 200
+        assert r.json()["layer"] == "frontend-bridge"
+        assert r.json()["ok"] is True
+
+
+def test_frontend_therapy_normalizes_and_stays_200_when_offline():
+    with _client() as client:
+        r = client.post("/api/v1/frontend/therapy", json={
+            "mutation": {"gene": "EGFR", "protein_change": "p.Leu858Arg"},
+            "clinical": {"indication": "lung adenocarcinoma"},
+        })
+        assert r.status_code == 200
+        body = r.json()
+        assert body["ok"] is True
+        assert body["normalized"] == {"gene": "EGFR", "variant": "L858R", "disease": "NSCLC"}
+        assert body["recommendation"]["availability"] == "SOURCE_NOT_CONFIGURED"
+
+
+def test_frontend_therapy_rejects_phi():
+    with _client() as client:
+        r = client.post("/api/v1/frontend/therapy", json={
+            "mutation": {"gene": "EGFR", "variant": "L858R"},
+            "clinical": {"disease": "NSCLC"},
+            "patient_id": "G-1027",
+        })
+        assert r.status_code == 400
+
+
+def test_frontend_therapy_unmappable_is_422():
+    with _client() as client:
+        r = client.post("/api/v1/frontend/therapy", json={
+            "mutation": {"gene": "EGFR", "protein_change": "c.2573T>G"},
+            "clinical": {"disease": "NSCLC"},
+        })
+        assert r.status_code == 422
+
+
+def test_frontend_therapy_tunnel_key_required(monkeypatch):
+    monkeypatch.setenv("GENOGUIDE_TUNNEL_KEY", "secret-demo")
+    with _client() as client:
+        denied = client.post("/api/v1/frontend/therapy", json={
+            "mutation": {"gene": "EGFR", "variant": "L858R"},
+            "clinical": {"disease": "NSCLC"},
+        })
+        assert denied.status_code == 401
+        ok = client.post("/api/v1/frontend/therapy",
+                         json={"mutation": {"gene": "EGFR", "variant": "L858R"},
+                               "clinical": {"disease": "NSCLC"}},
+                         headers={"X-GenoGuide-Key": "secret-demo"})
+        assert ok.status_code == 200
+
+
+def test_frontend_therapy_patient_role_blocked_without_key():
+    with _client() as client:
+        r = client.post("/api/v1/frontend/therapy",
+                        json={"gene": "EGFR", "variant": "L858R", "disease": "NSCLC"},
+                        headers={"X-Role": "PATIENT"})
+        assert r.status_code == 403
+
+
 def test_interpret_germline_marks_therapy_not_applicable():
     with _client() as client:
         r = client.post("/api/v1/interpret",

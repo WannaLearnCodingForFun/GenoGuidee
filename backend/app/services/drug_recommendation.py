@@ -22,12 +22,17 @@ import hashlib
 import json
 import os
 import re
+import sys
 import threading
 import time
+from pathlib import Path
 from typing import Any, Optional
 from urllib.parse import urlsplit
 
 import httpx
+
+REPO = Path(__file__).resolve().parents[3]
+_LOCAL_ENGINE = REPO / "Medical_DrugRecommendation"
 
 from ..schemas.therapy import (
     SomaticTherapy,
@@ -144,6 +149,9 @@ def settings(*, base_url: Optional[str] = None) -> dict[str, Any]:
     flag = os.environ.get("GENOGUIDE_DRUG_API_ENABLED", "false").lower()
     flag_on = flag in ("1", "true", "yes", "on") or bool(base_url)
     timeout = float(os.environ.get("GENOGUIDE_DRUG_API_TIMEOUT", "4"))
+    local_flag = os.environ.get("GENOGUIDE_DRUG_LOCAL", "true").lower() not in (
+        "0", "false", "off", "no",
+    )
     return {
         "url": url,
         "url_error": url_error,
@@ -152,19 +160,21 @@ def settings(*, base_url: Optional[str] = None) -> dict[str, Any]:
         "flag_on": flag_on,
         "timeout": max(0.5, min(timeout, 15.0)),
         "host": (urlsplit(url).hostname if url else None),
+        "local_engine": local_flag and (_LOCAL_ENGINE / "recommendation" / "recommender.py").exists(),
     }
 
 
 def connector_status(*, base_url: Optional[str] = None) -> dict[str, Any]:
     s = settings(base_url=base_url)
     return {
-        "enabled": s["enabled"],
+        "enabled": s["enabled"] or s.get("local_engine", False),
         "url_configured": s["url_configured"],
         "host": s["host"],
         "url_error": s["url_error"],
         "default": "offline — set GENOGUIDE_DRUG_API_ENABLED=true and GENOGUIDE_DRUG_API_URL, or pass --url",
         "note": "somatic oncology ranking; never overrides ACMG; not CPIC/PGx",
         "circuit_open": time.monotonic() < _circuit_open_until,
+        "local_engine": s.get("local_engine", False),
     }
 
 
@@ -315,6 +325,65 @@ def _record_failure() -> None:
             _circuit_open_until = time.monotonic() + CIRCUIT_OPEN_S
 
 
+def _sklearn_pickle_compat() -> None:
+    """sklearn 1.7 pickles import top-level `_loss`; 1.8+ moved it under sklearn._loss."""
+    if "_loss" in sys.modules:
+        return
+    try:
+        import sklearn._loss._loss as _loss_mod  # type: ignore
+        sys.modules["_loss"] = _loss_mod
+    except Exception:  # noqa: BLE001 — optional compat for the in-repo pickle
+        return
+
+
+def _inprocess_recommend(payload: dict[str, str]) -> Optional[dict[str, Any]]:
+    """Call the in-repo Medical_DrugRecommendation pipeline (unchanged)."""
+    if not (_LOCAL_ENGINE / "recommendation" / "recommender.py").exists():
+        return None
+    if os.environ.get("GENOGUIDE_DRUG_LOCAL", "true").lower() in ("0", "false", "off", "no"):
+        return None
+    root = str(_LOCAL_ENGINE)
+    if root not in sys.path:
+        sys.path.insert(0, root)
+    _sklearn_pickle_compat()
+    try:
+        from recommendation.recommender import recommend_drugs  # type: ignore
+        raw = recommend_drugs(payload)
+        return raw if isinstance(raw, dict) else None
+    except Exception:  # noqa: BLE001 — local engine failure falls through to HTTP / empty
+        return None
+
+
+def _somatic_from_raw(raw: dict[str, Any], payload: dict[str, str],
+                      endpoint: str, latency_ms: float) -> SomaticTherapy:
+    recs = []
+    for item in raw.get("recommendations") or []:
+        recs.append(TherapyRecommendation(
+            drug=str(item.get("drug", "")),
+            rank=int(item.get("rank", 0)),
+            score=float(item.get("score", 0.0)),
+            response=str(item.get("response", "")),
+            evidence_level=str(item.get("evidence_level", "")),
+            evidence_count=int(item.get("evidence_count", 0)),
+        ))
+    recs.sort(key=lambda r: r.rank)
+    return SomaticTherapy(
+        availability=TherapyAvailability.AVAILABLE,
+        reason="ranking attached; human review required",
+        endpoint=endpoint,
+        request=payload,
+        request_hash=_sha(payload),
+        response_hash=_sha({"recommendations": [r.model_dump() for r in recs]}),
+        recommendations=recs,
+        human_review_status="required",
+        disclaimer=DISCLAIMER,
+        cached=False,
+        latency_ms=round(latency_ms, 1),
+        engine={"gene": raw.get("gene"), "variant": raw.get("variant"),
+                "disease": raw.get("disease")},
+    )
+
+
 def _record_success() -> None:
     global _fail_count, _circuit_open_until
     with _lock:
@@ -324,14 +393,10 @@ def _record_success() -> None:
 
 def recommend(gene: str, variant: str, disease: str,
               *, base_url: Optional[str] = None) -> SomaticTherapy:
-    """Call the remote ranker. Never raises. Never includes patient IDs."""
+    """Call the local in-repo ranker or the remote host. Never raises."""
     s = settings(base_url=base_url)
     if s["url_error"] and (s["flag_on"] or base_url):
         return _empty(TherapyAvailability.SOURCE_NOT_CONFIGURED, s["url_error"])
-    if not s["enabled"]:
-        reason = ("GENOGUIDE_DRUG_API_ENABLED is false"
-                  if not s["flag_on"] else "GENOGUIDE_DRUG_API_URL is empty")
-        return _empty(TherapyAvailability.SOURCE_NOT_CONFIGURED, reason)
 
     gene_s = (gene or "").strip().upper()
     var_s = protein_shorthand(variant) or (variant.strip() if _BARE.match(variant.strip().upper()) else None)
@@ -349,7 +414,26 @@ def recommend(gene: str, variant: str, disease: str,
         if hit and now - hit[0] < CACHE_TTL_S:
             cached = hit[1].model_copy(update={"cached": True})
             return cached
-        if now < _circuit_open_until:
+
+    t0 = time.perf_counter()
+    if not base_url:
+        raw_local = _inprocess_recommend(payload)
+        if raw_local is not None:
+            result = _somatic_from_raw(
+                raw_local, payload,
+                "in-process:Medical_DrugRecommendation",
+                (time.perf_counter() - t0) * 1000)
+            with _lock:
+                _cache[key] = (time.monotonic(), result)
+            return result
+
+    if not s["enabled"]:
+        reason = ("GENOGUIDE_DRUG_API_ENABLED is false"
+                  if not s["flag_on"] else "GENOGUIDE_DRUG_API_URL is empty")
+        return _empty(TherapyAvailability.SOURCE_NOT_CONFIGURED, reason)
+
+    with _lock:
+        if time.monotonic() < _circuit_open_until:
             return _empty(TherapyAvailability.SOURCE_UNAVAILABLE,
                           "circuit open after repeated remote failures; interpretation continues")
 

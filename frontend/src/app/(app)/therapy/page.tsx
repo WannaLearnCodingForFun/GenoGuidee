@@ -18,6 +18,7 @@ import {
   type SomaticTherapy,
   type TherapyStatus,
 } from "@/lib/api";
+import { mapProteinChange } from "@/lib/protein";
 
 const PRESETS = [
   { label: "EGFR L858R · NSCLC", gene: "EGFR", variant: "L858R", disease: "NSCLC", hgvs: "p.Leu858Arg" },
@@ -56,14 +57,15 @@ export default function TherapyPage() {
   }, []);
 
   useEffect(() => {
-    if (!hgvs.trim()) {
-      setMapped(null);
-      return;
-    }
+    const local = mapProteinChange(hgvs) ?? mapProteinChange(variant);
+    setMapped(local);
+    if (!hgvs.trim()) return;
     api.therapyMap(hgvs.trim(), disease)
-      .then((m) => setMapped(m.protein_shorthand))
-      .catch(() => setMapped(null));
-  }, [hgvs, disease]);
+      .then((m) => {
+        if (m.protein_shorthand) setMapped(m.protein_shorthand);
+      })
+      .catch(() => undefined);
+  }, [hgvs, disease, variant]);
 
   const offline = !status;
   const enabled = Boolean(status?.enabled);
@@ -78,7 +80,7 @@ export default function TherapyPage() {
     setBusy(true);
     setError(null);
     try {
-      const rec = await api.therapyRecommend(g, v, d);
+      const rec = await api.therapyRecommend(g, mapProteinChange(v) ?? v, d);
       setResult(rec);
     } catch (e) {
       setError(e instanceof Error ? e.message : "request failed");
@@ -99,7 +101,7 @@ export default function TherapyPage() {
       case "SOURCE_NOT_CONFIGURED":
         return {
           tone: "text-warning",
-          text: "Connector off (offline default). Set GENOGUIDE_DRUG_API_ENABLED=true and GENOGUIDE_DRUG_API_URL on the backend.",
+          text: "In-repo ranker unavailable. Restart the FastAPI process from the repo root so Medical_DrugRecommendation can load.",
         };
       case "SOURCE_UNAVAILABLE":
         return { tone: "text-error", text: result.reason ?? "Remote engine unavailable" };
@@ -194,6 +196,8 @@ export default function TherapyPage() {
               onChange={(e) => {
                 setHgvs(e.target.value);
                 const next = e.target.value;
+                const mappedLocal = mapProteinChange(next);
+                if (mappedLocal) setVariant(mappedLocal);
                 void api.therapyMap(next).then((m) => {
                   if (m.protein_shorthand) setVariant(m.protein_shorthand);
                 }).catch(() => undefined);

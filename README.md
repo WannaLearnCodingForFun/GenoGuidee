@@ -36,6 +36,17 @@ export GENOGUIDE_DRUG_API_URL=https://sunshiny-braelyn-unruminated.ngrok-free.de
 Protein HGVS is mapped (`p.Leu858Arg` → `L858R`); genomic IDs are never guessed.
 Rankings do **not** alter ACMG and are not CPIC/PGx. UI: `/therapy`.
 
+To let a remote UI reach **this** laptop API over HTTPS:
+
+```bash
+backend/.venv/bin/python -m cli.genoguide tunnel
+# reserved domain — point at :8000 (API is not on port 80):
+ngrok http 8000 --url https://roxanna-matterless-frightenedly.ngrok-free.dev
+# frontend: NEXT_PUBLIC_API_URL=https://roxanna-matterless-frightenedly.ngrok-free.dev
+```
+
+`POST /api/v1/frontend/therapy` is the integration layer (see `docs/FRONTEND_TUNNEL.md`).
+
 ---
 
 ## Quick start (engine)

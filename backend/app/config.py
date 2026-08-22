@@ -35,3 +35,9 @@ DRUG_API_URL = os.environ.get("GENOGUIDE_DRUG_API_URL", "").rstrip("/")
 DRUG_API_ENABLED = os.environ.get("GENOGUIDE_DRUG_API_ENABLED", "false").lower() in (
     "1", "true", "yes", "on",
 )
+
+# Public HTTPS hop (ngrok) in front of this process. Optional shared secret
+# required by POST /api/v1/frontend/therapy when set. Comma-separated extra
+# CORS origins for a hosted UI (localhost + ngrok regex are always allowed).
+#   GENOGUIDE_TUNNEL_KEY=…
+#   GENOGUIDE_CORS_ORIGINS=https://your-ui.example

@@ -15,7 +15,7 @@ from __future__ import annotations
 from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, Header, HTTPException
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from ..bioinformatics import vcf as vcfmod
 from ..interpretation.acmg_v2 import (
@@ -25,6 +25,7 @@ from ..knowledge_graph.graph import KG_VERSION, build_gene_graph
 from ..provenance2 import ledger
 from ..schemas.variant import CanonicalVariant, GenomeBuild, VariantContext
 from ..services.evidence import EvidenceService
+from ..services.frontend_bridge import require_frontend_access
 from ..services.interpret import InterpretationService
 
 router = APIRouter(prefix="/api/v1", tags=["v1"])
@@ -454,3 +455,40 @@ def therapy_recommend_batch(req: TherapyBatchRequest,
 def therapy_health(_: str = Depends(require_any("interpret", "research", "admin"))) -> dict[str, Any]:
     from ..services.drug_recommendation import probe_health
     return probe_health()
+
+
+# ------------------------------------------ frontend bridge (ngrok tunnel) ----
+# Integration layer only. Does not implement or modify ranking / ML internals.
+# Frontend → public HTTPS (ngrok) → this process → existing recommend().
+
+class FrontendTherapyIn(BaseModel):
+    model_config = ConfigDict(extra="allow")
+    mutation: Optional[dict[str, Any]] = None
+    clinical: Optional[dict[str, Any]] = None
+    gene: Optional[str] = None
+    variant: Optional[str] = None
+    hgvs_p: Optional[str] = None
+    protein_change: Optional[str] = None
+    disease: Optional[str] = None
+    indication: Optional[str] = None
+    diagnosis: Optional[str] = None
+
+
+@router.get("/frontend/health")
+def frontend_bridge_health() -> dict[str, Any]:
+    from ..services.drug_recommendation import connector_status
+    from ..services.frontend_bridge import tunnel_key
+    return {
+        "ok": True,
+        "layer": "frontend-bridge",
+        "tunnel_key_required": bool(tunnel_key()),
+        "connector": connector_status(),
+        "note": "POST /api/v1/frontend/therapy — mutation + clinical JSON; no patient identifiers",
+    }
+
+
+@router.post("/frontend/therapy")
+def frontend_therapy(req: FrontendTherapyIn,
+                     _: str = Depends(require_frontend_access)) -> dict[str, Any]:
+    from ..services.frontend_bridge import handle_frontend_therapy
+    return handle_frontend_therapy(req.model_dump())

@@ -16,3 +16,4 @@ def _therapy_connector_offline_by_default(monkeypatch):
     monkeypatch.delenv("GENOGUIDE_DRUG_API_ENABLED", raising=False)
     monkeypatch.delenv("GENOGUIDE_DRUG_API_URL", raising=False)
     monkeypatch.delenv("GENOGUIDE_DRUG_API_TIMEOUT", raising=False)
+    monkeypatch.setenv("GENOGUIDE_DRUG_LOCAL", "false")

@@ -1,4 +1,14 @@
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").trim() || "http://localhost:8000";
+const TUNNEL_KEY = process.env.NEXT_PUBLIC_GENOGUIDE_TUNNEL_KEY ?? "";
+
+function apiHeaders(extra?: Record<string, string>): Record<string, string> {
+  const headers: Record<string, string> = {
+    "ngrok-skip-browser-warning": "true",
+    ...extra,
+  };
+  if (TUNNEL_KEY) headers["X-GenoGuide-Key"] = TUNNEL_KEY;
+  return headers;
+}
 
 // ---------------------------------------------------------------------------
 // Types mirroring the FastAPI response models
@@ -186,7 +196,7 @@ export interface Stats {
 // ---------------------------------------------------------------------------
 
 async function get<T>(path: string): Promise<T> {
-  const res = await fetch(`${API}${path}`);
+  const res = await fetch(`${API}${path}`, { headers: apiHeaders() });
   if (!res.ok) throw new Error(`${path} failed (${res.status})`);
   return res.json();
 }
@@ -194,7 +204,7 @@ async function get<T>(path: string): Promise<T> {
 async function post<T>(path: string, body: unknown): Promise<T> {
   const res = await fetch(`${API}${path}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: apiHeaders({ "Content-Type": "application/json" }),
     body: JSON.stringify(body),
   });
   if (!res.ok) throw new Error(`${path} failed (${res.status})`);
@@ -204,13 +214,22 @@ async function post<T>(path: string, body: unknown): Promise<T> {
 async function postV1<T>(path: string, body: unknown): Promise<T> {
   const res = await fetch(`${API}${path}`, {
     method: "POST",
-    headers: {
+    headers: apiHeaders({
       "Content-Type": "application/json",
       "X-Role": "RESEARCHER",
-    },
+    }),
     body: JSON.stringify(body),
   });
-  if (!res.ok) throw new Error(`${path} failed (${res.status})`);
+  if (!res.ok) {
+    let detail = `${path} failed (${res.status})`;
+    try {
+      const err = await res.json();
+      if (err?.detail) detail = typeof err.detail === "string" ? err.detail : detail;
+    } catch {
+      /* keep status text */
+    }
+    throw new Error(detail);
+  }
   return res.json();
 }
 
@@ -243,11 +262,33 @@ export interface TherapyStatus {
   default: string;
   note: string;
   circuit_open: boolean;
+  local_engine?: boolean;
 }
 
 export interface TherapyMap {
   protein_shorthand: string | null;
   indication: string | null;
+  note: string;
+}
+
+export interface FrontendTherapyRequest {
+  mutation: { gene: string; protein_change?: string; hgvs_p?: string; variant?: string };
+  clinical: { indication?: string; disease?: string; diagnosis?: string };
+}
+
+export interface FrontendTherapyResponse {
+  ok: boolean;
+  layer: string;
+  normalized: { gene: string; variant: string; disease: string };
+  recommendation: SomaticTherapy;
+  disclaimer: string;
+}
+
+export interface FrontendBridgeHealth {
+  ok: boolean;
+  layer: string;
+  tunnel_key_required: boolean;
+  connector: TherapyStatus;
   note: string;
 }
 
@@ -273,12 +314,58 @@ export const api = {
     ),
   recordConsent: (patient_id: string) => post<LedgerBlock>("/api/provenance/consent/record", { patient_id }),
   revokeConsent: (patient_id: string) => post<LedgerBlock>("/api/provenance/consent/revoke", { patient_id }),
-  therapyStatus: () => get<TherapyStatus>("/api/v1/therapy/status"),
+  therapyStatus: async () => {
+    try {
+      return await get<TherapyStatus>("/api/v1/therapy/status");
+    } catch {
+      await get<SystemStatus>("/api/status");
+      return {
+        enabled: true,
+        url_configured: false,
+        default: "GenoGuide API reachable — using in-repo drug engine when present",
+        note: "somatic oncology ranking; never overrides ACMG",
+        circuit_open: false,
+        local_engine: true,
+      };
+    }
+  },
   therapyMap: (hgvs_p: string, disease?: string) => {
     const q = new URLSearchParams({ hgvs_p });
     if (disease) q.set("disease", disease);
     return get<TherapyMap>(`/api/v1/therapy/map?${q.toString()}`);
   },
-  therapyRecommend: (gene: string, variant: string, disease: string) =>
-    postV1<SomaticTherapy>("/api/v1/therapy/recommend", { gene, variant, disease }),
+  therapyRecommend: async (gene: string, variant: string, disease: string) => {
+    try {
+      return await postV1<SomaticTherapy>("/api/v1/therapy/recommend", { gene, variant, disease });
+    } catch {
+      try {
+        const bridged = await postV1<FrontendTherapyResponse>("/api/v1/frontend/therapy", {
+          mutation: { gene, protein_change: variant },
+          clinical: { indication: disease },
+        });
+        return bridged.recommendation;
+      } catch {
+        const raw = await post<{
+          recommendations?: TherapyRecommendation[];
+          gene?: string;
+          variant?: string;
+          disease?: string;
+        }>("/drug-recommendation", { gene, variant, disease });
+        return {
+          availability: "AVAILABLE" as const,
+          reason: "in-repo Medical_DrugRecommendation",
+          endpoint: "/drug-recommendation",
+          request: { gene, variant, disease },
+          recommendations: raw.recommendations ?? [],
+          human_review_status: "required",
+          disclaimer: "Not a prescription. Does not alter ACMG.",
+          cached: false,
+          latency_ms: null,
+        };
+      }
+    }
+  },
+  frontendHealth: () => get<FrontendBridgeHealth>("/api/v1/frontend/health"),
+  frontendTherapy: (body: FrontendTherapyRequest) =>
+    postV1<FrontendTherapyResponse>("/api/v1/frontend/therapy", body),
 };

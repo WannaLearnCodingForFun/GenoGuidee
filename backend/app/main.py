@@ -1,6 +1,7 @@
 """GenoGuide backend — FastAPI application."""
 from __future__ import annotations
 
+import os
 from contextlib import asynccontextmanager
 from typing import Any
 
@@ -67,10 +68,16 @@ async def lifespan(_: FastAPI):
 
 app = FastAPI(title="GenoGuide API", version="1.0.0", lifespan=lifespan)
 
+# Local Next.js + optional tunneled / hosted frontends. ngrok-free hostnames
+# change every session — regex covers the public HTTPS hop without listing each URL.
+_CORS_EXTRA = [o.strip().rstrip("/") for o in os.environ.get("GENOGUIDE_CORS_ORIGINS", "").split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
-    allow_methods=["*"],
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000", *_CORS_EXTRA],
+    allow_origin_regex=(
+        r"https://[a-z0-9-]+\.(ngrok-free\.dev|ngrok-free\.app|ngrok\.app|ngrok\.io)"
+    ),
+    allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -92,6 +99,12 @@ from pathlib import Path
 _med_dir = Path(__file__).resolve().parent.parent.parent / "Medical_DrugRecommendation"
 if str(_med_dir) not in sys.path:
     sys.path.insert(0, str(_med_dir))
+
+try:
+    from .services.drug_recommendation import _sklearn_pickle_compat
+    _sklearn_pickle_compat()
+except Exception:
+    pass
 
 try:
     from api.routes import router as drug_rec_router
