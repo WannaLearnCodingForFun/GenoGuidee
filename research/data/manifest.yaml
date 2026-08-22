@@ -1,0 +1,150 @@
+# GenoGuide dataset manifest — the single source of truth for external data.
+#
+# Policy:
+#   - Nothing is downloaded silently. `python -m cli.genoguide data download <name>`
+#     is always explicit.
+#   - Raw data is never committed to git (see .gitignore). Checksums, versions,
+#     and DATASET_INFO.json receipts are recorded next to each download.
+#   - auto_downloadable: false means the source requires registration, license
+#     acceptance, or is too large for automated fetch — instructions are in `notes`.
+
+datasets:
+  clinvar_variant_summary:
+    source: NCBI ClinVar
+    url: https://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/variant_summary.txt.gz
+    version: "2026-08 release (server Last-Modified recorded at download)"
+    genome_build: "GRCh37 + GRCh38 rows (Assembly column; filter on load)"
+    license: Public domain (US government work); cite ClinVar
+    citation: "Landrum MJ et al. ClinVar. Nucleic Acids Res. doi:10.1093/nar/gkx1153"
+    destination: research/data/raw/clinvar/variant_summary_2026-08.txt.gz
+    auto_downloadable: true
+    processing_script: research/preprocessing/build_clinvar_dataset.py
+    notes: >
+      Principal clinical label source. Aggregate labels are NOT used blindly:
+      ReviewStatus is mapped to a label-confidence tier and preserved per row,
+      along with VariationID (VCV), RCV accessions, submitter counts, and
+      conflict status. Full SCV-level detail requires the XML release
+      (ClinVarFullRelease_*.xml.gz, ~2 GB) — connector documented, NOT DOWNLOADED.
+
+  clinvar_vcf_grch38:
+    source: NCBI ClinVar
+    url: https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz
+    version: weekly release
+    genome_build: GRCh38
+    license: Public domain; cite ClinVar
+    citation: "Landrum MJ et al. ClinVar. Nucleic Acids Res. doi:10.1093/nar/gkx1153"
+    destination: research/data/raw/clinvar/clinvar_grch38.vcf.gz
+    auto_downloadable: true
+    processing_script: backend/app/bioinformatics/vcf.py
+    notes: Used for VCF-coordinate ground truth and normalization tests (~120 MB).
+
+  hpo:
+    source: Human Phenotype Ontology (JAX)
+    url: https://purl.obolibrary.org/obo/hp.obo
+    extra_files:
+      - https://purl.obolibrary.org/obo/hp/hpoa/phenotype.hpoa
+      - https://purl.obolibrary.org/obo/hp/hpoa/genes_to_phenotype.txt
+    version: recorded from ontology data-version header at parse time
+    genome_build: n/a
+    license: "HPO license (free use with attribution; do not alter term definitions)"
+    citation: "Köhler S et al. The Human Phenotype Ontology. Nucleic Acids Res. doi:10.1093/nar/gkaa1043"
+    destination: research/data/raw/hpo/
+    auto_downloadable: true
+    processing_script: backend/app/phenotype/ontology.py
+
+  gnomad_constraint:
+    source: gnomAD v4.1 (Broad Institute)
+    url: https://storage.googleapis.com/gcp-public-data--gnomad/release/v4.1/constraint/gnomad.v4.1.constraint_metrics.tsv
+    version: v4.1
+    genome_build: GRCh38
+    license: CC0 (gnomAD data are released free of restrictions)
+    citation: "Chen S et al. A genomic mutational constraint map. Nature 2024. doi:10.1038/s41586-023-06045-0"
+    destination: research/data/raw/gnomad_constraint/gnomad.v4.1.constraint_metrics.tsv
+    auto_downloadable: true
+    processing_script: research/preprocessing/gene_features.py
+    notes: Gene-level constraint (LOEUF, pLI, mis z). Per-variant gnomAD AF is a separate connector (see gnomad_sites).
+
+  clingen_gene_validity:
+    source: ClinGen
+    url: https://search.clinicalgenome.org/kb/gene-validity/download
+    version: rolling; download date recorded
+    genome_build: n/a
+    license: CC0 1.0
+    citation: "Rehm HL et al. ClinGen. N Engl J Med 2015. doi:10.1056/NEJMsr1406261"
+    destination: research/data/raw/clingen/gene_validity.csv
+    auto_downloadable: true
+    processing_script: research/preprocessing/gene_features.py
+
+  alphamissense_hg38:
+    source: Google DeepMind (Zenodo)
+    url: https://zenodo.org/records/8208688/files/AlphaMissense_hg38.tsv.gz
+    version: "2023 release (Zenodo record 8208688)"
+    genome_build: GRCh38
+    license: CC BY-NC-SA 4.0 — NON-COMMERCIAL; do not redistribute in this repo
+    citation: "Cheng J et al. Accurate proteome-wide missense variant effect prediction. Science 2023. doi:10.1126/science.adg7492"
+    destination: research/data/raw/alphamissense/AlphaMissense_hg38.tsv.gz
+    auto_downloadable: true
+    processing_script: research/preprocessing/functional_scores.py
+    notes: >
+      ~640 MB gzipped, ~71M missense predictions. Used strictly as an external
+      feature / baseline / ablation comparator — we did NOT train AlphaMissense
+      and the released implementation has no trained weights. Fetch is explicit
+      and large; not part of the default setup.
+
+  revel:
+    source: REVEL (Ioannidis et al.)
+    url: https://rothsj06.dmz.hpc.mssm.edu/revel-v1.3_all_chromosomes.zip
+    version: v1.3
+    genome_build: GRCh37 coordinates with GRCh38 liftover columns
+    license: freely available for non-commercial use; check terms before redistribution
+    citation: "Ioannidis NM et al. REVEL. Am J Hum Genet 2016. doi:10.1016/j.ajhg.2016.08.016"
+    destination: research/data/raw/revel/revel-v1.3_all_chromosomes.zip
+    auto_downloadable: true
+    processing_script: research/preprocessing/functional_scores.py
+    notes: "~600 MB zip; host can be slow/unreliable. Explicit fetch only."
+
+  spliceai:
+    source: Illumina (BaseSpace)
+    url: null
+    version: v1.3 precomputed scores
+    genome_build: GRCh38 available
+    license: free for academic/non-commercial use; REGISTRATION REQUIRED
+    citation: "Jaganathan K et al. Predicting splicing from primary sequence. Cell 2019. doi:10.1016/j.cell.2018.12.015"
+    destination: research/data/raw/spliceai/
+    auto_downloadable: false
+    processing_script: research/preprocessing/functional_scores.py
+    notes: >
+      NOT AUTO-DOWNLOADABLE: precomputed VCFs are distributed via Illumina
+      BaseSpace after registration. Place spliceai_scores.*.vcf.gz files in the
+      destination directory; the connector will activate automatically.
+
+  cadd:
+    source: University of Washington / Hudson-Alpha
+    url: null
+    version: v1.7
+    genome_build: GRCh38
+    license: free for non-commercial; scores files are ~80 GB per build
+    citation: "Rentzsch P et al. CADD. Nucleic Acids Res 2019. doi:10.1093/nar/gky1016"
+    destination: research/data/raw/cadd/
+    auto_downloadable: false
+    processing_script: research/preprocessing/functional_scores.py
+    notes: >
+      NOT AUTO-DOWNLOADABLE (size). Options: (a) download whole_genome_SNVs.tsv.gz
+      + tabix index and point the connector at it; (b) use the CADD web service
+      offline batch results. Treated as a predictive feature, never ground truth.
+
+  gnomad_sites:
+    source: gnomAD v4.1 sites
+    url: null
+    version: v4.1
+    genome_build: GRCh38
+    license: CC0
+    citation: "Chen S et al. Nature 2024"
+    destination: research/data/raw/gnomad_sites/
+    auto_downloadable: false
+    processing_script: research/preprocessing/functional_scores.py
+    notes: >
+      NOT INTEGRATED AS RAW DATA (TB-scale). Per-variant AF/AF_popmax/AC/AN/
+      hom counts should come from a VEP gnomAD plugin, an exome-subset download,
+      or the gnomAD GraphQL API in online mode. Connector interface exists;
+      lookups return SOURCE_NOT_CONFIGURED until data is provided.
