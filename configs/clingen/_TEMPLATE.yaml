@@ -1,0 +1,18 @@
+# ClinGen gene-specific ACMG specification — STRUCTURAL TEMPLATE.
+#
+# This file demonstrates the specification format. It is NOT an official
+# ClinGen VCEP specification and asserts no real thresholds. To install a
+# real specification: copy this file to <GENE>.yaml, transcribe values from
+# the published VCEP document (cite it in `source`), and set status: OFFICIAL.
+name: Example specification (structural template)
+gene: _TEMPLATE
+source: null
+version: "0"
+status: TEMPLATE
+thresholds: {}
+#  BA1_af: 0.001
+#  PM2_af_max: 0.00002
+strength_overrides: {}
+#  PM2: SUPPORTING
+disabled: []
+enabled: []
