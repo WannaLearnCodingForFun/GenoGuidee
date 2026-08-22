@@ -156,8 +156,8 @@ export default function Provenance() {
                   }}
                   className={`w-40 rounded-xl border p-3 text-left transition-all ${
                     active
-                      ? "border-cyan/60 bg-cyan/10 shadow-[0_0_20px_-6px_#00e5ff]"
-                      : "border-white/10 bg-panel2/70 hover:border-white/30"
+                      ? "border-cyan/60 bg-cyan/10 shadow-[0_0_20px_-6px_#b4182d]"
+                      : "border-navy-950/10 bg-panel2/70 hover:border-navy-950/30"
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -197,7 +197,7 @@ export default function Provenance() {
                     ? verify.verified
                       ? "border-success/50 bg-success/10 text-success"
                       : "border-error/50 bg-error/10 text-error"
-                    : "border-white/15 bg-white/5 text-muted"
+                    : "border-navy-950/15 bg-navy-950/5 text-muted"
                 }`}
               >
                 {verify ? (
@@ -351,7 +351,7 @@ export default function Provenance() {
                   <X className="size-4" />
                 </button>
               </div>
-              <ol className="relative space-y-4 border-l border-white/10 pl-5">
+              <ol className="relative space-y-4 border-l border-navy-950/10 pl-5">
                 {blocks
                   .filter((b) => !auditFilter || b.subject_id === auditFilter)
                   .map((b) => (

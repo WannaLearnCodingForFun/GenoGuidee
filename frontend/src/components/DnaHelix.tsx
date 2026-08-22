@@ -9,7 +9,7 @@ const RADIUS = 1.35;
 const HEIGHT = 9;
 const TWIST = 2.4 * Math.PI;
 
-function Helix() {
+function Helix({ strandA, strandB, rung }: { strandA: string; strandB: string; rung: string }) {
   const group = useRef<THREE.Group>(null);
 
   useFrame((state, delta) => {
@@ -42,8 +42,8 @@ function Helix() {
           <mesh position={a}>
             <sphereGeometry args={[0.11, 12, 12]} />
             <meshStandardMaterial
-              color="#00e5ff"
-              emissive="#00e5ff"
+              color={strandA}
+              emissive={strandA}
               emissiveIntensity={0.55}
               roughness={0.3}
             />
@@ -51,8 +51,8 @@ function Helix() {
           <mesh position={b}>
             <sphereGeometry args={[0.11, 12, 12]} />
             <meshStandardMaterial
-              color="#8b5cf6"
-              emissive="#8b5cf6"
+              color={strandB}
+              emissive={strandB}
               emissiveIntensity={0.55}
               roughness={0.3}
             />
@@ -60,8 +60,8 @@ function Helix() {
           <mesh position={mid} quaternion={quat}>
             <cylinderGeometry args={[0.022, 0.022, RADIUS * 2, 6]} />
             <meshStandardMaterial
-              color="#334155"
-              emissive="#1e293b"
+              color={rung}
+              emissive={rung}
               emissiveIntensity={0.4}
               transparent
               opacity={0.85}
@@ -73,7 +73,17 @@ function Helix() {
   );
 }
 
-export default function DnaHelix({ className = "" }: { className?: string }) {
+export default function DnaHelix({
+  className = "",
+  strandA = "#00e5ff",
+  strandB = "#8b5cf6",
+  rung = "#334155",
+}: {
+  className?: string;
+  strandA?: string;
+  strandB?: string;
+  rung?: string;
+}) {
   return (
     <div className={`pointer-events-none ${className}`} aria-hidden>
       <Canvas
@@ -82,9 +92,9 @@ export default function DnaHelix({ className = "" }: { className?: string }) {
         gl={{ antialias: true, alpha: true }}
       >
         <ambientLight intensity={0.5} />
-        <pointLight position={[6, 4, 6]} intensity={40} color="#00e5ff" />
-        <pointLight position={[-6, -4, 4]} intensity={30} color="#8b5cf6" />
-        <Helix />
+        <pointLight position={[6, 4, 6]} intensity={40} color={strandA} />
+        <pointLight position={[-6, -4, 4]} intensity={30} color={strandB} />
+        <Helix strandA={strandA} strandB={strandB} rung={rung} />
       </Canvas>
     </div>
   );

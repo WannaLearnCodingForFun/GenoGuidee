@@ -37,8 +37,8 @@ const STAGES = [
 const PROB_ROWS: { key: string; label: string; color: string }[] = [
   { key: "pathogenic", label: "Pathogenic", color: "#ef4444" },
   { key: "likely_pathogenic", label: "Likely Pathogenic", color: "#f59e0b" },
-  { key: "vus", label: "VUS", color: "#8b5cf6" },
-  { key: "likely_benign", label: "Likely Benign", color: "#00e5ff" },
+  { key: "vus", label: "VUS", color: "#fda481" },
+  { key: "likely_benign", label: "Likely Benign", color: "#b4182d" },
   { key: "benign", label: "Benign", color: "#22c55e" },
 ];
 
@@ -118,8 +118,8 @@ export default function VariantLab() {
                 onClick={() => setSelectedId(v.id)}
                 className={`rounded-xl border p-3 text-left transition-all ${
                   active
-                    ? "border-cyan/50 bg-cyan/10 shadow-[0_0_20px_-8px_#00e5ff]"
-                    : "border-white/10 bg-panel2/60 hover:border-white/25"
+                    ? "border-cyan/50 bg-cyan/10 shadow-[0_0_20px_-8px_#b4182d]"
+                    : "border-navy-950/10 bg-panel2/60 hover:border-navy-950/25"
                 }`}
               >
                 <p className="text-sm font-semibold">
@@ -138,7 +138,7 @@ export default function VariantLab() {
           <select
             value={selectedId}
             onChange={(e) => setSelectedId(e.target.value)}
-            className="min-w-72 rounded-lg border border-white/15 bg-panel2 px-3 py-2 text-sm outline-none focus:border-cyan/50"
+            className="min-w-72 rounded-lg border border-navy-950/15 bg-panel2 px-3 py-2 text-sm outline-none focus:border-cyan/50"
           >
             {variants.map((v) => (
               <option key={v.id} value={v.id}>
@@ -150,7 +150,7 @@ export default function VariantLab() {
           <button
             onClick={runAnalysis}
             disabled={phase === "running" || !selected}
-            className="ml-auto inline-flex items-center gap-2 rounded-xl border border-cyan/50 bg-cyan/15 px-6 py-2.5 text-sm font-bold tracking-wide text-cyan transition-all hover:bg-cyan/25 hover:shadow-[0_0_28px_-6px_#00e5ff] disabled:cursor-not-allowed disabled:opacity-50"
+            className="ml-auto inline-flex items-center gap-2 rounded-xl border border-cyan/50 bg-cyan/15 px-6 py-2.5 text-sm font-bold tracking-wide text-cyan transition-all hover:bg-cyan/25 hover:shadow-[0_0_28px_-6px_#b4182d] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {phase === "running" ? (
               <Loader2 className="size-4 animate-spin" />
@@ -185,7 +185,7 @@ export default function VariantLab() {
                           ? "border-cyan/50 bg-cyan/10"
                           : done
                             ? "border-success/30 bg-success/5"
-                            : "border-white/8 opacity-40"
+                            : "border-navy-950/8 opacity-40"
                       }`}
                     >
                       {done ? (
@@ -202,7 +202,7 @@ export default function VariantLab() {
                   );
                 })}
               </div>
-              <div className="mt-4 h-1 overflow-hidden rounded-full bg-white/5">
+              <div className="mt-4 h-1 overflow-hidden rounded-full bg-navy-950/5">
                 <motion.div
                   className="h-full bg-gradient-to-r from-cyan to-violet"
                   animate={{ width: `${((stageIdx + 1) / STAGES.length) * 100}%` }}
@@ -290,7 +290,7 @@ function AiPath({ result }: { result: AnalyzeResult }) {
           ESM-2 <span className="mono text-[10px] font-normal text-muted">({result.esm2.model})</span>
         </div>
         <ArrowDown className="mx-auto size-4 text-violet/50" />
-        <div className="rounded-lg border border-white/10 bg-panel2 p-3">
+        <div className="rounded-lg border border-navy-950/10 bg-panel2 p-3">
           <p className="mb-2 text-xs font-semibold">
             Embedding{" "}
             <span className="mono font-normal text-muted">
@@ -336,7 +336,7 @@ function AiPath({ result }: { result: AnalyzeResult }) {
                   {(p * 100).toFixed(1)}%
                 </span>
               </div>
-              <div className="h-2 overflow-hidden rounded-full bg-white/5">
+              <div className="h-2 overflow-hidden rounded-full bg-navy-950/5">
                 <motion.div
                   className="h-full rounded-full"
                   style={{
@@ -462,7 +462,7 @@ function AcmgPath({
               className={`group flex items-center justify-between rounded-lg border p-3 text-left transition-all hover:scale-[1.02] ${
                 benign
                   ? "border-success/40 bg-success/10 hover:shadow-[0_0_16px_-6px_#22c55e]"
-                  : "border-cyan/40 bg-cyan/10 hover:shadow-[0_0_16px_-6px_#00e5ff]"
+                  : "border-cyan/40 bg-cyan/10 hover:shadow-[0_0_16px_-6px_#b4182d]"
               }`}
             >
               <div>
@@ -476,7 +476,7 @@ function AcmgPath({
           );
         })}
         {met.length === 0 && (
-          <p className="col-span-2 rounded-lg border border-white/10 p-3 text-xs text-muted">
+          <p className="col-span-2 rounded-lg border border-navy-950/10 p-3 text-xs text-muted">
             No criteria met — insufficient evidence.
           </p>
         )}
@@ -490,14 +490,14 @@ function AcmgPath({
           <button
             key={c.id}
             onClick={() => onOpen(c)}
-            className="rounded border border-white/10 px-2 py-1 text-[10px] text-muted transition-colors hover:border-white/30 hover:text-fg"
+            className="rounded border border-navy-950/10 px-2 py-1 text-[10px] text-muted transition-colors hover:border-navy-950/30 hover:text-fg"
           >
             {c.id}
           </button>
         ))}
       </div>
 
-      <div className="mt-5 rounded-lg border border-white/10 bg-panel2 p-3">
+      <div className="mt-5 rounded-lg border border-navy-950/10 bg-panel2 p-3">
         <p className={`text-sm font-bold ${classColor(result.acmg.classification).text}`}>
           {result.acmg.classification}
         </p>
@@ -537,7 +537,7 @@ function CriterionModal({
           </div>
           <button
             onClick={onClose}
-            className="rounded-lg border border-white/10 p-1.5 text-muted hover:text-fg"
+            className="rounded-lg border border-navy-950/10 p-1.5 text-muted hover:text-fg"
           >
             <X className="size-4" />
           </button>
@@ -558,7 +558,7 @@ function CriterionModal({
               className={`mt-1 inline-flex items-center gap-1.5 rounded px-2 py-1 text-xs font-bold ${
                 criterion.met
                   ? "bg-success/10 text-success"
-                  : "bg-white/5 text-muted"
+                  : "bg-navy-950/5 text-muted"
               }`}
             >
               {criterion.met ? <CheckCircle2 className="size-3.5" /> : <XCircle className="size-3.5" />}

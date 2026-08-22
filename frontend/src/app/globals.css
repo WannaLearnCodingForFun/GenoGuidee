@@ -1,63 +1,73 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #050816;
-  --color-panel: #0b1120;
-  --color-panel2: #111827;
-  --color-cyan: #00e5ff;
-  --color-violet: #8b5cf6;
+  /* App-wide palette — light theme (crimson/coral brand, navy text) */
+  --color-bg: #ffffff;
+  --color-panel: #f7f7f9;
+  --color-panel2: #eceef3;
+  --color-cyan: #b4182d;
+  --color-violet: #54162b;
   --color-success: #22c55e;
   --color-warning: #f59e0b;
   --color-error: #ef4444;
-  --color-fg: #f8fafc;
-  --color-muted: #94a3b8;
+  --color-fg: #181a2f;
+  --color-muted: #37415c;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Named brand tokens (same values as above, used directly by the marketing site) */
+  --color-navy-950: #181a2f;
+  --color-navy-900: #242e49;
+  --color-navy-800: #37415c;
+  --color-coral: #fda481;
+  --color-crimson: #b4182d;
+  --color-maroon: #54162b;
 }
 
 body {
-  background: #050816;
-  color: #f8fafc;
+  background: #ffffff;
+  color: #181a2f;
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
 ::selection {
-  background: rgba(0, 229, 255, 0.25);
+  background: rgba(180, 24, 45, 0.18);
 }
 
 /* Panel card with subtle glowing border */
 .card {
-  background: linear-gradient(180deg, rgba(11, 17, 32, 0.92), rgba(11, 17, 32, 0.75));
-  border: 1px solid rgba(148, 163, 184, 0.12);
+  background: #ffffff;
+  border: 1px solid rgba(24, 26, 47, 0.08);
   border-radius: 1rem;
+  box-shadow: 0 1px 2px rgba(24, 26, 47, 0.04), 0 8px 24px -12px rgba(24, 26, 47, 0.1);
 }
 
 .card-glow-cyan {
-  border-color: rgba(0, 229, 255, 0.25);
-  box-shadow: 0 0 24px -8px rgba(0, 229, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  border-color: rgba(180, 24, 45, 0.22);
+  box-shadow: 0 0 0 1px rgba(180, 24, 45, 0.05), 0 16px 40px -16px rgba(180, 24, 45, 0.22);
 }
 
 .card-glow-violet {
-  border-color: rgba(139, 92, 246, 0.3);
-  box-shadow: 0 0 24px -8px rgba(139, 92, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  border-color: rgba(84, 22, 43, 0.35);
+  box-shadow: 0 0 0 1px rgba(84, 22, 43, 0.08), 0 16px 40px -16px rgba(84, 22, 43, 0.3);
 }
 
 .card-glow-success {
-  border-color: rgba(34, 197, 94, 0.35);
-  box-shadow: 0 0 28px -8px rgba(34, 197, 94, 0.35);
+  border-color: rgba(34, 197, 94, 0.3);
+  box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.06), 0 16px 40px -16px rgba(34, 197, 94, 0.25);
 }
 
 .card-glow-warning {
-  border-color: rgba(245, 158, 11, 0.4);
-  box-shadow: 0 0 28px -8px rgba(245, 158, 11, 0.4);
+  border-color: rgba(245, 158, 11, 0.35);
+  box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.08), 0 16px 40px -16px rgba(245, 158, 11, 0.3);
 }
 
 /* Sparse glassmorphism — used only on floating overlays */
 .glass {
-  background: rgba(11, 17, 32, 0.7);
+  background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(148, 163, 184, 0.15);
+  border: 1px solid rgba(24, 26, 47, 0.08);
 }
 
 .mono {
@@ -67,28 +77,28 @@ body {
 /* Thin custom scrollbars */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(0, 229, 255, 0.25) transparent;
+  scrollbar-color: rgba(180, 24, 45, 0.25) transparent;
 }
 *::-webkit-scrollbar {
   height: 6px;
   width: 6px;
 }
 *::-webkit-scrollbar-thumb {
-  background: rgba(0, 229, 255, 0.2);
+  background: rgba(180, 24, 45, 0.2);
   border-radius: 3px;
 }
 
 /* Subtle grid texture for hero */
 .grid-texture {
   background-image:
-    linear-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(55, 65, 92, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(55, 65, 92, 0.07) 1px, transparent 1px);
   background-size: 44px 44px;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 75%);
 }
 
 .text-gradient {
-  background: linear-gradient(92deg, #00e5ff 0%, #8b5cf6 60%, #00e5ff 120%);
+  background: linear-gradient(92deg, #b4182d 0%, #54162b 60%, #b4182d 120%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -100,4 +110,50 @@ body {
 }
 .pulse-glow {
   animation: pulse-glow 2.2s ease-in-out infinite;
+}
+
+/* -------------------------------------------------------------------------
+   Marketing site (light theme) — distinct palette from the internal app.
+   ------------------------------------------------------------------------- */
+
+.mkt-card {
+  background: #ffffff;
+  border: 1px solid rgba(24, 26, 47, 0.08);
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgba(24, 26, 47, 0.04), 0 8px 24px -12px rgba(24, 26, 47, 0.1);
+}
+
+.mkt-card-glow {
+  border-color: rgba(180, 24, 45, 0.22);
+  box-shadow: 0 0 0 1px rgba(180, 24, 45, 0.05), 0 16px 40px -16px rgba(180, 24, 45, 0.22);
+}
+
+.mkt-card-hoverable {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.mkt-card-hoverable:hover {
+  border-color: rgba(180, 24, 45, 0.22);
+  box-shadow: 0 0 0 1px rgba(180, 24, 45, 0.05), 0 16px 40px -16px rgba(180, 24, 45, 0.22);
+}
+
+.mkt-glass {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(24, 26, 47, 0.06);
+}
+
+.mkt-grid-texture {
+  background-image:
+    linear-gradient(rgba(55, 65, 92, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(55, 65, 92, 0.07) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 75%);
+}
+
+.mkt-text-gradient {
+  background: linear-gradient(92deg, #b4182d 0%, #54162b 60%, #b4182d 120%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }

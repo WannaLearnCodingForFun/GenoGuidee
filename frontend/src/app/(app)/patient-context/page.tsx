@@ -81,8 +81,8 @@ export default function PatientContext() {
             onClick={() => setSelectedId(pt.id)}
             className={`rounded-xl border px-4 py-2.5 text-left transition-all ${
               pt.id === selectedId
-                ? "border-cyan/50 bg-cyan/10 shadow-[0_0_18px_-8px_#00e5ff]"
-                : "border-white/10 bg-panel2/60 hover:border-white/25"
+                ? "border-cyan/50 bg-cyan/10 shadow-[0_0_18px_-8px_#b4182d]"
+                : "border-navy-950/10 bg-panel2/60 hover:border-navy-950/25"
             }`}
           >
             <p className="text-sm font-bold">{pt.id}</p>
@@ -155,7 +155,7 @@ export default function PatientContext() {
                   </dt>
                   <dd className="mt-1.5 space-y-1.5">
                     {p.medications.map((m) => (
-                      <div key={m.name} className="rounded-lg border border-white/8 bg-panel2 px-3 py-2">
+                      <div key={m.name} className="rounded-lg border border-navy-950/8 bg-panel2 px-3 py-2">
                         <p className="text-xs font-medium">
                           {m.name} <span className="text-muted">— {m.dose}</span>
                         </p>
@@ -184,10 +184,10 @@ export default function PatientContext() {
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: i * 0.12 }}
-                        className="flex-1 rounded-xl border border-white/10 bg-panel2 p-4 text-center"
+                        className="flex-1 rounded-xl border border-navy-950/10 bg-panel2 p-4 text-center"
                         style={{
-                          borderColor: i === funnel.length - 1 ? "rgba(0,229,255,0.5)" : undefined,
-                          boxShadow: i === funnel.length - 1 ? "0 0 22px -8px #00e5ff" : undefined,
+                          borderColor: i === funnel.length - 1 ? "rgba(180,24,45,0.5)" : undefined,
+                          boxShadow: i === funnel.length - 1 ? "0 0 22px -8px #b4182d" : undefined,
                         }}
                       >
                         <p className="text-2xl font-black tabular-nums text-fg">
@@ -315,7 +315,7 @@ function VariantContextCard({ analysis: a, index }: { analysis: ContextAnalysis;
                     {c.value}/{c.max}
                   </span>
                 </div>
-                <div className="h-1.5 overflow-hidden rounded-full bg-white/5">
+                <div className="h-1.5 overflow-hidden rounded-full bg-navy-950/5">
                   <motion.div
                     className="h-full rounded-full bg-gradient-to-r from-cyan to-violet"
                     initial={{ width: 0 }}
@@ -354,8 +354,8 @@ function VariantContextCard({ analysis: a, index }: { analysis: ContextAnalysis;
                   : c.type === "pgx"
                     ? "border-cyan/25 bg-cyan/5"
                     : c.type === "disclaimer"
-                      ? "border-white/8 bg-white/2"
-                      : "border-white/10 bg-panel2";
+                      ? "border-navy-950/8 bg-navy-950/2"
+                      : "border-navy-950/10 bg-panel2";
               return (
                 <li key={i} className={`flex gap-2.5 rounded-lg border p-2.5 text-[11px] leading-relaxed text-muted ${tone}`}>
                   <Icon className="mt-0.5 size-3.5 shrink-0 text-cyan" />
