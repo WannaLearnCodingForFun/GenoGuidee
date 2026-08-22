@@ -164,7 +164,16 @@ class InterpretationService:
                                            "reason": "no patient HPO terms provided"}
         if patient and patient.get("hpo_terms") and gene:
             from ..phenotype.similarity import match_patient_to_gene
-            phenotype_match = match_patient_to_gene(patient["hpo_terms"], gene)
+            try:
+                phenotype_match = match_patient_to_gene(patient["hpo_terms"], gene)
+            except FileNotFoundError as exc:
+                # The HPO release is an optional local dataset. Phenotype
+                # matching is a context layer that never feeds ACMG, so its
+                # absence must degrade the response, not fail the request.
+                phenotype_match = {
+                    "availability": "NOT_AVAILABLE",
+                    "reason": str(exc),
+                }
 
         gd_edges = [e for e in _clingen_edges() if e["gene"] == gene] if gene else []
         gene_disease_context = {

@@ -6,6 +6,7 @@ import { useRouter, usePathname } from "next/navigation";
 import {
   Activity,
   Dna,
+  FileUp,
   FlaskConical,
   LogOut,
   Network,
@@ -23,6 +24,7 @@ const ROLE_LABEL: Record<string, string> = {
 
 const NAV = [
   { href: "/dashboard", label: "Overview", icon: Activity },
+  { href: "/upload", label: "Upload & Tracker", icon: FileUp },
   { href: "/variant-lab", label: "Variant Lab", icon: FlaskConical },
   { href: "/patient-context", label: "Patient Context", icon: UserRound },
   { href: "/therapy", label: "Therapy Ranking", icon: Pill },

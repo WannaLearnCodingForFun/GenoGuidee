@@ -9,7 +9,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from . import provenance
+from . import provenance, uploads
 from .acmg import classify
 from .clinical import analyze_variant_for_patient, build_knowledge_graph
 from .config import (
@@ -179,20 +179,12 @@ class AnalyzeRequest(BaseModel):
     patient_id: str | None = None
 
 
-@app.post("/api/analyze")
-def analyze(req: AnalyzeRequest) -> dict[str, Any]:
-    v = VARIANTS_BY_ID.get(req.variant_id)
-    if not v:
-        raise HTTPException(404, "Variant not found")
-
-    esm = esm_representation(v)
-    ml = predict(v, esm["delta_score"])
-    acmg = classify(v)
-
+def _reconcile(ml: dict[str, Any], acmg: dict[str, Any]) -> dict[str, Any]:
+    """Shared governance rule: ACMG is always the authority, ML is advisory."""
     ml_bucket = _bucket(ml["top_class"])
     acmg_bucket = _bucket(acmg["classification"])
     concordant = ml_bucket == acmg_bucket
-    reconciliation = {
+    return {
         "status": "CONCORDANT" if concordant else "DISCORDANT",
         "confidence": "HIGH CONFIDENCE" if concordant else "HUMAN REVIEW REQUIRED",
         "ml_bucket": ml_bucket,
@@ -207,6 +199,18 @@ def analyze(req: AnalyzeRequest) -> dict[str, Any]:
             "The system defers to ACMG and flags this variant for expert human review."
         ),
     }
+
+
+@app.post("/api/analyze")
+def analyze(req: AnalyzeRequest) -> dict[str, Any]:
+    v = VARIANTS_BY_ID.get(req.variant_id)
+    if not v:
+        raise HTTPException(404, "Variant not found")
+
+    esm = esm_representation(v)
+    ml = predict(v, esm["delta_score"])
+    acmg = classify(v)
+    reconciliation = _reconcile(ml, acmg)
 
     patient_id = req.patient_id or "UNASSIGNED"
     block = provenance.record_interpretation(
@@ -232,6 +236,79 @@ def analyze(req: AnalyzeRequest) -> dict[str, Any]:
             "timestamp": block["timestamp"],
         },
         "mode": "DEMO_MODE" if DEMO_MODE else "LIVE_MODE",
+    }
+
+# ---------------------------------------------------------------------------
+# Uploaded-VCF analysis
+#
+# The curated dataset lives in memory here; uploaded variants live in Supabase
+# under row-level security. So this endpoint is stateless with respect to
+# storage: the client sends the parsed annotations it is authorized to read,
+# and gets back the identical ACMG -> ML -> reconciliation -> provenance
+# treatment the curated variants receive.
+# ---------------------------------------------------------------------------
+
+class UploadedVariantRequest(BaseModel):
+    chrom: str
+    pos: int
+    ref: str
+    alt: str
+    gene: str | None = None
+    transcript: str | None = None
+    hgvs_c: str | None = None
+    hgvs_p: str | None = None
+    consequence: str | None = None
+    gnomad_af: float | None = None
+    cadd: float | None = None
+    revel: float | None = None
+    spliceai: float | None = None
+    phylop: float | None = None
+    # Opaque references used for the provenance record. No genomic or clinical
+    # content — the ledger only ever stores hashes of these.
+    subject_ref: str | None = None
+    upload_id: str | None = None
+
+
+@app.post("/api/analyze/uploaded")
+def analyze_uploaded(req: UploadedVariantRequest) -> dict[str, Any]:
+    v = uploads.normalize(req.model_dump())
+
+    esm = esm_representation(v)
+    if esm["mode"] == "demo-precomputed":
+        # Make it explicit that the delta is derived from the file's own
+        # annotations rather than curated or produced by a live ESM-2 run.
+        esm = {**esm, "mode": "proxy-from-annotations"}
+    ml = predict(v, esm["delta_score"])
+    acmg = classify(v)
+    reconciliation = _reconcile(ml, acmg)
+
+    subject = req.subject_ref or "UPLOAD-UNASSIGNED"
+    block = provenance.record_interpretation(
+        subject, v["id"], f"{v['gene']} {v['hgvs_c']}", acmg["classification"],
+        reconciliation["status"], acmg["met_criteria"], ml["top_class"],
+    )
+
+    return {
+        "variant": {k: val for k, val in v.items() if k not in ("missing_evidence", "annotation_completeness")},
+        "esm2": esm,
+        "ml": ml,
+        "acmg": acmg,
+        "reconciliation": reconciliation,
+        "annotation_completeness": v["annotation_completeness"],
+        "missing_evidence": v["missing_evidence"],
+        "provenance": {
+            "recorded": True,
+            "contract": CONTRACT_INTERPRETATION,
+            "tx_id": block["tx_id"],
+            "block_index": block["block_index"],
+            "interpretation_hash": block["payload"]["interpretation_hash"],
+            "patient_hash": block["payload"]["patient_hash"],
+            "model_version": MODEL_VERSION,
+            "evidence_version": EVIDENCE_VERSION,
+            "timestamp": block["timestamp"],
+        },
+        "mode": "DEMO_MODE" if DEMO_MODE else "LIVE_MODE",
+        "source": "upload",
     }
 
 # ---------------------------------------------------------------------------
