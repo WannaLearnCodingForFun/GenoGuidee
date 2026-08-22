@@ -18,7 +18,7 @@ import requests
 
 VEP_BASE = "https://rest.ensembl.org"
 DEFAULT_HEADERS = {"Content-Type": "application/json"}
-REQUEST_TIMEOUT = 15
+REQUEST_TIMEOUT = 40
 MAX_RETRIES = 3
 RETRY_BACKOFF_SECS = 1.5
 
@@ -96,13 +96,23 @@ def _request_with_retry(url: str, params: Optional[dict[str, Any]] = None) -> An
     raise VEPError(f"VEP request failed after {MAX_RETRIES} attempts: {last_exc}")
 
 
+# VEP doesn't return population frequency data by default — these params must
+# be explicitly requested or gnomad_af() will almost always come back None.
+FREQUENCY_PARAMS = {
+    "content-type": "application/json",
+    "af_gnomade": 1,
+    "af_gnomadg": 1,
+    "af": 1,
+}
+
+
 def annotate_hgvs(hgvs_notation: str, species: str = "human") -> VEPAnnotation:
     """
     Annotate a single variant given in HGVS notation, e.g.
     'NM_000492.3:c.1521_1523delCTT' (CFTR delF508) or 'ENST00000003084:c.1431_1433delTTC'.
     """
     url = f"{VEP_BASE}/vep/{species}/hgvs/{hgvs_notation}"
-    data = _request_with_retry(url, params={"content-type": "application/json"})
+    data = _request_with_retry(url, params=FREQUENCY_PARAMS)
     if not data:
         raise VEPError(f"VEP returned no annotation for {hgvs_notation}")
     return VEPAnnotation.from_vep_json(data[0])
@@ -120,7 +130,7 @@ def annotate_region(
     region = f"{chrom}:{pos}-{end}"
     allele_string = f"{ref}/{alt}"
     url = f"{VEP_BASE}/vep/{species}/region/{region}/{allele_string}"
-    data = _request_with_retry(url, params={"content-type": "application/json"})
+    data = _request_with_retry(url, params=FREQUENCY_PARAMS)
     if not data:
         raise VEPError(f"VEP returned no annotation for {chrom}:{pos} {ref}>{alt}")
     return VEPAnnotation.from_vep_json(data[0])

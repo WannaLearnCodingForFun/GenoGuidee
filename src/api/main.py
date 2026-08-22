@@ -21,10 +21,17 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from src.annotation.vep_client import VEPError
+from src.decision.decision_mapping import build_evidence_trace, map_variant_to_actions
 from src.family.carrier_screen import CarrierVariant, screen_couple
 from src.family.trio_phasing import Variant as TrioVariant
 from src.family.trio_phasing import phase_trio
 from src.reconciliation.reconcile import reconcile
+from src.visualization.graph_builders import (
+    carrier_network_graph,
+    dual_path_graph,
+    evidence_flow_graph,
+    trio_pedigree_graph,
+)
 
 app = FastAPI(
     title="GenoChain API",
@@ -82,6 +89,48 @@ def interpret_variant(req: VariantInterpretRequest) -> VariantInterpretResponse:
 
 
 # ---------------------------------------------------------------------------
+# POST /variant/decision-map  (full pipeline: reconcile + evidence trace + decision)
+# ---------------------------------------------------------------------------
+
+class DecisionMapResponse(BaseModel):
+    variant: str
+    tier: str
+    agreement: Optional[bool]
+    actions: list[dict]
+    evidence_flow_graph: dict
+    dual_path_graph: dict
+
+
+@app.post("/variant/decision-map", response_model=DecisionMapResponse)
+def decision_map_endpoint(req: VariantInterpretRequest) -> DecisionMapResponse:
+    """
+    One-call endpoint that runs the full pipeline for a single variant and
+    returns everything the frontend needs: the recommended clinical actions,
+    plus both visualization graphs (evidence flow + dual-path convergence),
+    ready to hand straight to a chart component.
+    """
+    try:
+        result = reconcile(req.hgvs_notation)
+    except VEPError as e:
+        raise HTTPException(status_code=502, detail=f"VEP lookup failed: {e}")
+
+    trace = build_evidence_trace(result.rule_result)
+    decision = map_variant_to_actions(result)
+
+    return DecisionMapResponse(
+        variant=result.variant,
+        tier=result.rule_result.tier,
+        agreement=result.agreement,
+        actions=[
+            {"priority": a.priority.value, "recommendation": a.recommendation, "reasoning": a.reasoning}
+            for a in decision.actions
+        ],
+        evidence_flow_graph=evidence_flow_graph(trace),
+        dual_path_graph=dual_path_graph(result),
+    )
+
+
+# ---------------------------------------------------------------------------
 # POST /family/carrier-screen
 # ---------------------------------------------------------------------------
 
@@ -110,6 +159,7 @@ class GeneCarrierFlagOut(BaseModel):
 class CarrierScreenResponse(BaseModel):
     flagged_genes: list[GeneCarrierFlagOut]
     screened_gene_count: int
+    network_graph: dict
 
 
 @app.post("/family/carrier-screen", response_model=CarrierScreenResponse)
@@ -130,7 +180,11 @@ def carrier_screen_endpoint(req: CarrierScreenRequest) -> CarrierScreenResponse:
         )
         for f in result.flagged_genes
     ]
-    return CarrierScreenResponse(flagged_genes=flags, screened_gene_count=len(result.screened_genes))
+    return CarrierScreenResponse(
+        flagged_genes=flags,
+        screened_gene_count=len(result.screened_genes),
+        network_graph=carrier_network_graph("Partner A", "Partner B", result),
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -169,6 +223,7 @@ class TrioPhaseResponse(BaseModel):
     phased_variants: list[PhasedVariantOut]
     de_novo_count: int
     high_priority_count: int
+    pedigree_graph: dict
 
 
 @app.post("/family/trio-phase", response_model=TrioPhaseResponse)
@@ -205,6 +260,7 @@ def trio_phase_endpoint(req: TrioPhaseRequest) -> TrioPhaseResponse:
         phased_variants=phased_out,
         de_novo_count=len(result.de_novo_variants),
         high_priority_count=len(result.high_priority_variants),
+        pedigree_graph=trio_pedigree_graph(result),
     )
 
 

@@ -26,6 +26,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from src.annotation.vep_client import VEPAnnotation, VEPError, annotate_hgvs
+from src.annotation.gnomad_client import fetch_gnomad_af
 from src.scoring.acmg_rules import ACMGInput, ACMGResult, evaluate
 from src.scoring.alphamissense import AlphaMissenseScore
 
@@ -147,10 +148,16 @@ def reconcile(hgvs_or_annotation: str | VEPAnnotation) -> ReconciliationResult:
     variant_key = _extract_variant_key(annotation)
     ml_tier, ml_bucket, am_score, ml_source = _run_ml_path(variant_key)
 
+    # VEP's colocated_variants often lacks gnomAD AF even with af_gnomad params
+    # requested — fall back to querying gnomAD directly for the same variant.
+    gnomad_af = annotation.gnomad_af()
+    if gnomad_af is None and variant_key is not None:
+        gnomad_af = fetch_gnomad_af(*variant_key)
+
     acmg_input = ACMGInput(
         gene_symbol=annotation.gene_symbol,
         consequence=annotation.most_severe_consequence,
-        gnomad_af=annotation.gnomad_af(),
+        gnomad_af=gnomad_af,
         alphamissense_score=am_score.am_pathogenicity if am_score else None,
     )
     rule_result = evaluate(acmg_input)
@@ -162,7 +169,7 @@ def reconcile(hgvs_or_annotation: str | VEPAnnotation) -> ReconciliationResult:
         variant=variant_label,
         gene_symbol=annotation.gene_symbol,
         consequence=annotation.most_severe_consequence,
-        gnomad_af=annotation.gnomad_af(),
+        gnomad_af=gnomad_af,
         rule_result=rule_result,
         rule_bucket=rule_bucket,
         ml_tier=ml_tier,

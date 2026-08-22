@@ -1,0 +1,551 @@
+gene,variant_id,classification,raw_clinsig,review_status,title
+CFTR,GRCh38/hg38 7q31.2(chr7:117642438-117642593)x3,Likely Pathogenic,,,GRCh38/hg38 7q31.2(chr7:117642438-117642593)x3
+CFTR,c.2620-10_2621del,Likely Pathogenic,,,NM_000492.4(CFTR):c.2620-10_2621del
+CFTR,c.3123dup,Likely Pathogenic,,,NM_000492.4(CFTR):c.3123dup (p.Gln1042fs)
+CFTR,c.44T>G,Likely Pathogenic,,,NM_000492.4(CFTR):c.44T>G (p.Leu15Arg)
+CFTR,GRCh37/hg19 7q31.2(chr7:117141950-117159386)x1,Likely Pathogenic,,,GRCh37/hg19 7q31.2(chr7:117141950-117159386)x1
+CFTR,NC_000007.13:g.(117254768_117267575)_(117292986_117304741)del,Likely Pathogenic,,,NC_000007.13:g.(117254768_117267575)_(117292986_117304741)del
+CFTR,c.3384del,Likely Pathogenic,,,NM_000492.4(CFTR):c.3384del (p.Val1129fs)
+CFTR,c.989_990insTA,Likely Pathogenic,,,NM_000492.4(CFTR):c.989_990insTA (p.Ile331fs)
+CFTR,c.962_968del,Likely Pathogenic,,,NM_000492.4(CFTR):c.962_968del (p.Ser321fs)
+CFTR,c.954delinsTT,Likely Pathogenic,,,NM_000492.4(CFTR):c.954delinsTT (p.Leu320fs)
+CFTR,c.751_767del,Likely Pathogenic,,,NM_000492.4(CFTR):c.751_767del (p.Gln250_Arg251insTer)
+CFTR,c.742del,Likely Pathogenic,,,NM_000492.4(CFTR):c.742del (p.Arg248fs)
+CFTR,c.71_72delinsA,Likely Pathogenic,,,NM_000492.4(CFTR):c.71_72delinsA (p.Ile23_Leu24insTer)
+CFTR,c.708dup,Likely Pathogenic,,,NM_000492.4(CFTR):c.708dup (p.Gln237fs)
+CFTR,c.605G>A,Likely Pathogenic,,,NM_000492.4(CFTR):c.605G>A (p.Trp202Ter)
+CFTR,c.53+1G>A,Likely Pathogenic,,,NM_000492.4(CFTR):c.53+1G>A
+CFTR,c.526del,Likely Pathogenic,,,NM_000492.4(CFTR):c.526del (p.Ser176fs)
+CFTR,c.490-2A>C,Likely Pathogenic,,,NM_000492.4(CFTR):c.490-2A>C
+CFTR,c.481del,Likely Pathogenic,,,NM_000492.4(CFTR):c.481del (p.Tyr161fs)
+CFTR,c.463_466del,Likely Pathogenic,,,NM_000492.4(CFTR):c.463_466del (p.Ala155fs)
+CFTR,c.461dup,Likely Pathogenic,,,NM_000492.4(CFTR):c.461dup (p.Ala155fs)
+CFTR,c.461del,Likely Pathogenic,,,NM_000492.4(CFTR):c.461del (p.Ile154fs)
+CFTR,c.4378_4429del,Likely Pathogenic,,,NM_000492.4(CFTR):c.4378_4429del (p.Ser1460fs)
+CFTR,c.43_44delinsG,Likely Pathogenic,,,NM_000492.4(CFTR):c.43_44delinsG (p.Leu15fs)
+CFTR,c.4267C>T,Likely Pathogenic,,,NM_000492.4(CFTR):c.4267C>T (p.Gln1423Ter)
+CFTR,c.4252dup,Likely Pathogenic,,,NM_000492.4(CFTR):c.4252dup (p.Glu1418fs)
+CFTR,c.424_427del,Likely Pathogenic,,,NM_000492.4(CFTR):c.424_427del (p.Ile142fs)
+CFTR,c.4231del,Likely Pathogenic,,,NM_000492.4(CFTR):c.4231del (p.Gln1411fs)
+CFTR,c.4223_4230del,Likely Pathogenic,,,NM_000492.4(CFTR):c.4223_4230del (p.Leu1408fs)
+CFTR,c.4137-2del,Likely Pathogenic,,,NM_000492.4(CFTR):c.4137-2del
+CFTR,c.4137-1G>C,Likely Pathogenic,,,NM_000492.4(CFTR):c.4137-1G>C
+CFTR,c.4137-1G>A,Likely Pathogenic,,,NM_000492.4(CFTR):c.4137-1G>A
+CFTR,c.4136+1G>T,Likely Pathogenic,,,NM_000492.4(CFTR):c.4136+1G>T
+CFTR,c.3909C>A,Likely Pathogenic,,,NM_000492.4(CFTR):c.3909C>A (p.Asn1303Lys)
+CFTR,c.3895del,Likely Pathogenic,,,NM_000492.4(CFTR):c.3895del (p.Thr1299fs)
+CFTR,c.3827C>G,Likely Pathogenic,,,NM_000492.4(CFTR):c.3827C>G (p.Ser1276Ter)
+CFTR,c.3739G>C,Likely Pathogenic,,,NM_000492.4(CFTR):c.3739G>C (p.Gly1247Arg)
+CFTR,c.3733_3824del,Likely Pathogenic,,,NM_000492.4(CFTR):c.3733_3824del (p.Arg1245fs)
+CFTR,c.3717G>C,Likely Pathogenic,,,NM_000492.4(CFTR):c.3717G>C (p.Arg1239Ser)
+CFTR,c.3632_3635delinsTCTCACAG,Likely Pathogenic,,,NM_000492.4(CFTR):c.3632_3635delinsTCTCACAG (p.Thr1211fs)
+CFTR,c.3630dup,Likely Pathogenic,,,NM_000492.4(CFTR):c.3630dup (p.Thr1211fs)
+CFTR,c.3622_3623dup,Likely Pathogenic,,,NM_000492.4(CFTR):c.3622_3623dup (p.Gln1209fs)
+CFTR,c.3552del,Likely Pathogenic,,,NM_000492.4(CFTR):c.3552del (p.Asn1184fs)
+CFTR,c.350_351delinsTT,Likely Pathogenic,,,NM_000492.4(CFTR):c.350_351delinsTT (p.Arg117Leu)
+CFTR,c.3479_3482del,Likely Pathogenic,,,NM_000492.4(CFTR):c.3479_3482del (p.Val1160fs)
+CFTR,c.3454_3455del,Likely Pathogenic,,,NM_000492.4(CFTR):c.3454_3455del (p.Asp1152fs)
+CFTR,c.3441_3442insG,Likely Pathogenic,,,NM_000492.4(CFTR):c.3441_3442insG (p.Asn1148fs)
+CFTR,c.3403_3404dup,Likely Pathogenic,,,NM_000492.4(CFTR):c.3403_3404dup (p.Leu1135fs)
+CFTR,c.3367+2T>C,Likely Pathogenic,,,NM_000492.4(CFTR):c.3367+2T>C
+CFTR,c.3310G>A,Likely Pathogenic,,,NM_000492.4(CFTR):c.3310G>A (p.Glu1104Lys)
+HBB,GRCh37/hg19 11p15.4(chr11:5187270-5268465)x1,Likely Pathogenic,,,GRCh37/hg19 11p15.4(chr11:5187270-5268465)x1
+HBB,c.316-12_316-7delinsCTCCTA,Likely Pathogenic,,,NM_000518.5(HBB):c.316-12_316-7delinsCTCCTA
+HBB,c.327C>A,Likely Pathogenic,,,NM_000518.5(HBB):c.327C>A (p.Asn109Lys)
+HBB,c.206_216del,Likely Pathogenic,,,NM_000518.5(HBB):c.206_216del (p.Leu69fs)
+HBB,c.9_83del,Likely Pathogenic,,,NM_000518.5(HBB):c.9_83del (p.Thr5_Leu29del)
+HBB,c.55del,Likely Pathogenic,,,NM_000518.5(HBB):c.55del (p.Lys18_Val19insTer)
+HBB,c.36dup,Likely Pathogenic,,,NM_000518.5(HBB):c.36dup (p.Thr13fs)
+HBB,c.327del,Likely Pathogenic,,,NM_000518.5(HBB):c.327del (p.Asn109fs)
+HBB,c.275del,Likely Pathogenic,,,NM_000518.5(HBB):c.275del (p.Leu92fs)
+HBB,c.127T>A,Likely Pathogenic,,,NM_000518.5(HBB):c.127T>A (p.Phe43Ile)
+HBB,c.331del,Likely Pathogenic,,,NM_000518.5(HBB):c.331del (p.Leu111fs)
+HBB,c.84_90del,Likely Pathogenic,,,NM_000518.5(HBB):c.84_90del (p.Leu29fs)
+HBB,c.199_202del,Likely Pathogenic,,,NM_000518.5(HBB):c.199_202del (p.Lys67fs)
+HBB,c.346del,Likely Pathogenic,,,NM_000518.5(HBB):c.346del (p.Ala116fs)
+HBB,c.268_281del,Likely Pathogenic,,,NM_000518.5(HBB):c.268_281del (p.Leu89_Ser90insTer)
+HBB,c.219_220delinsAT,Likely Pathogenic,,,NM_000518.5(HBB):c.219_220delinsAT (p.Ser73_Asp74delinsArgTyr)
+HBB,c.290T>G,Likely Pathogenic,,,NM_000518.5(HBB):c.290T>G (p.Leu97Arg)
+HBB,GRCh37/hg19 11p15.4(chr11:5187270-5268464)x1,Likely Pathogenic,,,GRCh37/hg19 11p15.4(chr11:5187270-5268464)x1
+HBB,GRCh37/hg19 11p15.4(chr11:5244009-5253899)x1,Likely Pathogenic,,,GRCh37/hg19 11p15.4(chr11:5244009-5253899)x1
+HBB,c.43del,Likely Pathogenic,,,NM_000518.5(HBB):c.43del (p.Leu15fs)
+HBB,c.155_167del,Likely Pathogenic,,,NM_000518.5(HBB):c.155_167del (p.Pro52fs)
+HBB,c.82G>A,Likely Pathogenic,,,NM_000518.5(HBB):c.82G>A (p.Ala28Thr)
+HBB,c.299_315dup,Likely Pathogenic,,,NM_000518.5(HBB):c.299_315dup (p.Leu106fs)
+HBB,c.105_106insCTAC,Likely Pathogenic,,,NM_000518.5(HBB):c.105_106insCTAC (p.Tyr36fs)
+HBB,c.[70G>T;79G>A],Likely Pathogenic,,,NM_000518.5(HBB):c.[70G>T;79G>A]
+HBB,NC_000011.9:g.(?_5246693)_(5248302_?)del,Likely Pathogenic,,,NC_000011.9:g.(?_5246693)_(5248302_?)del
+HBB,c.348_349delinsG,Likely Pathogenic,,,NM_000518.5(HBB):c.348_349delinsG (p.His117fs)
+HBB,NC_000011.10:g.5225255_5225875del,Likely Pathogenic,,,NC_000011.10:g.5225255_5225875del
+HBB,c.92G>T,Likely Pathogenic,,,NM_000518.5(HBB):c.92G>T (p.Arg31Met)
+HBB,c.20_21del,Likely Pathogenic,,,NM_000518.5(HBB):c.20_21del (p.Glu7fs)
+HBB,c.315+1_315+2insACGTTCTC,Likely Pathogenic,,,NM_000518.5(HBB):c.315+1_315+2insACGTTCTC
+HBB,c.294C>A,Likely Pathogenic,,,NM_000518.5(HBB):c.294C>A (p.His98Gln)
+HBB,NC_000011.10:g.5226995_5227540delinsTGAAAACTCTACCTCA,Likely Pathogenic,,,NC_000011.10:g.5226995_5227540delinsTGAAAACTCTACCTCA
+HBB,NC_000011.10:g.5168748_5240702del,Likely Pathogenic,,,NC_000011.10:g.5168748_5240702del
+HBB,c.160G>A,Likely Pathogenic,,,NM_000518.5(HBB):c.160G>A (p.Ala54Thr)
+HBB,c.363dup,Likely Pathogenic,,,NM_000518.5(HBB):c.363dup (p.Glu122fs)
+HBB,c.126_129dup,Likely Pathogenic,,,NM_000518.5(HBB):c.126_129dup (p.Glu44delinsLeuTer)
+HBB,c.327C>G,Likely Pathogenic,,,NM_000518.5(HBB):c.327C>G (p.Asn109Lys)
+HBB,Single allele,Likely Pathogenic,,,Single allele
+HBB,Single allele,Likely Pathogenic,,,Single allele
+HBB,Single allele,Likely Pathogenic,,,Single allele
+HBB,Single allele,Likely Pathogenic,,,Single allele
+HBB,NC_000011.9:g.(?_5246486)_(5247105_?)del,Likely Pathogenic,,,NC_000011.9:g.(?_5246486)_(5247105_?)del
+HBB,NC_000011.9:g.(?_5247800)_(5255213_?)del,Likely Pathogenic,,,NC_000011.9:g.(?_5247800)_(5255213_?)del
+HBB,NC_000011.9:g.(?_5246696)_(5248301_?)del,Likely Pathogenic,,,NC_000011.9:g.(?_5246696)_(5248301_?)del
+HBB,NC_000011.9:g.(?_5246693)_(5246957_5247806)del,Likely Pathogenic,,,NC_000011.9:g.(?_5246693)_(5246957_5247806)del
+HBB,c.19del,Likely Pathogenic,,,NM_000518.5(HBB):c.19del (p.Glu7fs)
+HBB,NC_000011.10:g.5226995_5227524del,Likely Pathogenic,,,NC_000011.10:g.5226995_5227524del
+HBB,c.323G>A,Likely Pathogenic,,,NM_000518.5(HBB):c.323G>A (p.Gly108Asp)
+HBB,c.345_348dup,Likely Pathogenic,,,NM_000518.5(HBB):c.345_348dup (p.His117fs)
+GJB2,c.76_79delinsCCA,Likely Pathogenic,,,NM_004004.6(GJB2):c.76_79delinsCCA (p.Thr26fs)
+GJB2,c.171dup,Likely Pathogenic,,,NM_004004.6(GJB2):c.171dup (p.Pro58fs)
+GJB2,c.495dup,Likely Pathogenic,,,NM_004004.6(GJB2):c.495dup (p.Leu166fs)
+GJB2,c.444del,Likely Pathogenic,,,NM_004004.6(GJB2):c.444del (p.Ala149fs)
+GJB2,GRCh37/hg19 13q11-14.3(chr13:19436286-53157340)x3,Likely Pathogenic,,,GRCh37/hg19 13q11-14.3(chr13:19436286-53157340)x3
+GJB2,c.521G>A,Likely Pathogenic,,,NM_004004.6(GJB2):c.521G>A (p.Cys174Tyr)
+GJB2,c.240G>T,Likely Pathogenic,,,NM_004004.6(GJB2):c.240G>T (p.Gln80His)
+GJB2,c.128T>G,Likely Pathogenic,,,NM_004004.6(GJB2):c.128T>G (p.Val43Gly)
+GJB2,c.556A>G,Likely Pathogenic,,,NM_004004.6(GJB2):c.556A>G (p.Thr186Ala)
+GJB2,c.42C>G,Likely Pathogenic,,,NM_004004.6(GJB2):c.42C>G (p.Asn14Lys)
+GJB2,c.40A>T,Likely Pathogenic,,,NM_004004.6(GJB2):c.40A>T (p.Asn14Tyr)
+GJB2,c.401G>A,Likely Pathogenic,,,NM_004004.6(GJB2):c.401G>A (p.Trp134Ter)
+GJB2,c.363del,Likely Pathogenic,,,NM_004004.6(GJB2):c.363del (p.Thr123fs)
+GJB2,c.32G>A,Likely Pathogenic,,,NM_004004.6(GJB2):c.32G>A (p.Gly11Glu)
+GJB2,c.41A>T,Likely Pathogenic,,,NM_004004.6(GJB2):c.41A>T (p.Asn14Ile)
+GJB2,c.160A>G,Likely Pathogenic,,,NM_004004.6(GJB2):c.160A>G (p.Asn54Asp)
+GJB2,c.580T>C,Likely Pathogenic,,,NM_004004.6(GJB2):c.580T>C (p.Phe194Leu)
+GJB2,c.217C>T,Likely Pathogenic,,,NM_004004.6(GJB2):c.217C>T (p.His73Tyr)
+GJB2,c.53C>T,Likely Pathogenic,,,NM_004004.6(GJB2):c.53C>T (p.Thr18Ile)
+GJB2,c.279G>C,Likely Pathogenic,,,NM_004004.6(GJB2):c.279G>C (p.Met93Ile)
+GJB2,c.550C>G,Likely Pathogenic,,,NM_004004.6(GJB2):c.550C>G (p.Arg184Gly)
+GJB2,GRCh37/hg19 13q12.11(chr13:19748003-22275574)x1,Likely Pathogenic,,,GRCh37/hg19 13q12.11(chr13:19748003-22275574)x1
+GJB2,c.192C>A,Likely Pathogenic,,,NM_004004.6(GJB2):c.192C>A (p.Cys64Ter)
+GJB2,c.627_628del,Likely Pathogenic,,,NM_004004.6(GJB2):c.627_628del (p.Glu209fs)
+GJB2,c.428G>T,Likely Pathogenic,,,NM_004004.6(GJB2):c.428G>T (p.Arg143Leu)
+GJB2,c.346A>T,Likely Pathogenic,,,NM_004004.6(GJB2):c.346A>T (p.Lys116Ter)
+GJB2,c.113T>A,Likely Pathogenic,,,NM_004004.6(GJB2):c.113T>A (p.Val38Glu)
+GJB2,c.601del,Likely Pathogenic,,,NM_004004.6(GJB2):c.601del (p.Ile201fs)
+GJB2,c.389G>T,Likely Pathogenic,,,NM_004004.6(GJB2):c.389G>T (p.Gly130Val)
+GJB2,c.8G>A,Likely Pathogenic,,,NM_004004.6(GJB2):c.8G>A (p.Trp3Ter)
+GJB2,c.72G>C,Likely Pathogenic,,,NM_004004.6(GJB2):c.72G>C (p.Trp24Cys)
+GJB2,c.626A>C,Likely Pathogenic,,,NM_004004.6(GJB2):c.626A>C (p.Glu209Ala)
+GJB2,c.610del,Likely Pathogenic,,,NM_004004.6(GJB2):c.610del (p.Leu204fs)
+GJB2,c.468_472del,Likely Pathogenic,,,NM_004004.6(GJB2):c.468_472del (p.Met157fs)
+GJB2,c.420C>G,Likely Pathogenic,,,NM_004004.6(GJB2):c.420C>G (p.Ile140Met)
+GJB2,c.236T>A,Likely Pathogenic,,,NM_004004.6(GJB2):c.236T>A (p.Leu79Gln)
+GJB2,c.161del,Likely Pathogenic,,,NM_004004.6(GJB2):c.161del (p.Asn54fs)
+GJB2,c.108del,Likely Pathogenic,,,NM_004004.6(GJB2):c.108del (p.Val37fs)
+GJB2,c.-23+2T>G,Likely Pathogenic,,,NM_004004.6(GJB2):c.-23+2T>G
+GJB2,c.253T>C,Likely Pathogenic,,,NM_004004.6(GJB2):c.253T>C (p.Ser85Pro)
+GJB2,c.486_493dup,Likely Pathogenic,,,NM_004004.6(GJB2):c.486_493dup (p.Arg165fs)
+GJB2,c.498_499dup,Likely Pathogenic,,,NM_004004.6(GJB2):c.498_499dup (p.Val167fs)
+GJB2,c.614T>C,Likely Pathogenic,,,NM_004004.6(GJB2):c.614T>C (p.Leu205Pro)
+GJB2,GRCh37/hg19 13q11-31.3(chr13:19436287-92292639)x3,Likely Pathogenic,,,GRCh37/hg19 13q11-31.3(chr13:19436287-92292639)x3
+GJB2,c.428G>C,Likely Pathogenic,,,NM_004004.6(GJB2):c.428G>C (p.Arg143Pro)
+GJB2,c.388G>C,Likely Pathogenic,,,NM_004004.6(GJB2):c.388G>C (p.Gly130Arg)
+GJB2,c.[101T>C;550C>T],Likely Pathogenic,,,NM_004004.6(GJB2):c.[101T>C;550C>T]
+GJB2,NC_000013.10:g.(?_20762215)_(20763473_?)del,Likely Pathogenic,,,NC_000013.10:g.(?_20762215)_(20763473_?)del
+GJB2,NC_000013.10:g.(?_20763040)_(21099933_?)del,Likely Pathogenic,,,NC_000013.10:g.(?_20763040)_(21099933_?)del
+GJB2,NC_000013.10:g.(?_20472281)_(24052335_?)del,Likely Pathogenic,,,NC_000013.10:g.(?_20472281)_(24052335_?)del
+HEXA,c.1559del,Likely Pathogenic,,,NM_000520.6(HEXA):c.1559del (p.Gly520fs)
+HEXA,c.1526_1526+3del,Likely Pathogenic,,,NM_000520.6(HEXA):c.1526_1526+3del
+HEXA,c.1451T>C,Likely Pathogenic,,,NM_000520.6(HEXA):c.1451T>C (p.Leu484Pro)
+HEXA,c.1422-1G>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.1422-1G>A
+HEXA,c.1421+1G>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.1421+1G>A
+HEXA,c.1374T>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.1374T>A (p.Cys458Ter)
+HEXA,c.1345_1346dup,Likely Pathogenic,,,NM_000520.6(HEXA):c.1345_1346dup (p.Ala450fs)
+HEXA,c.1331-2A>G,Likely Pathogenic,,,NM_000520.6(HEXA):c.1331-2A>G
+HEXA,c.1292G>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.1292G>A (p.Trp431Ter)
+HEXA,c.1260G>T,Likely Pathogenic,,,NM_000520.6(HEXA):c.1260G>T (p.Trp420Cys)
+HEXA,c.1257del,Likely Pathogenic,,,NM_000520.6(HEXA):c.1257del (p.Trp420fs)
+HEXA,c.1235_1247del,Likely Pathogenic,,,NM_000520.6(HEXA):c.1235_1247del (p.Phe412fs)
+HEXA,c.1228del,Likely Pathogenic,,,NM_000520.6(HEXA):c.1228del (p.Ala410fs)
+HEXA,c.1226del,Likely Pathogenic,,,NM_000520.6(HEXA):c.1226del (p.Lys409fs)
+HEXA,c.1147-2A>G,Likely Pathogenic,,,NM_000520.6(HEXA):c.1147-2A>G
+HEXA,c.1061_1063del,Likely Pathogenic,,,NM_000520.6(HEXA):c.1061_1063del (p.Phe354del)
+HEXA,c.1026del,Likely Pathogenic,,,NM_000520.6(HEXA):c.1026del (p.Gly343fs)
+HEXA,c.970del,Likely Pathogenic,,,NM_000520.6(HEXA):c.970del (p.Val324fs)
+HEXA,c.894T>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.894T>A (p.Tyr298Ter)
+HEXA,c.803del,Likely Pathogenic,,,NM_000520.6(HEXA):c.803del (p.Pro268fs)
+HEXA,c.798G>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.798G>A (p.Trp266Ter)
+HEXA,c.722_732dup,Likely Pathogenic,,,NM_000520.6(HEXA):c.722_732dup (p.Tyr245fs)
+HEXA,c.681C>G,Likely Pathogenic,,,NM_000520.6(HEXA):c.681C>G (p.Tyr227Ter)
+HEXA,c.672+1G>C,Likely Pathogenic,,,NM_000520.6(HEXA):c.672+1G>C
+HEXA,c.639T>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.639T>A (p.Tyr213Ter)
+HEXA,c.623A>T,Likely Pathogenic,,,NM_000520.6(HEXA):c.623A>T (p.Asp208Val)
+HEXA,c.613del,Likely Pathogenic,,,NM_000520.6(HEXA):c.613del (p.Leu205fs)
+HEXA,c.609del,Likely Pathogenic,,,NM_000520.6(HEXA):c.609del (p.Trp203fs)
+HEXA,c.602del,Likely Pathogenic,,,NM_000520.6(HEXA):c.602del (p.Phe201fs)
+HEXA,c.571-8A>G,Likely Pathogenic,,,NM_000520.6(HEXA):c.571-8A>G
+HEXA,c.571-2A>G,Likely Pathogenic,,,NM_000520.6(HEXA):c.571-2A>G
+HEXA,c.511_515delinsAAA,Likely Pathogenic,,,NM_000520.6(HEXA):c.511_515delinsAAA (p.Gly171fs)
+HEXA,c.488A>G,Likely Pathogenic,,,NM_000520.6(HEXA):c.488A>G (p.Asp163Gly)
+HEXA,c.412G>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.412G>A (p.Gly138Ser)
+HEXA,c.272del,Likely Pathogenic,,,NM_000520.6(HEXA):c.272del (p.Glu91fs)
+HEXA,c.271G>T,Likely Pathogenic,,,NM_000520.6(HEXA):c.271G>T (p.Glu91Ter)
+HEXA,c.258del,Likely Pathogenic,,,NM_000520.6(HEXA):c.258del (p.Lys86fs)
+HEXA,c.231_235del,Likely Pathogenic,,,NM_000520.6(HEXA):c.231_235del (p.Trp78fs)
+HEXA,c.194dup,Likely Pathogenic,,,NM_000520.6(HEXA):c.194dup (p.Gln66fs)
+HEXA,c.175_176dup,Likely Pathogenic,,,NM_000520.6(HEXA):c.175_176dup (p.Val60fs)
+HEXA,c.440G>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.440G>A (p.Trp147Ter)
+HEXA,c.755G>T,Likely Pathogenic,,,NM_000520.6(HEXA):c.755G>T (p.Arg252Leu)
+HEXA,c.805+2T>C,Likely Pathogenic,,,NM_000520.6(HEXA):c.805+2T>C
+HEXA,c.987-1G>T,Likely Pathogenic,,,NM_000520.6(HEXA):c.987-1G>T
+HEXA,c.605A>G,Likely Pathogenic,,,NM_000520.6(HEXA):c.605A>G (p.His202Arg)
+HEXA,c.1412C>T,Likely Pathogenic,,,NM_000520.6(HEXA):c.1412C>T (p.Pro471Leu)
+HEXA,c.450_456del,Likely Pathogenic,,,NM_000520.6(HEXA):c.450_456del (p.Glu151fs)
+HEXA,c.604del,Likely Pathogenic,,,NM_000520.6(HEXA):c.604del (p.His202fs)
+HEXA,c.862G>T,Likely Pathogenic,,,NM_000520.6(HEXA):c.862G>T (p.Gly288Ter)
+HEXA,c.987-1G>C,Likely Pathogenic,,,NM_000520.6(HEXA):c.987-1G>C
+PAH,c.878T>C,Likely Pathogenic,,,NM_000277.3(PAH):c.878T>C (p.Leu293Ser)
+PAH,c.749C>T,Likely Pathogenic,,,NM_000277.3(PAH):c.749C>T (p.Ser250Phe)
+PAH,c.509+2T>G,Likely Pathogenic,,,NM_000277.3(PAH):c.509+2T>G
+PAH,c.829T>C,Likely Pathogenic,,,NM_000277.3(PAH):c.829T>C (p.Tyr277His)
+PAH,GRCh37/hg19 12q23.2(chr12:103310849-103310908)x1,Likely Pathogenic,,,GRCh37/hg19 12q23.2(chr12:103310849-103310908)x1
+PAH,GRCh37/hg19 12q23.2(chr12:103288513-103288696)x1,Likely Pathogenic,,,GRCh37/hg19 12q23.2(chr12:103288513-103288696)x1
+PAH,c.384_385delinsAA,Likely Pathogenic,,,NM_000277.3(PAH):c.384_385delinsAA (p.Asp129Asn)
+PAH,c.757G>T,Likely Pathogenic,,,NM_000277.3(PAH):c.757G>T (p.Asp253Tyr)
+PAH,c.965C>A,Likely Pathogenic,,,NM_000277.3(PAH):c.965C>A (p.Ala322Asp)
+PAH,c.782del,Likely Pathogenic,,,NM_000277.3(PAH):c.782del (p.Arg261fs)
+PAH,c.509+2T>C,Likely Pathogenic,,,NM_000277.3(PAH):c.509+2T>C
+PAH,c.451G>A,Likely Pathogenic,,,NM_000277.3(PAH):c.451G>A (p.Asp151Asn)
+PAH,c.298_308del,Likely Pathogenic,,,NM_000277.3(PAH):c.298_308del (p.His100fs)
+PAH,c.244del,Likely Pathogenic,,,NM_000277.3(PAH):c.244del (p.His82fs)
+PAH,c.1219C>A,Likely Pathogenic,,,NM_000277.3(PAH):c.1219C>A (p.Pro407Thr)
+PAH,c.1217T>G,Likely Pathogenic,,,NM_000277.3(PAH):c.1217T>G (p.Ile406Arg)
+PAH,c.1066-2A>G,Likely Pathogenic,,,NM_000277.3(PAH):c.1066-2A>G
+PAH,c.1181A>G,Likely Pathogenic,,,NM_000277.3(PAH):c.1181A>G (p.Asp394Gly)
+PAH,c.530T>C,Likely Pathogenic,,,NM_000277.3(PAH):c.530T>C (p.Val177Ala)
+PAH,GRCh37/hg19 12q23.1-24.33(chr12:99532287-133777902)x3,Likely Pathogenic,,,GRCh37/hg19 12q23.1-24.33(chr12:99532287-133777902)x3
+PAH,c.877T>A,Likely Pathogenic,,,NM_000277.3(PAH):c.877T>A (p.Leu293Met)
+PAH,c.512G>A,Likely Pathogenic,,,NM_000277.3(PAH):c.512G>A (p.Gly171Glu)
+PAH,c.911A>C,Likely Pathogenic,,,NM_000277.3(PAH):c.911A>C (p.Gln304Pro)
+PAH,c.696G>T,Likely Pathogenic,,,NM_000277.3(PAH):c.696G>T (p.Gln232His)
+PAH,c.1093del,Likely Pathogenic,,,NM_000277.3(PAH):c.1093del (p.Leu365fs)
+PAH,c.851G>A,Likely Pathogenic,,,NM_000277.3(PAH):c.851G>A (p.Cys284Tyr)
+PAH,c.838G>T,Likely Pathogenic,,,NM_000277.3(PAH):c.838G>T (p.Glu280Ter)
+PAH,c.185_188dup,Likely Pathogenic,,,NM_000277.3(PAH):c.185_188dup (p.His64fs)
+PAH,c.781del,Likely Pathogenic,,,NM_000277.3(PAH):c.781del (p.Arg261fs)
+PAH,c.1247C>T,Likely Pathogenic,,,NM_000277.3(PAH):c.1247C>T (p.Pro416Leu)
+PAH,c.447del,Likely Pathogenic,,,NM_000277.3(PAH):c.447del (p.Phe149fs)
+PAH,c.441+5G>C,Likely Pathogenic,,,NM_000277.3(PAH):c.441+5G>C
+PAH,c.594T>A,Likely Pathogenic,,,NM_000277.3(PAH):c.594T>A (p.Tyr198Ter)
+PAH,c.866G>A,Likely Pathogenic,,,NM_000277.3(PAH):c.866G>A (p.Gly289Glu)
+PAH,c.111_115dup,Likely Pathogenic,,,NM_000277.3(PAH):c.111_115dup (p.Phe39Ter)
+PAH,c.353-2A>C,Likely Pathogenic,,,NM_000277.3(PAH):c.353-2A>C
+PAH,c.1158_1167del,Likely Pathogenic,,,NM_000277.3(PAH):c.1158_1167del (p.Leu385_Tyr386insTer)
+PAH,c.234dup,Likely Pathogenic,,,NM_000277.3(PAH):c.234dup (p.Phe79fs)
+PAH,c.581T>G,Likely Pathogenic,,,NM_000277.3(PAH):c.581T>G (p.Leu194Arg)
+PAH,c.1125A>C,Likely Pathogenic,,,NM_000277.3(PAH):c.1125A>C (p.Gln375His)
+PAH,c.395C>T,Likely Pathogenic,,,NM_000277.3(PAH):c.395C>T (p.Ala132Val)
+PAH,c.548A>G,Likely Pathogenic,,,NM_000277.3(PAH):c.548A>G (p.Glu183Gly)
+PAH,c.686A>G,Likely Pathogenic,,,NM_000277.3(PAH):c.686A>G (p.Asp229Gly)
+PAH,c.552G>T,Likely Pathogenic,,,NM_000277.3(PAH):c.552G>T (p.Lys184Asn)
+PAH,c.607T>G,Likely Pathogenic,,,NM_000277.3(PAH):c.607T>G (p.Cys203Gly)
+PAH,c.453T>A,Likely Pathogenic,,,NM_000277.3(PAH):c.453T>A (p.Asp151Glu)
+PAH,c.560G>A,Likely Pathogenic,,,NM_000277.3(PAH):c.560G>A (p.Trp187Ter)
+PAH,c.800dup,Likely Pathogenic,,,NM_000277.3(PAH):c.800dup (p.Tyr268fs)
+PAH,c.1247del,Likely Pathogenic,,,NM_000277.3(PAH):c.1247del (p.Pro416fs)
+PAH,c.257G>C,Likely Pathogenic,,,NM_000277.3(PAH):c.257G>C (p.Arg86Pro)
+ATP7B,c.2129_2133dup,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2129_2133dup (p.Trp712fs)
+ATP7B,c.3086C>G,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3086C>G (p.Thr1029Ser)
+ATP7B,c.2165_2166insTT,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2165_2166insTT (p.Leu722_Arg723insTer)
+ATP7B,c.2260G>A,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2260G>A (p.Glu754Lys)
+ATP7B,c.2203del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2203del (p.Leu735fs)
+ATP7B,c.826dup,Likely Pathogenic,,,NM_000053.4(ATP7B):c.826dup (p.Glu276fs)
+ATP7B,c.4128T>G,Likely Pathogenic,,,NM_000053.4(ATP7B):c.4128T>G (p.Tyr1376Ter)
+ATP7B,c.3358_3359dup,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3358_3359dup (p.Leu1120fs)
+ATP7B,c.3139del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3139del (p.Asp1047fs)
+ATP7B,c.2824del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2824del (p.Ile942fs)
+ATP7B,c.2757dup,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2757dup (p.Phe920fs)
+ATP7B,c.160dup,Likely Pathogenic,,,NM_000053.4(ATP7B):c.160dup (p.Ser54fs)
+ATP7B,c.1462C>T,Likely Pathogenic,,,NM_000053.4(ATP7B):c.1462C>T (p.Gln488Ter)
+ATP7B,c.1004G>A,Likely Pathogenic,,,NM_000053.4(ATP7B):c.1004G>A (p.Gly335Glu)
+ATP7B,c.4005_4006insTTATAATGGGTTGGG,Likely Pathogenic,,,NM_000053.4(ATP7B):c.4005_4006insTTATAATGGGTTGGG (p.Ile1336delinsLeuTer)
+ATP7B,GRCh37/hg19 13q11-14.3(chr13:19436286-53157340)x3,Likely Pathogenic,,,GRCh37/hg19 13q11-14.3(chr13:19436286-53157340)x3
+ATP7B,NC_000013.10:g.(?_52506804)_(52585587_?)del,Likely Pathogenic,,,NC_000013.10:g.(?_52506804)_(52585587_?)del
+ATP7B,c.949del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.949del (p.Ala317fs)
+ATP7B,c.4162del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.4162del (p.Ala1388fs)
+ATP7B,c.4109C>T,Likely Pathogenic,,,NM_000053.4(ATP7B):c.4109C>T (p.Ser1370Phe)
+ATP7B,c.4017del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.4017del (p.Ala1340fs)
+ATP7B,c.3973del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3973del (p.Leu1325fs)
+ATP7B,c.3903+2T>C,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3903+2T>C
+ATP7B,c.3799G>A,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3799G>A (p.Asp1267Asn)
+ATP7B,c.3787del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3787del (p.Ala1263fs)
+ATP7B,c.3724G>A,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3724G>A (p.Glu1242Lys)
+ATP7B,c.3689T>C,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3689T>C (p.Ile1230Thr)
+ATP7B,c.3628del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3628del (p.Gln1210fs)
+ATP7B,c.3532_3535del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3532_3535del (p.Thr1178fs)
+ATP7B,c.3412+1del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3412+1del
+ATP7B,c.3359T>A,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3359T>A (p.Leu1120Ter)
+ATP7B,c.3028A>G,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3028A>G (p.Lys1010Glu)
+ATP7B,c.2756G>T,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2756G>T (p.Arg919Leu)
+ATP7B,c.2335T>C,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2335T>C (p.Trp779Arg)
+ATP7B,c.2302C>T,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2302C>T (p.Pro768Ser)
+ATP7B,c.2245del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2245del (p.Val749fs)
+ATP7B,c.2200G>T,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2200G>T (p.Val734Phe)
+ATP7B,c.2122-2A>G,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2122-2A>G
+ATP7B,c.21_22del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.21_22del (p.Gln7fs)
+ATP7B,c.1946+2T>G,Likely Pathogenic,,,NM_000053.4(ATP7B):c.1946+2T>G
+ATP7B,c.1440del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.1440del (p.Gln480fs)
+ATP7B,c.132T>G,Likely Pathogenic,,,NM_000053.4(ATP7B):c.132T>G (p.Tyr44Ter)
+ATP7B,c.1275del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.1275del (p.Val426fs)
+ATP7B,c.253G>A,Likely Pathogenic,,,NM_000053.4(ATP7B):c.253G>A (p.Gly85Ser)
+ATP7B,c.465delinsTCCTGTGCA,Likely Pathogenic,,,NM_000053.4(ATP7B):c.465delinsTCCTGTGCA (p.Gln155fs)
+ATP7B,c.4028_4031dup,Likely Pathogenic,,,NM_000053.4(ATP7B):c.4028_4031dup (p.Met1344fs)
+ATP7B,c.166C>T,Likely Pathogenic,,,NM_000053.4(ATP7B):c.166C>T (p.Gln56Ter)
+ATP7B,c.847del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.847del (p.Leu282_Leu283insTer)
+ATP7B,c.1155_1157delinsC,Likely Pathogenic,,,NM_000053.4(ATP7B):c.1155_1157delinsC (p.Glu385fs)
+ATP7B,c.49delA,Likely Pathogenic,,,NM_000053.4(ATP7B):c.49delA (p.Ile18fs)
+SMN1,c.91dup,Likely Pathogenic,,,NM_000344.4(SMN1):c.91dup (p.Ser31fs)
+SMN1,NC_000005.10:g.71656113_71656167del,Likely Pathogenic,,,NC_000005.10:g.71656113_71656167del
+SMN1,GRCh37/hg19 5q13.2(chr5:70247768-70247818)x1,Likely Pathogenic,,,GRCh37/hg19 5q13.2(chr5:70247768-70247818)x1
+SMN1,c.844C>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.844C>T (p.Gln282Ter)
+SMN1,c.326A>G,Likely Pathogenic,,,NM_000344.4(SMN1):c.326A>G (p.Tyr109Cys)
+SMN1,c.*3+6T>G,Likely Pathogenic,,,NM_000344.4(SMN1):c.*3+6T>G
+SMN1,c.834+1G>A,Likely Pathogenic,,,NM_000344.4(SMN1):c.834+1G>A
+SMN1,c.317del,Likely Pathogenic,,,NM_000344.4(SMN1):c.317del (p.Gly106fs)
+SMN1,c.188C>A,Likely Pathogenic,,,NM_000344.4(SMN1):c.188C>A (p.Ser63Ter)
+SMN1,NC_000005.10:g.(?_70951941)_(70951991_?)del,Likely Pathogenic,,,NC_000005.10:g.(?_70951941)_(70951991_?)del
+SMN1,c.82-2596_723+467del,Likely Pathogenic,,,NM_000344.4(SMN1):c.82-2596_723+467del
+SMN1,c.827A>G,Likely Pathogenic,,,NM_000344.4(SMN1):c.827A>G (p.Tyr276Cys)
+SMN1,c.850C>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.850C>T (p.Gln284Ter)
+SMN1,c.490C>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.490C>T (p.Gln164Ter)
+SMN1,c.808A>G,Likely Pathogenic,,,NM_000344.4(SMN1):c.808A>G (p.Ser270Gly)
+SMN1,c.579del,Likely Pathogenic,,,NM_000344.4(SMN1):c.579del (p.Leu194fs)
+SMN1,c.603del,Likely Pathogenic,,,NM_000344.4(SMN1):c.603del (p.Pro203fs)
+SMN1,c.766G>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.766G>T (p.Asp256Tyr)
+SMN1,c.347T>C,Likely Pathogenic,,,NM_000344.4(SMN1):c.347T>C (p.Ile116Thr)
+SMN1,c.13del,Likely Pathogenic,,,NM_000344.4(SMN1):c.13del (p.Ser5fs)
+SMN1,c.245_267del,Likely Pathogenic,,,NM_000344.4(SMN1):c.245_267del (p.Lys82fs)
+SMN1,GRCh37/hg19 5q12.3-13.2(chr5:64364710-72835471)x1,Likely Pathogenic,,,GRCh37/hg19 5q12.3-13.2(chr5:64364710-72835471)x1
+SMN1,c.597dup,Likely Pathogenic,,,NM_000344.4(SMN1):c.597dup (p.Met200fs)
+SMN1,c.823G>A,Likely Pathogenic,,,NM_000344.4(SMN1):c.823G>A (p.Gly275Ser)
+SMN1,c.22dup,Likely Pathogenic,,,NM_000344.4(SMN1):c.22dup (p.Ser8fs)
+SMN1,c.43C>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.43C>T (p.Gln15Ter)
+SMN1,c.268C>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.268C>T (p.Gln90Ter)
+SMN1,c.*3+4_*3+7del,Likely Pathogenic,,,NM_000344.4(SMN1):c.*3+4_*3+7del
+SMN1,c.835-8_835-5delinsG,Likely Pathogenic,,,NM_000344.4(SMN1):c.835-8_835-5delinsG
+SMN1,c.801G>A,Likely Pathogenic,,,NM_000344.4(SMN1):c.801G>A (p.Trp267Ter)
+SMN1,NG_008691.1:g.32086_32087ins[N[1090];32074_32086],Likely Pathogenic,,,NG_008691.1:g.32086_32087ins[N[1090];32074_32086]
+SMN1,c.835-18_835-12del,Likely Pathogenic,,,NM_000344.4(SMN1):c.835-18_835-12del
+SMN1,c.835G>C,Likely Pathogenic,,,NM_000344.4(SMN1):c.835G>C (p.Gly279Arg)
+SMN1,c.630del,Likely Pathogenic,,,NM_000344.4(SMN1):c.630del (p.Gly211fs)
+SMN1,c.291del,Likely Pathogenic,,,NM_000344.4(SMN1):c.291del (p.Lys97fs)
+SMN1,c.549del,Likely Pathogenic,,,NM_000344.4(SMN1):c.549del (p.Lys184fs)
+SMN1,c.*3+32_*3+33insSVA,Likely Pathogenic,,,NM_000344.3:c.*3+32_*3+33insSVA
+SMN1,GRCh37/hg19 5q12.3-13.2(chr5:64049692-70306646),Likely Pathogenic,,,GRCh37/hg19 5q12.3-13.2(chr5:64049692-70306646)
+SMN1,GRCh37/hg19 5q13.2(chr5:70247768-70247818)x0,Likely Pathogenic,,,GRCh37/hg19 5q13.2(chr5:70247768-70247818)x0
+SMN1,GRCh37/hg19 5q13.2(chr5:70247768-70248841)x1,Likely Pathogenic,,,GRCh37/hg19 5q13.2(chr5:70247768-70248841)x1
+SMN1,GRCh37/hg19 5q13.2(chr5:70247768-70248841)x1,Likely Pathogenic,,,GRCh37/hg19 5q13.2(chr5:70247768-70248841)x1
+SMN1,c.724_885del,Likely Pathogenic,,,NM_000344.4(SMN1):c.724_885del (p.Ile242_Ter295del)
+SMN1,c.*3+3A>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.*3+3A>T
+SMN1,c.280G>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.280G>T (p.Val94Phe)
+SMN1,c.*3+1G>C,Likely Pathogenic,,,NM_000344.4(SMN1):c.*3+1G>C
+SMN1,GRCh37/hg19 5q13.2(chr5:70247768-70247821),Likely Pathogenic,,,GRCh37/hg19 5q13.2(chr5:70247768-70247821)
+SMN1,c.379T>C,Likely Pathogenic,,,NM_000344.4(SMN1):c.379T>C (p.Tyr127His)
+SMN1,NC_000005.10:g.(?_70951912)_(70951994_?)del,Likely Pathogenic,,,NC_000005.10:g.(?_70951912)_(70951994_?)del
+SMN1,c.469C>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.469C>T (p.Gln157Ter)
+SMN1,GRCh38/hg38 5q11.2-13.2(chr5:58785203-73519962)x1,Likely Pathogenic,,,GRCh38/hg38 5q11.2-13.2(chr5:58785203-73519962)x1
+MEFV,c.724A>G,Likely Pathogenic,,,NM_000243.3(MEFV):c.724A>G (p.Ser242Gly)
+MEFV,GRCh37/hg19 16p13.3(chr16:513767-5555136)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:513767-5555136)x3
+MEFV,GRCh37/hg19 16p13.3-13.13(chr16:85881-12268399)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-13.13(chr16:85881-12268399)x3
+MEFV,c.590del,Likely Pathogenic,,,NM_000243.3(MEFV):c.590del (p.Gly197fs)
+MEFV,GRCh37/hg19 16p13.3(chr16:2990033-4837646)x1,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:2990033-4837646)x1
+MEFV,GRCh37/hg19 16p13.3(chr16:2606711-3935836)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:2606711-3935836)x3
+MEFV,GRCh37/hg19 16p13.3(chr16:111043-6627459)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:111043-6627459)x3
+MEFV,c.1900C>T,Likely Pathogenic,,,NM_000243.3(MEFV):c.1900C>T (p.Gln634Ter)
+MEFV,c.1321C>T,Likely Pathogenic,,,NM_000243.3(MEFV):c.1321C>T (p.Arg441Ter)
+MEFV,c.1506_1507dup,Likely Pathogenic,,,NM_000243.3(MEFV):c.1506_1507dup (p.Ser503fs)
+MEFV,NC_000016.9:g.(?_3293141)_(3929917_?)del,Likely Pathogenic,,,NC_000016.9:g.(?_3293141)_(3929917_?)del
+MEFV,GRCh37/hg19 16p13.3(chr16:84485-5251013)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:84485-5251013)x3
+MEFV,c.1510C>T,Likely Pathogenic,,,NM_000243.3(MEFV):c.1510C>T (p.Gln504Ter)
+MEFV,c.1597_1598dup,Likely Pathogenic,,,NM_000243.3(MEFV):c.1597_1598dup (p.Asp533fs)
+MEFV,NM_000243.2:c.(?_911)_(1356_?)del,Likely Pathogenic,,,NM_000243.2:c.(?_911)_(1356_?)del
+MEFV,GRCh37/hg19 16p13.3-11.2(chr16:2959279-30190593)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-11.2(chr16:2959279-30190593)x3
+MEFV,GRCh37/hg19 16p13.3(chr16:85880-5249457)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:85880-5249457)x3
+MEFV,c.214C>T,Likely Pathogenic,,,NM_000243.3(MEFV):c.214C>T (p.Gln72Ter)
+MEFV,c.265del,Likely Pathogenic,,,NM_000243.3(MEFV):c.265del (p.Ala89fs)
+MEFV,c.730G>A,Likely Pathogenic,,,NM_000243.3(MEFV):c.730G>A (p.Glu244Lys)
+MEFV,GRCh37/hg19 16p13.3(chr16:2651354-4614965)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:2651354-4614965)x3
+MEFV,GRCh37/hg19 16p13.3(chr16:109978-4316797),Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:109978-4316797)
+MEFV,GRCh37/hg19 16p13.3(chr16:2651354-4460114)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:2651354-4460114)x3
+MEFV,GRCh37/hg19 16p13.3(chr16:1505184-4415346)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:1505184-4415346)x3
+MEFV,GRCh37/hg19 16p13.3-13.13(chr16:85880-11209288)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-13.13(chr16:85880-11209288)x3
+MEFV,c.[1437C>G;501G>C],Likely Pathogenic,,,NM_000243.2(MEFV):c.[1437C>G;501G>C]
+MEFV,c.2080_2082delinsGTA,Likely Pathogenic,,,NM_000243.3(MEFV):c.2080_2082delinsGTA (p.Met694Val)
+MEFV,GRCh37/hg19 16p13.3-13.2(chr16:85880-9883129)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-13.2(chr16:85880-9883129)x3
+MEFV,GRCh37/hg19 16p13.3(chr16:3146027-6362229)x1,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:3146027-6362229)x1
+MEFV,GRCh37/hg19 16p13.3-12.2(chr16:85880-22442007)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-12.2(chr16:85880-22442007)x3
+MEFV,GRCh37/hg19 16p13.3-q24.3(chr16:85881-90155062)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-q24.3(chr16:85881-90155062)x3
+MEFV,GRCh37/hg19 16p13.3-q24.3(chr16:85881-90155062),Likely Pathogenic,,,GRCh37/hg19 16p13.3-q24.3(chr16:85881-90155062)
+MEFV,GRCh37/hg19 16p13.3-12.3(chr16:85880-19806921)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-12.3(chr16:85880-19806921)x3
+MEFV,c.332G>A,Likely Pathogenic,,,NM_000243.3(MEFV):c.332G>A (p.Gly111Glu)
+MEFV,GRCh37/hg19 16p13.3-13.2(chr16:78801-9169448),Likely Pathogenic,,,GRCh37/hg19 16p13.3-13.2(chr16:78801-9169448)
+MEFV,GRCh37/hg19 16p13.3-q24.3(chr16:69193-90274381)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-q24.3(chr16:69193-90274381)x3
+MEFV,GRCh37/hg19 16p13.3(chr16:97133-5122974)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:97133-5122974)x3
+MEFV,maternal UPD(16p),Likely Pathogenic,,,maternal UPD(16p)
+MEFV,GRCh37/hg19 16p13.3(chr16:2867891-3942436)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:2867891-3942436)x3
+MEFV,c.2040G>T,Likely Pathogenic,,,NM_000243.3(MEFV):c.2040G>T (p.Met680Ile)
+MEFV,GRCh37/hg19 16p13.3-11.2(chr16:102839-28327676)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-11.2(chr16:102839-28327676)x3
+MEFV,GRCh38/hg38 16p13.3-13.11(chr16:666662-15743104)x3,Likely Pathogenic,,,GRCh38/hg38 16p13.3-13.11(chr16:666662-15743104)x3
+MEFV,GRCh38/hg38 16p13.3-13.12(chr16:43732-13326806)x3,Likely Pathogenic,,,GRCh38/hg38 16p13.3-13.12(chr16:43732-13326806)x3
+MEFV,GRCh38/hg38 16p13.3(chr16:46766-4247185)x3,Likely Pathogenic,,,GRCh38/hg38 16p13.3(chr16:46766-4247185)x3
+MEFV,GRCh38/hg38 16p13.3-13.13(chr16:46766-11525516)x3,Likely Pathogenic,,,GRCh38/hg38 16p13.3-13.13(chr16:46766-11525516)x3
+MEFV,c.726C>A,Likely Pathogenic,,,NM_000243.3(MEFV):c.726C>A (p.Ser242Arg)
+MEFV,GRCh38/hg38 16p13.3(chr16:2850734-7110697)x1,Likely Pathogenic,,,GRCh38/hg38 16p13.3(chr16:2850734-7110697)x1
+MEFV,GRCh38/hg38 16p13.3(chr16:2494804-3246579)x1,Likely Pathogenic,,,GRCh38/hg38 16p13.3(chr16:2494804-3246579)x1
+MEFV,GRCh38/hg38 16p13.3(chr16:2717952-4041020)x3,Likely Pathogenic,,,GRCh38/hg38 16p13.3(chr16:2717952-4041020)x3
+MEFV,GRCh38/hg38 16p13.3-13.13(chr16:23141-11296695)x3,Likely Pathogenic,,,GRCh38/hg38 16p13.3-13.13(chr16:23141-11296695)x3
+ASPA,c.634+5_634+8del,Likely Pathogenic,,,NM_000049.4(ASPA):c.634+5_634+8del
+ASPA,GRCh37/hg19 17p13.3-13.2(chr17:525-5728870)x1,Likely Pathogenic,,,GRCh37/hg19 17p13.3-13.2(chr17:525-5728870)x1
+ASPA,c.547C>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.547C>T (p.Pro183Ser)
+ASPA,c.846del,Likely Pathogenic,,,NM_000049.4(ASPA):c.846del (p.Phe282fs)
+ASPA,c.98dup,Likely Pathogenic,,,NM_000049.4(ASPA):c.98dup (p.His33fs)
+ASPA,c.857C>A,Likely Pathogenic,,,NM_000049.4(ASPA):c.857C>A (p.Ala286Asp)
+ASPA,c.847_857del,Likely Pathogenic,,,NM_000049.4(ASPA):c.847_857del (p.Val283fs)
+ASPA,c.83dup,Likely Pathogenic,,,NM_000049.4(ASPA):c.83dup (p.Phe29fs)
+ASPA,c.815T>C,Likely Pathogenic,,,NM_000049.4(ASPA):c.815T>C (p.Leu272Pro)
+ASPA,c.781_782del,Likely Pathogenic,,,NM_000049.4(ASPA):c.781_782del (p.Met261fs)
+ASPA,c.742C>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.742C>T (p.Gln248Ter)
+ASPA,c.70G>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.70G>T (p.Glu24Ter)
+ASPA,c.69del,Likely Pathogenic,,,NM_000049.4(ASPA):c.69del (p.Asn23fs)
+ASPA,c.544C>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.544C>T (p.Gln182Ter)
+ASPA,c.527-1G>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.527-1G>T
+ASPA,c.527-1G>C,Likely Pathogenic,,,NM_000049.4(ASPA):c.527-1G>C
+ASPA,c.497C>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.497C>T (p.Thr166Ile)
+ASPA,c.487A>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.487A>T (p.Lys163Ter)
+ASPA,c.475del,Likely Pathogenic,,,NM_000049.4(ASPA):c.475del (p.His159fs)
+ASPA,c.456C>G,Likely Pathogenic,,,NM_000049.4(ASPA):c.456C>G (p.Cys152Trp)
+ASPA,c.432+2T>C,Likely Pathogenic,,,NM_000049.4(ASPA):c.432+2T>C
+ASPA,c.372dup,Likely Pathogenic,,,NM_000049.4(ASPA):c.372dup (p.Thr125fs)
+ASPA,c.290del,Likely Pathogenic,,,NM_000049.4(ASPA):c.290del (p.Asn97fs)
+ASPA,c.241_242delinsT,Likely Pathogenic,,,NM_000049.4(ASPA):c.241_242delinsT (p.Lys80_Lys81insTer)
+ASPA,c.237-2A>C,Likely Pathogenic,,,NM_000049.4(ASPA):c.237-2A>C
+ASPA,c.128_129insCC,Likely Pathogenic,,,NM_000049.4(ASPA):c.128_129insCC (p.Arg43fs)
+ASPA,c.212G>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.212G>T (p.Arg71Leu)
+ASPA,c.634+2T>A,Likely Pathogenic,,,NM_000049.4(ASPA):c.634+2T>A
+ASPA,c.615dup,Likely Pathogenic,,,NM_000049.4(ASPA):c.615dup (p.Ile206fs)
+ASPA,c.264T>G,Likely Pathogenic,,,NM_000049.4(ASPA):c.264T>G (p.Tyr88Ter)
+ASPA,c.95del,Likely Pathogenic,,,NM_000049.4(ASPA):c.95del (p.Lys32fs)
+ASPA,NC_000017.10:g.(?_3379290)_(3406700_?)del,Likely Pathogenic,,,NC_000017.10:g.(?_3379290)_(3406700_?)del
+ASPA,c.415A>G,Likely Pathogenic,,,NM_000049.4(ASPA):c.415A>G (p.Met139Val)
+ASPA,c.556G>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.556G>T (p.Val186Phe)
+ASPA,c.530dup,Likely Pathogenic,,,NM_000049.4(ASPA):c.530dup (p.Glu178fs)
+ASPA,c.509del,Likely Pathogenic,,,NM_000049.4(ASPA):c.509del (p.Ile170fs)
+ASPA,c.302del,Likely Pathogenic,,,NM_000049.4(ASPA):c.302del (p.Gly101fs)
+ASPA,c.308_309del,Likely Pathogenic,,,NM_000049.4(ASPA):c.308_309del (p.Lys103fs)
+ASPA,GRCh37/hg19 17p13.3-13.2(chr17:9475-3793447)x1,Likely Pathogenic,,,GRCh37/hg19 17p13.3-13.2(chr17:9475-3793447)x1
+ASPA,c.297_300del,Likely Pathogenic,,,NM_000049.4(ASPA):c.297_300del (p.Phe100fs)
+ASPA,NC_000017.11:g.3490217_3490218ins[NC_000001.11:13327499_13330105],Likely Pathogenic,,,NC_000017.11:g.3490217_3490218ins[NC_000001.11:13327499_13330105]
+ASPA,c.203A>C,Likely Pathogenic,,,NM_000049.4(ASPA):c.203A>C (p.Asp68Ala)
+ASPA,c.340G>A,Likely Pathogenic,,,NM_000049.4(ASPA):c.340G>A (p.Asp114Asn)
+ASPA,NC_000017.10:g.(?_3397716)_(3402618_?)del,Likely Pathogenic,,,NC_000017.10:g.(?_3397716)_(3402618_?)del
+ASPA,NC_000017.10:g.(?_3397734)_(3400388_?)del,Likely Pathogenic,,,NC_000017.10:g.(?_3397734)_(3400388_?)del
+ASPA,NC_000017.10:g.(?_3384877)_(3386906_?)dup,Likely Pathogenic,,,NC_000017.10:g.(?_3384877)_(3386906_?)dup
+ASPA,NC_000017.10:g.(?_3379454)_(3397773_?)del,Likely Pathogenic,,,NC_000017.10:g.(?_3379454)_(3397773_?)del
+ASPA,NC_000017.10:g.(?_3379454)_(3402382_?)del,Likely Pathogenic,,,NC_000017.10:g.(?_3379454)_(3402382_?)del
+ASPA,c.192del,Likely Pathogenic,,,NM_000049.4(ASPA):c.192del (p.Arg63_Tyr64insTer)
+ASPA,c.236+1G>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.236+1G>T
+G6PD,GRCh38/hg38 Xq23-28(chrX:112876224-156004066)x1,Likely Pathogenic,,,GRCh38/hg38 Xq23-28(chrX:112876224-156004066)x1
+G6PD,GRCh38/hg38 Xq21.31-28(chrX:89027698-156040895)x1,Likely Pathogenic,,,GRCh38/hg38 Xq21.31-28(chrX:89027698-156040895)x1
+G6PD,GRCh37/hg19 Xq26.2-28(chrX:131207885-155233731)x1,Likely Pathogenic,,,GRCh37/hg19 Xq26.2-28(chrX:131207885-155233731)x1
+G6PD,GRCh37/hg19 Xq11.1-28(chrX:61882086-155233731)x3,Likely Pathogenic,,,GRCh37/hg19 Xq11.1-28(chrX:61882086-155233731)x3
+G6PD,GRCh38/hg38 Xq26.3-28(chrX:137491159-155700385)x2,Likely Pathogenic,,,GRCh38/hg38 Xq26.3-28(chrX:137491159-155700385)x2
+G6PD,c.1334T>C,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1334T>C (p.Phe445Ser)
+G6PD,c.82C>T,Likely Pathogenic,,,NM_001360016.2(G6PD):c.82C>T (p.Gln28Ter)
+G6PD,c.1141T>A,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1141T>A (p.Phe381Ile)
+G6PD,GRCh37/hg19 Xq28(chrX:153622204-153783167)x3,Likely Pathogenic,,,GRCh37/hg19 Xq28(chrX:153622204-153783167)x3
+G6PD,GRCh37/hg19 Xq23-28(chrX:113417246-155233731)x1,Likely Pathogenic,,,GRCh37/hg19 Xq23-28(chrX:113417246-155233731)x1
+G6PD,Single allele,Likely Pathogenic,,,Single allele
+G6PD,c.1175T>G,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1175T>G (p.Ile392Ser)
+G6PD,GRCh37/hg19 Xq28(chrX:150351569-155233731)x1,Likely Pathogenic,,,GRCh37/hg19 Xq28(chrX:150351569-155233731)x1
+G6PD,GRCh37/hg19 Xq27.3-28(chrX:145548062-155233731)x1,Likely Pathogenic,,,GRCh37/hg19 Xq27.3-28(chrX:145548062-155233731)x1
+G6PD,NC_000023.11:g.154398510_154619228dup,Likely Pathogenic,,,NC_000023.11:g.154398510_154619228dup
+G6PD,GRCh37/hg19 Xq28(chrX:152788477-155226944)x2,Likely Pathogenic,,,GRCh37/hg19 Xq28(chrX:152788477-155226944)x2
+G6PD,c.404A>T,Likely Pathogenic,,,NM_001360016.2(G6PD):c.404A>T (p.Asn135Ile)
+G6PD,GRCh37/hg19 Xq26.3-28(chrX:134810076-155258261)x1,Likely Pathogenic,,,GRCh37/hg19 Xq26.3-28(chrX:134810076-155258261)x1
+G6PD,c.1442C>T,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1442C>T (p.Pro481Leu)
+G6PD,c.404A>G,Likely Pathogenic,,,NM_001360016.2(G6PD):c.404A>G (p.Asn135Ser)
+G6PD,c.403A>C,Likely Pathogenic,,,NM_001360016.2(G6PD):c.403A>C (p.Asn135His)
+G6PD,c.679C>G,Likely Pathogenic,,,NM_001360016.2(G6PD):c.679C>G (p.Arg227Gly)
+G6PD,c.1028_1029del,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1028_1029del (p.Tyr343fs)
+G6PD,GRCh37/hg19 Xq27.3-28(chrX:145075197-155233731)x1,Likely Pathogenic,,,GRCh37/hg19 Xq27.3-28(chrX:145075197-155233731)x1
+G6PD,GRCh37/hg19 Xq28(chrX:153614665-153858492)x2,Likely Pathogenic,,,GRCh37/hg19 Xq28(chrX:153614665-153858492)x2
+G6PD,c.520_522del,Likely Pathogenic,,,NM_001360016.2(G6PD):c.520_522del (p.Gly174del)
+G6PD,GRCh38/hg38 Xq28(chrX:154348522-154594454)x3,Likely Pathogenic,,,GRCh38/hg38 Xq28(chrX:154348522-154594454)x3
+G6PD,c.1195del,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1195del (p.Ala399fs)
+G6PD,c.430C>G,Likely Pathogenic,,,NM_001360016.2(G6PD):c.430C>G (p.Pro144Ala)
+G6PD,c.551C>G,Likely Pathogenic,,,NM_001360016.2(G6PD):c.551C>G (p.Ser184Cys)
+G6PD,c.354C>G,Likely Pathogenic,,,NM_001360016.2(G6PD):c.354C>G (p.Tyr118Ter)
+G6PD,c.49C>T,Likely Pathogenic,,,NM_001360016.2(G6PD):c.49C>T (p.Arg17Trp)
+G6PD,c.1438A>T,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1438A>T (p.Ile480Phe)
+G6PD,c.982G>A,Likely Pathogenic,,,NM_001360016.2(G6PD):c.982G>A (p.Val328Met)
+G6PD,c.962G>T,Likely Pathogenic,,,NM_001360016.2(G6PD):c.962G>T (p.Gly321Val)
+G6PD,c.946G>A,Likely Pathogenic,,,NM_001360016.2(G6PD):c.946G>A (p.Gly316Ser)
+G6PD,c.691G>A,Likely Pathogenic,,,NM_001360016.2(G6PD):c.691G>A (p.Ala231Thr)
+G6PD,NC_000023.10:g.(?_152954030)_(154005142_?)del,Likely Pathogenic,,,NC_000023.10:g.(?_152954030)_(154005142_?)del
+G6PD,GRCh38/hg38 Xp22.33-q28(chrX:2757837-156030895)x2,Likely Pathogenic,,,GRCh38/hg38 Xp22.33-q28(chrX:2757837-156030895)x2
+G6PD,c.735_741del,Likely Pathogenic,,,NM_001360016.2(G6PD):c.735_741del (p.Arg246fs)
+G6PD,GRCh37/hg19 Xq25-28(chrX:125253445-155233098)x1,Likely Pathogenic,,,GRCh37/hg19 Xq25-28(chrX:125253445-155233098)x1
+G6PD,GRCh37/hg19 Xq25-28(chrX:121656905-155233098)x1,Likely Pathogenic,,,GRCh37/hg19 Xq25-28(chrX:121656905-155233098)x1
+G6PD,GRCh37/hg19 Xq24-28(chrX:119395676-154930047),Likely Pathogenic,,,GRCh37/hg19 Xq24-28(chrX:119395676-154930047)
+G6PD,GRCh37/hg19 Xq22.2-28(chrX:103405294-155233731),Likely Pathogenic,,,GRCh37/hg19 Xq22.2-28(chrX:103405294-155233731)
+G6PD,GRCh37/hg19 Xq12-28(chrX:67292994-155240074)x3,Likely Pathogenic,,,GRCh37/hg19 Xq12-28(chrX:67292994-155240074)x3
+G6PD,c.1346A>G,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1346A>G (p.Gln449Arg)
+G6PD,c.1354_1358del,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1354_1358del (p.Phe452fs)
+G6PD,c.464A>C,Likely Pathogenic,,,NM_001360016.2(G6PD):c.464A>C (p.His155Pro)
+G6PD,GRCh37/hg19 Xq28(chrX:153606456-153828848)x2,Likely Pathogenic,,,GRCh37/hg19 Xq28(chrX:153606456-153828848)x2
+G6PD,GRCh37/hg19 Xq28(chrX:153549167-153858492)x2,Likely Pathogenic,,,GRCh37/hg19 Xq28(chrX:153549167-153858492)x2
+BTD,c.163_167dup,Likely Pathogenic,,,NM_001370658.1(BTD):c.163_167dup (p.Ile57fs)
+BTD,c.40_44delinsC,Likely Pathogenic,,,NM_001370658.1(BTD):c.40_44delinsC (p.Gly14fs)
+BTD,c.902G>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.902G>A (p.Trp301Ter)
+BTD,GRCh38/hg38 3p25.1(chr3:15441721-15629781)x1,Likely Pathogenic,,,GRCh38/hg38 3p25.1(chr3:15441721-15629781)x1
+BTD,c.98_104delGCGGCTGinsTCC,Likely Pathogenic,,,NM_000060.2:c.98_104delGCGGCTGinsTCC
+BTD,Single allele,Likely Pathogenic,,,Single allele
+BTD,c.1430C>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.1430C>T (p.Pro477Leu)
+BTD,c.641C>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.641C>A (p.Thr214Asn)
+BTD,c.184G>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.184G>A (p.Ala62Thr)
+BTD,c.1493_1494dup,Likely Pathogenic,,,NM_001370658.1(BTD):c.1493_1494dup (p.Tyr499fs)
+BTD,c.158C>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.158C>T (p.Pro53Leu)
+BTD,c.575A>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.575A>T (p.Lys192Ile)
+BTD,c.466A>G,Likely Pathogenic,,,NM_001370658.1(BTD):c.466A>G (p.Lys156Glu)
+BTD,c.38_44delinsTCGC,Likely Pathogenic,,,NM_001370658.1(BTD):c.38_44delinsTCGC (p.Cys13_Cys15delinsPheAla)
+BTD,GRCh37/hg19 3p26.3-14.3(chr3:2263690-55016039)x3,Likely Pathogenic,,,GRCh37/hg19 3p26.3-14.3(chr3:2263690-55016039)x3
+BTD,c.528G>T,Likely Pathogenic,,,NM_000060.4:c.528G>T
+BTD,c.511G>A,Likely Pathogenic,,,NM_000060.4:c.511G>A
+BTD,c.1471C>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.1471C>T (p.Gln491Ter)
+BTD,c.500C>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.500C>T (p.Pro167Leu)
+BTD,c.935G>A,Likely Pathogenic,,,NM_000060.2:c.935G>A
+BTD,c.1334G>T,Likely Pathogenic,,,NM_000060.2:c.1334G>T
+BTD,c.933delT,Likely Pathogenic,,,NM_000060.2:c.933delT
+BTD,c.1330G>C,Likely Pathogenic,,,NM_000060.4:c.1330G>C
+BTD,c.1188_1189insA,Likely Pathogenic,,,NM_001370658.1(BTD):c.1188_1189insA (p.Val397fs)
+BTD,c.289G>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.289G>T (p.Gly97Ter)
+BTD,c.1360G>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.1360G>T (p.Glu454Ter)
+BTD,c.404T>C,Likely Pathogenic,,,NM_001370658.1(BTD):c.404T>C (p.Leu135Pro)
+BTD,c.763C>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.763C>T (p.Gln255Ter)
+BTD,c.1127_1128del,Likely Pathogenic,,,NM_001370658.1(BTD):c.1127_1128del (p.His375_Ser376insTer)
+BTD,c.-16-4_-14del,Likely Pathogenic,,,NM_001370658.1(BTD):c.-16-4_-14del
+BTD,c.-16-2A>C,Likely Pathogenic,,,NM_001370658.1(BTD):c.-16-2A>C
+BTD,c.270dup,Likely Pathogenic,,,NM_001370658.1(BTD):c.270dup (p.Pro91fs)
+BTD,c.250-2A>G,Likely Pathogenic,,,NM_001370658.1(BTD):c.250-2A>G
+BTD,c.1243A>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.1243A>T (p.Lys415Ter)
+BTD,c.1215T>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.1215T>A (p.Tyr405Ter)
+BTD,c.1167G>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.1167G>A (p.Trp389Ter)
+BTD,c.190G>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.190G>A (p.Glu64Lys)
+BTD,c.1220_1224del,Likely Pathogenic,,,NM_001370658.1(BTD):c.1220_1224del (p.Leu407fs)
+BTD,c.134A>G,Likely Pathogenic,,,NM_001370658.1(BTD):c.134A>G (p.His45Arg)
+BTD,c.845A>G,Likely Pathogenic,,,NM_001370658.1(BTD):c.845A>G (p.His282Arg)
+BTD,c.311C>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.311C>T (p.Ser104Phe)
+BTD,c.872G>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.872G>A (p.Ser291Asn)
+BTD,c.250-1G>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.250-1G>A
+BTD,c.1499del,Likely Pathogenic,,,NM_001370658.1(BTD):c.1499del (p.Phe500fs)
+BTD,c.1270G>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.1270G>T (p.Asp424Tyr)
+BTD,c.1134delinsAA,Likely Pathogenic,,,NM_001370658.1(BTD):c.1134delinsAA (p.Met378fs)
+BTD,c.782C>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.782C>T (p.Ala261Val)
+BTD,c.570C>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.570C>A (p.Tyr190Ter)
+BTD,c.3G>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.3G>A (p.Met1Ile)
+BTD,c.1264dup,Likely Pathogenic,,,NM_001370658.1(BTD):c.1264dup (p.Val422fs)
