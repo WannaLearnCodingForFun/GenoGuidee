@@ -32,4 +32,4 @@ Verified against code. Items marked FIXED were true of the demo and are addresse
 17. Demo ESM embeddings are seeded vectors.
 18. Demo XGBoost trained on the class-conditioned generator.
 19. ACMG v1 13-criterion subset still used by the frontend analyze path.
-20. Overview 74,305 "variants analyzed" is a sum of narrative constants.
+21. **Somatic therapy connector depends on an external host** (often ngrok). Default is off so pytest/demo stay offline. Ngrok-free URLs change every session — never hardcode.

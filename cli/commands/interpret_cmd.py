@@ -63,6 +63,19 @@ def print_interpretation(obj) -> None:
         for c in obj.clinical_considerations:
             console.print(f"  • [{c.type}] {c.text}")
 
+    st = obj.somatic_therapy
+    if st:
+        av = st.availability.value if hasattr(st.availability, "value") else st.availability
+        if av != "NOT_APPLICABLE" or st.recommendations:
+            console.print(f"\n[bold]SOMATIC THERAPY[/bold]  {av}")
+            if st.reason:
+                console.print(f"  {st.reason}")
+            for r in (st.recommendations or [])[:8]:
+                console.print(f"  {r.rank:>2}. {r.drug}  score={r.score:.3f}  "
+                              f"{r.response}  evidence={r.evidence_level}")
+            if av == "AVAILABLE":
+                console.print("  [yellow]advisory ranking — not a prescription; ACMG unchanged[/yellow]")
+
     if obj.provenance:
         console.print(f"\n[bold]PROVENANCE[/bold]  {obj.provenance.interpretation_id}  tx={obj.provenance.tx_id}")
         console.print(f"  input={obj.provenance.input_hash[:16]}… output={obj.provenance.output_hash[:16]}…")
@@ -72,12 +85,24 @@ def print_interpretation(obj) -> None:
 
 def run(args) -> int:
     from app.services.interpret import InterpretationService
+    from app.schemas.variant import VariantContext
     v = parse_variant_spec(args.variant)
+    updates = {}
     if args.gene:
-        v = v.model_copy(update={"gene": args.gene})
+        updates["gene"] = args.gene
+    if getattr(args, "hgvs_p", None):
+        updates["hgvs_p"] = args.hgvs_p
+    if getattr(args, "somatic", False):
+        updates["variant_context"] = VariantContext.SOMATIC
+    if updates:
+        v = v.model_copy(update=updates)
     patient = None
     if args.patient:
         patient = json.loads(Path(args.patient).read_text())
-    obj = InterpretationService().interpret(v, patient=patient)
+    obj = InterpretationService().interpret(
+        v, patient=patient,
+        include_somatic_therapy=bool(getattr(args, "therapy", False)),
+        oncology_indication=getattr(args, "indication", None),
+    )
     print_interpretation(obj)
     return 0

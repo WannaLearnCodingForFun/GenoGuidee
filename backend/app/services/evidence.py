@@ -21,8 +21,6 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any, Optional
 
-import duckdb
-
 from ..interpretation.acmg_v2 import (
     ComputationalEvidence, EvidenceInputs, FunctionalEvidence, GeneContext,
     PopulationEvidence)
@@ -52,9 +50,10 @@ LOF_CONSEQUENCES = {"frameshift_variant", "stop_gained", "splice_donor_or_accept
 
 class EvidenceService:
     def __init__(self) -> None:
-        self._con: Optional[duckdb.DuckDBPyConnection] = None
+        self._con: Optional[Any] = None
 
-    def _db(self) -> duckdb.DuckDBPyConnection:
+    def _db(self):
+        import duckdb
         if self._con is None:
             self._con = duckdb.connect()
         return self._con

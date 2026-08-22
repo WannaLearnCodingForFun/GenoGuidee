@@ -13,6 +13,7 @@ from typing import Any, Optional
 
 from pydantic import BaseModel, Field
 
+from .therapy import SomaticTherapy
 from .variant import CanonicalVariant
 
 
@@ -126,6 +127,7 @@ class InterpretationObject(BaseModel):
     gene_disease_context: dict[str, Any] = Field(default_factory=dict)
     clinical_evidence: dict[str, Any] = Field(default_factory=dict)
     clinical_considerations: list[ClinicalConsideration] = Field(default_factory=list)
+    somatic_therapy: Optional[SomaticTherapy] = None
     uncertainty: dict[str, Any] = Field(default_factory=dict)
     human_review: dict[str, Any] = Field(default_factory=dict)
     provenance: Optional[ProvenanceRecord] = None

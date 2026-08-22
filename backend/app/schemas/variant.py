@@ -60,7 +60,8 @@ class Consequence(str, Enum):
 
 class VariantContext(str, Enum):
     GERMLINE = "GERMLINE"
-    SOMATIC = "SOMATIC"       # extension point; somatic logic NOT IMPLEMENTED
+    SOMATIC = "SOMATIC"       # opt-in for the external oncology ranking connector;
+                              # germline ACMG/AMP rules are still applied unchanged
 
 
 class Zygosity(str, Enum):

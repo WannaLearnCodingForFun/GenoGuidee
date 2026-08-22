@@ -35,7 +35,8 @@ EDGE_TYPES = ["VARIANT_IN_GENE", "GENE_ASSOCIATED_WITH_DISEASE",
               "DISEASE_HAS_PHENOTYPE", "PATIENT_HAS_PHENOTYPE",
               "VARIANT_CAUSES_DISEASE", "GENE_HAS_MECHANISM",
               "VARIANT_HAS_EVIDENCE", "EVIDENCE_SUPPORTS_CLASSIFICATION",
-              "DRUG_RELEVANT_TO_GENE", "GUIDELINE_APPLIES_TO_DISEASE"]
+              "DRUG_RELEVANT_TO_GENE", "GUIDELINE_APPLIES_TO_DISEASE",
+              "THERAPY_RANKED_FOR"]  # somatic oncology ranker — distinct from PGx
 
 
 @lru_cache(maxsize=1)
@@ -61,12 +62,19 @@ def _clingen_edges() -> list[dict[str, str]]:
 
 
 def build_gene_graph(gene: str, max_phenotypes: int = 25,
-                     interpretations: Optional[list[dict[str, Any]]] = None) -> dict[str, Any]:
+                     interpretations: Optional[list[dict[str, Any]]] = None,
+                     therapy_ranks: Optional[dict[str, Any]] = None) -> dict[str, Any]:
     """Gene-centric subgraph: gene → diseases (ClinGen) → phenotypes (HPO),
-    gene → phenotype profile, plus any supplied variant interpretations."""
+    gene → phenotype profile, plus any supplied variant interpretations.
+
+    `therapy_ranks` is optional somatic-oncology ranking (external engine).
+    Those edges use THERAPY_RANKED_FOR and are never mixed with PGx
+    (DRUG_RELEVANT_TO_GENE / metabolized-via).
+    """
     onto = load_ontology()
     g = nx.MultiDiGraph()
-    sources = {"clingen": CLINGEN.exists(), "hpo": True, "kg_version": KG_VERSION}
+    sources = {"clingen": CLINGEN.exists(), "hpo": True, "kg_version": KG_VERSION,
+               "somatic_therapy": False}
 
     g.add_node(f"gene:{gene}", type="Gene", label=gene)
 
@@ -98,6 +106,27 @@ def build_gene_graph(gene: str, max_phenotypes: int = 25,
             g.add_edge(vid, eid, type="VARIANT_HAS_EVIDENCE")
             g.add_edge(eid, vid, type="EVIDENCE_SUPPORTS_CLASSIFICATION",
                        classification=interp.get("classification"))
+
+    if therapy_ranks:
+        protein = therapy_ranks.get("variant") or "unknown"
+        vid = f"somatic:{gene}:{protein}"
+        g.add_node(vid, type="Variant", label=f"{gene} {protein}",
+                   context="SOMATIC", source="external-drug-engine")
+        g.add_edge(vid, f"gene:{gene}", type="VARIANT_IN_GENE")
+        for rec in therapy_ranks.get("recommendations") or []:
+            drug = rec.get("drug") or "unknown"
+            did = f"therapy-drug:{drug}"
+            g.add_node(did, type="Drug", label=drug,
+                       rank=rec.get("rank"), score=rec.get("score"),
+                       evidence_level=rec.get("evidence_level"),
+                       response=rec.get("response"),
+                       source="external-drug-engine")
+            g.add_edge(vid, did, type="THERAPY_RANKED_FOR",
+                       rank=rec.get("rank"), score=rec.get("score"),
+                       evidence_level=rec.get("evidence_level"),
+                       response=rec.get("response"),
+                       source="external-drug-engine")
+        sources["somatic_therapy"] = True
 
     return {
         "gene": gene,

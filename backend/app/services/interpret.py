@@ -5,7 +5,8 @@ context) → section-76 InterpretationObject.
 Pipeline: evidence assembly → ACMG v2 (deterministic, authoritative) →
 ML prediction (registered tabular model, calibrated, with uncertainty/OOD)
 → reconciliation (ML never overrides) → phenotype match (context only) →
-knowledge-graph context → clinical considerations (safety-gated) →
+knowledge-graph context → optional somatic therapy ranking (advisory,
+never ACMG evidence) → clinical considerations (safety-gated) →
 provenance ledger v2 record.
 """
 from __future__ import annotations
@@ -144,9 +145,11 @@ class InterpretationService:
         patient: Optional[dict[str, Any]] = None,
         record_provenance: bool = True,
         operator: str = "genoguide-engine",
+        include_somatic_therapy: bool = False,
+        oncology_indication: Optional[str] = None,
     ) -> InterpretationObject:
         annotation = self.evidence.annotate(variant)
-        gene = annotation.get("gene")
+        gene = annotation.get("gene") or variant.gene
 
         # deterministic path
         spec = load_specification(gene)
@@ -171,11 +174,24 @@ class InterpretationService:
             "source": "ClinGen gene-validity (CC0)" if gd_edges else "no curated association",
         }
 
+        # Optional somatic oncology ranking — AFTER ACMG/ML, never as evidence.
+        indication = oncology_indication or (patient or {}).get("oncology_indication")
+        from .drug_recommendation import resolve_somatic_therapy
+        somatic_therapy = resolve_somatic_therapy(
+            gene=gene,
+            hgvs_p=variant.hgvs_p,
+            variant_context=variant.variant_context,
+            include=include_somatic_therapy,
+            oncology_indication=indication,
+            human_review_required=recon.human_review_required or acmg.human_review_required,
+        )
+
         has_patient = bool(patient)
         considerations = clinical_v2.generate_considerations(
             acmg, recon, phenotype_match if has_patient else None,
             gene_disease_context, has_provenance=record_provenance,
-            has_patient_context=has_patient, ml=ml)
+            has_patient_context=has_patient, ml=ml,
+            somatic_therapy=somatic_therapy.model_dump(mode="json"))
 
         uncertainty: dict[str, Any] = {
             "ml": (ml.uncertainty if ml else None),
@@ -250,6 +266,7 @@ class InterpretationService:
             clinical_evidence={"gene_mechanism": annotation.get("gene_mechanism"),
                                "protein_lookup": annotation.get("protein_lookup")},
             clinical_considerations=considerations,
+            somatic_therapy=somatic_therapy,
             uncertainty=uncertainty,
             human_review=human_review,
             provenance=provenance,

@@ -8,6 +8,7 @@ import {
   Dna,
   FlaskConical,
   Network,
+  Pill,
   ShieldCheck,
   UserRound,
   CheckCircle2,
@@ -18,6 +19,7 @@ const NAV = [
   { href: "/", label: "Overview", icon: Activity },
   { href: "/variant-lab", label: "Variant Lab", icon: FlaskConical },
   { href: "/patient-context", label: "Patient Context", icon: UserRound },
+  { href: "/therapy", label: "Therapy Ranking", icon: Pill },
   { href: "/knowledge-graph", label: "Knowledge Graph", icon: Network },
   { href: "/provenance", label: "Provenance", icon: ShieldCheck },
 ];

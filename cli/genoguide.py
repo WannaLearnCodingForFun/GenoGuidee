@@ -18,6 +18,7 @@ Commands:
     benchmark [--all]            benchmark models across splits
     leakage                      run the split leakage audit
     provenance verify ID         verify an interpretation on the ledger
+    therapy --gene G --variant V --disease D   optional somatic oncology ranking
     demo                         guaranteed terminal showcase (BRCA1/TP53/CFTR)
     pipeline --vcf F --patient P end-to-end interpretation pipeline
 """
@@ -52,6 +53,10 @@ def main(argv: list[str] | None = None) -> int:
     p_int.add_argument("--gene", default=None)
     p_int.add_argument("--consequence", default=None)
     p_int.add_argument("--patient", default=None, help="patient JSON file with hpo_terms")
+    p_int.add_argument("--hgvs-p", dest="hgvs_p", default=None)
+    p_int.add_argument("--somatic", action="store_true", help="mark variant_context=SOMATIC")
+    p_int.add_argument("--therapy", action="store_true", help="opt in to somatic therapy ranking")
+    p_int.add_argument("--indication", default=None, help="oncology indication e.g. NSCLC")
 
     p_acmg = sub.add_parser("acmg")
     p_acmg.add_argument("evidence_json")
@@ -86,6 +91,19 @@ def main(argv: list[str] | None = None) -> int:
     p_prov.add_argument("id", nargs="?")
 
     sub.add_parser("demo")
+
+    p_th = sub.add_parser("therapy")
+    p_th.add_argument("--gene", default=None)
+    p_th.add_argument("--variant", default=None, help="protein shorthand L858R or HGVS.p p.Leu858Arg")
+    p_th.add_argument("--disease", default=None)
+    p_th.add_argument("--demo", action="store_true", help="EGFR L858R NSCLC")
+    p_th.add_argument("--health", action="store_true")
+    p_th.add_argument("--map", default=None, help="map an HGVS.p string to protein shorthand")
+    p_th.add_argument("--json", action="store_true")
+    p_th.add_argument("--json-status", dest="json_status", action="store_true")
+    p_th.add_argument("--url", default=None,
+                      help="live therapy engine base URL (overrides GENOGUIDE_DRUG_API_URL)")
+    p_th.add_argument("--reset-circuit", dest="reset_circuit", action="store_true")
 
     p_pipe = sub.add_parser("pipeline")
     p_pipe.add_argument("--vcf", required=True)
@@ -137,6 +155,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "demo":
         from cli.commands import demo_cmd
         return demo_cmd.run()
+    if args.command == "therapy":
+        from cli.commands import therapy_cmd
+        return therapy_cmd.run(args)
     if args.command == "pipeline":
         from cli.commands import pipeline_cmd
         return pipeline_cmd.run(args)

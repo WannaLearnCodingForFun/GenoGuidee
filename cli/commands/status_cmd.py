@@ -60,10 +60,18 @@ def run() -> int:
         from app.dataset import ALL_VARIANTS
         return f"legacy demo dataset: {len(ALL_VARIANTS)} variants (SYNTHETIC)"
 
+    def _drug():
+        from app.services.drug_recommendation import connector_status
+        st = connector_status()
+        if st["enabled"]:
+            return "ENABLED (somatic ranking; does not override ACMG)"
+        return "OFF (offline default — set GENOGUIDE_DRUG_API_ENABLED=true)"
+
     probe("ACMG v2 engine", _acmg)
     probe("VCF processing", _vcf)
     probe("Phenotype/HPO", _phen)
     probe("Model registry", _models)
     probe("Legacy demo API", _legacy)
+    probe("Somatic therapy connector", _drug)
     console.print(comp)
     return 0

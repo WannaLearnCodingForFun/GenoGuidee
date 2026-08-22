@@ -23,7 +23,7 @@ from ..interpretation.acmg_v2 import (
 from ..interpretation.clingen_specs import list_specifications, load_specification
 from ..knowledge_graph.graph import KG_VERSION, build_gene_graph
 from ..provenance2 import ledger
-from ..schemas.variant import CanonicalVariant, GenomeBuild
+from ..schemas.variant import CanonicalVariant, GenomeBuild, VariantContext
 from ..services.evidence import EvidenceService
 from ..services.interpret import InterpretationService
 
@@ -57,6 +57,16 @@ def require(permission: str):
     return checker
 
 
+def require_any(*permissions: str):
+    def checker(role: str = Depends(get_role)) -> str:
+        allowed = ROLE_PERMISSIONS[role]
+        if not any(p in allowed for p in permissions):
+            raise HTTPException(
+                403, f"role {role} lacks any of {permissions!r}")
+        return role
+    return checker
+
+
 _interp_service: Optional[InterpretationService] = None
 
 
@@ -77,10 +87,12 @@ def health() -> dict[str, Any]:
 
 @router.get("/system/status")
 def system_status() -> dict[str, Any]:
+    from ..services.drug_recommendation import connector_status
     svc = interp_service()
     return {"evidence_sources": svc.evidence.source_summary(),
             "acmg_rule_version": RULE_VERSION,
-            "clingen_specifications": list_specifications()}
+            "clingen_specifications": list_specifications(),
+            "somatic_therapy_connector": connector_status()}
 
 
 @router.get("/models/status")
@@ -107,13 +119,14 @@ class VariantIn(BaseModel):
     alternate: str
     gene: Optional[str] = None
     hgvs_p: Optional[str] = None
+    variant_context: VariantContext = VariantContext.GERMLINE
 
 
 def _canonical(v: VariantIn) -> CanonicalVariant:
     try:
         return CanonicalVariant.from_vcf_fields(
             v.genome_build, v.chromosome, v.position, v.reference, v.alternate,
-            gene=v.gene, hgvs_p=v.hgvs_p)
+            gene=v.gene, hgvs_p=v.hgvs_p, variant_context=v.variant_context)
     except ValueError as e:
         raise HTTPException(422, str(e)) from e
 
@@ -159,18 +172,22 @@ class PatientContext(BaseModel):
     hpo_terms: list[str] = Field(default_factory=list)
     age: Optional[int] = None
     sex: Optional[str] = None
+    oncology_indication: Optional[str] = None
 
 
 class InterpretRequest(BaseModel):
     variant: VariantIn
     patient: Optional[PatientContext] = None
+    include_somatic_therapy: bool = False
 
 
 @router.post("/interpret")
 def interpret(req: InterpretRequest, _: str = Depends(require("interpret"))) -> dict[str, Any]:
     obj = interp_service().interpret(
         _canonical(req.variant),
-        patient=req.patient.model_dump() if req.patient else None)
+        patient=req.patient.model_dump() if req.patient else None,
+        include_somatic_therapy=req.include_somatic_therapy,
+        oncology_indication=(req.patient.oncology_indication if req.patient else None))
     return obj.model_dump(mode="json")
 
 
@@ -379,4 +396,61 @@ def graph_query(body: dict[str, Any]) -> dict[str, Any]:
     gene = (body.get("gene") or "").upper()
     if not gene:
         raise HTTPException(422, "provide {\"gene\": \"BRCA1\"}")
-    return build_gene_graph(gene)
+    therapy_ranks = body.get("therapy_ranks")
+    return build_gene_graph(gene, therapy_ranks=therapy_ranks)
+
+
+# -------------------------------------------------------------- therapy ----
+# Optional proxy to an external somatic oncology ranker. Disabled by default.
+# Drug scores never enter ACMG or ML. Not CPIC/PGx.
+
+class TherapyRequest(BaseModel):
+    gene: str
+    variant: str = Field(description="Protein shorthand (L858R) or HGVS.p (p.Leu858Arg)")
+    disease: str
+
+
+class TherapyBatchRequest(BaseModel):
+    queries: list[TherapyRequest]
+
+
+@router.get("/therapy/status")
+def therapy_status() -> dict[str, Any]:
+    from ..services.drug_recommendation import connector_status, settings
+    s = settings()
+    out = connector_status()
+    out["timeout_s"] = s["timeout"]
+    return out
+
+
+@router.get("/therapy/map")
+def therapy_map(hgvs_p: Optional[str] = None, disease: Optional[str] = None) -> dict[str, Any]:
+    from ..services.drug_recommendation import normalize_indication, protein_shorthand
+    return {
+        "protein_shorthand": protein_shorthand(hgvs_p) if hgvs_p else None,
+        "indication": normalize_indication(disease) if disease else None,
+        "note": "None means unmappable — the connector will not guess from genomic coordinates",
+    }
+
+
+@router.post("/therapy/recommend")
+def therapy_recommend(req: TherapyRequest,
+                      _: str = Depends(require_any("interpret", "research"))) -> dict[str, Any]:
+    from ..services.drug_recommendation import recommend
+    return recommend(req.gene, req.variant, req.disease).model_dump(mode="json")
+
+
+@router.post("/therapy/recommend/batch")
+def therapy_recommend_batch(req: TherapyBatchRequest,
+                            _: str = Depends(require_any("interpret", "research"))) -> dict[str, Any]:
+    if len(req.queries) > 20:
+        raise HTTPException(413, "batch limited to 20 therapy queries")
+    from ..services.drug_recommendation import recommend
+    return {"results": [recommend(q.gene, q.variant, q.disease).model_dump(mode="json")
+                        for q in req.queries]}
+
+
+@router.post("/therapy/health")
+def therapy_health(_: str = Depends(require_any("interpret", "research", "admin"))) -> dict[str, Any]:
+    from ..services.drug_recommendation import probe_health
+    return probe_health()

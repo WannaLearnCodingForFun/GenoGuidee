@@ -1,7 +1,7 @@
 # GenoGuide — Current Architecture
 
-**Audit date:** 2026-08-22 (post research-engine migration)
-**Scope:** entire repository. `frontend/` is READ-ONLY and is not described as a research artifact.
+**Audit date:** 2026-08-22 (post research-engine migration + optional therapy connector)
+**Scope:** entire repository. Legacy `/api/*` remains frozen. `frontend/` gained an additive `/therapy` page; Variant Lab / Patient Context / PGx were not rewritten.
 
 **Verdict:** two stacked systems coexist.
 
@@ -25,7 +25,7 @@ sih/
 │   ├── knowledge_graph/graph.py
 │   ├── provenance.py              ledger v1 (demo)
 │   ├── provenance2/ledger.py      ledger v2 (research)
-│   ├── services/{evidence,interpret}.py
+│   ├── services/{evidence,interpret,drug_recommendation}.py
 │   ├── dataset.py / ml.py / acmg.py / clinical.py   demo (SYNTHETIC)
 │   └── model_store/               demo XGBoost artifact
 ├── research/
@@ -57,7 +57,7 @@ ML never overrides ACMG in this path (`final_classification = acmg["classificati
 
 ## 3. Research API (`/api/v1`)
 
-Health, variant normalize/annotate, interpret, ACMG evaluate/rules, phenotype match/rank, gene graph, provenance verify/audit, research datasets/models/benchmarks. Role primitives via `X-Role` header (architecture only — not production auth).
+Health, variant normalize/annotate, interpret, ACMG evaluate/rules, phenotype match/rank, gene graph, provenance verify/audit, research datasets/models/benchmarks, **optional** `POST /api/v1/therapy/recommend` (somatic oncology ranking; default off). Role primitives via `X-Role` header (architecture only — not production auth).
 
 ## 4. ML (research)
 
@@ -104,5 +104,5 @@ Manifest-driven acquisition. Never silent download. Raw data git-ignored.
 - Real authentication/OIDC
 - LLM layer (deliberately omitted)
 - OMIM / GeneReviews / DisGeNET / PharmGKB (license)
-- Somatic classification logic
+- Somatic *classification* logic (ACMG/AMP is germline). An optional **therapy ranking connector** exists (`drug_recommendation.py`) and does not classify variants.
 - CNV/SV interpretation

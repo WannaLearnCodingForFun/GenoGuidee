@@ -47,6 +47,7 @@ def generate_considerations(
     has_provenance: bool,
     has_patient_context: bool,
     ml: Optional[MlPrediction] = None,
+    somatic_therapy: Optional[dict[str, Any]] = None,
 ) -> list[ClinicalConsideration]:
     passed, gate_reasons = safety_gate(acmg, has_provenance, has_patient_context, ml)
 
@@ -113,6 +114,17 @@ def generate_considerations(
             f"HPO best-match-average similarity "
             f"{phenotype_match['phenotype_match_score']} (Lin, {phenotype_match.get('hpo_version')}).",
             sources=["Human Phenotype Ontology"]))
+
+    if somatic_therapy and somatic_therapy.get("availability") == "AVAILABLE":
+        n = len(somatic_therapy.get("recommendations") or [])
+        out.append(c(
+            "oncology_review",
+            "An external oncology therapy ranking is attached for specialist review. "
+            "This is not a prescription, is not CPIC/PGx, and does not alter ACMG "
+            "classification. Review applicable oncology guidelines before any "
+            "treatment decision.",
+            f"{n} ranked agent(s) from an optional downstream engine; human review required.",
+            confidence="mandatory"))
 
     out.append(c(
         "scope",

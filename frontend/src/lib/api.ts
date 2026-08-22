@@ -201,6 +201,56 @@ async function post<T>(path: string, body: unknown): Promise<T> {
   return res.json();
 }
 
+async function postV1<T>(path: string, body: unknown): Promise<T> {
+  const res = await fetch(`${API}${path}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Role": "RESEARCHER",
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(`${path} failed (${res.status})`);
+  return res.json();
+}
+
+export interface TherapyRecommendation {
+  drug: string;
+  rank: number;
+  score: number;
+  response: string;
+  evidence_level: string;
+  evidence_count: number;
+}
+
+export interface SomaticTherapy {
+  availability: "AVAILABLE" | "SOURCE_UNAVAILABLE" | "SOURCE_NOT_CONFIGURED" | "NOT_APPLICABLE" | "SKIPPED";
+  reason: string | null;
+  endpoint: string | null;
+  request: { gene: string; variant: string; disease: string } | null;
+  recommendations: TherapyRecommendation[];
+  human_review_status: string;
+  disclaimer: string;
+  cached: boolean;
+  latency_ms: number | null;
+}
+
+export interface TherapyStatus {
+  enabled: boolean;
+  url_configured: boolean;
+  host?: string | null;
+  url_error?: string | null;
+  default: string;
+  note: string;
+  circuit_open: boolean;
+}
+
+export interface TherapyMap {
+  protein_shorthand: string | null;
+  indication: string | null;
+  note: string;
+}
+
 export const api = {
   status: () => get<SystemStatus>("/api/status"),
   stats: () => get<Stats>("/api/stats"),
@@ -223,4 +273,12 @@ export const api = {
     ),
   recordConsent: (patient_id: string) => post<LedgerBlock>("/api/provenance/consent/record", { patient_id }),
   revokeConsent: (patient_id: string) => post<LedgerBlock>("/api/provenance/consent/revoke", { patient_id }),
+  therapyStatus: () => get<TherapyStatus>("/api/v1/therapy/status"),
+  therapyMap: (hgvs_p: string, disease?: string) => {
+    const q = new URLSearchParams({ hgvs_p });
+    if (disease) q.set("disease", disease);
+    return get<TherapyMap>(`/api/v1/therapy/map?${q.toString()}`);
+  },
+  therapyRecommend: (gene: string, variant: string, disease: string) =>
+    postV1<SomaticTherapy>("/api/v1/therapy/recommend", { gene, variant, disease }),
 };

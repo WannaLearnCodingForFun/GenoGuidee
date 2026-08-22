@@ -55,8 +55,13 @@ def _seed_ledger() -> None:
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     provenance.init_ledger()
-    init_xgboost()
-    _seed_ledger()
+    try:
+        init_xgboost()
+        if xgb_status().get("ready"):
+            _seed_ledger()
+    except Exception as exc:  # noqa: BLE001 — demo ML must not block the API
+        import logging
+        logging.getLogger("genoguide").warning("demo XGBoost not started: %s", exc)
     yield
 
 
