@@ -25,6 +25,7 @@ import re
 import sys
 import threading
 import time
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Optional
 from urllib.parse import urlsplit
@@ -240,6 +241,46 @@ def protein_shorthand(value: Optional[str]) -> Optional[str]:
     return None
 
 
+@dataclass
+class TherapyAddressability:
+    """Phase B4 — explicit result of whether a variant can reach the therapy
+    ranker at all, replacing silent regex failure with a labeled reason so
+    the caller (and the UI) can distinguish 'not evaluated' from 'no drugs
+    found'."""
+
+    therapy_addressable: bool
+    protein_short: Optional[str]
+    therapy_block_reason: Optional[str]
+
+
+def classify_therapy_addressability(hgvs_p: Optional[str]) -> TherapyAddressability:
+    """Single-residue substitutions with a valid protein shorthand (e.g.
+    p.Leu858Arg -> L858R) are addressable. Everything else — frameshift,
+    splice, CNV/SV, indel, or unmappable — is not, with a specific reason.
+    """
+    if not hgvs_p or not str(hgvs_p).strip():
+        return TherapyAddressability(False, None, "no protein-level HGVS provided")
+
+    raw = str(hgvs_p).strip()
+    lowered = raw.lower()
+
+    protein = protein_shorthand(raw)
+    if protein:
+        return TherapyAddressability(True, protein, None)
+
+    if raw.upper().startswith("GRCH") or re.search(r":\d+:", raw):
+        return TherapyAddressability(False, None, "genomic coordinate, not a protein change")
+    if re.match(r"^c\.", raw, re.I):
+        return TherapyAddressability(False, None, "coding (c.) HGVS without protein annotation")
+    if re.search(r"fs", lowered):
+        return TherapyAddressability(False, None, "frameshift")
+    if re.search(r"splice|[+-]\d+[a-z]>[a-z]", lowered):
+        return TherapyAddressability(False, None, "splice-site variant")
+    if re.search(r"del|dup|ins|delins", lowered):
+        return TherapyAddressability(False, None, "indel / CNV-style variant")
+    return TherapyAddressability(False, None, "unmappable protein change")
+
+
 def normalize_indication(text: Optional[str], *, passthrough: bool = False) -> Optional[str]:
     """Map free-text diagnosis → remote disease token.
 
@@ -274,12 +315,22 @@ def _empty(availability: TherapyAvailability, reason: str, **extra: Any) -> Soma
     )
 
 
+def _remote_auth_headers() -> dict[str, str]:
+    """Phase B9: shared-secret required on both ends of the ngrok hop. The
+    frontend bridge already requires this inbound (frontend_bridge.py's
+    require_frontend_access); this attaches it outbound when THIS backend is
+    the one calling the further remote engine at GENOGUIDE_DRUG_API_URL."""
+    key = os.environ.get("GENOGUIDE_TUNNEL_KEY", "").strip()
+    return {"X-GenoGuide-Key": key} if key else {}
+
+
 def _post_json(url: str, payload: dict[str, str], timeout: float) -> dict[str, Any]:
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
         "User-Agent": "GenoGuide-ResearchEngine/1.0",
         "ngrok-skip-browser-warning": "true",
+        **_remote_auth_headers(),
     }
     with httpx.Client(timeout=timeout, follow_redirects=True) as client:
         r = client.post(url, json=payload, headers=headers)
@@ -295,6 +346,7 @@ def _get_json(url: str, timeout: float) -> dict[str, Any]:
         "Accept": "application/json",
         "User-Agent": "GenoGuide-ResearchEngine/1.0",
         "ngrok-skip-browser-warning": "true",
+        **_remote_auth_headers(),
     }
     with httpx.Client(timeout=timeout, follow_redirects=True) as client:
         r = client.get(url, headers=headers)

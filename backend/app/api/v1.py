@@ -27,6 +27,7 @@ from ..schemas.variant import CanonicalVariant, GenomeBuild, VariantContext
 from ..services.evidence import EvidenceService
 from ..services.frontend_bridge import require_frontend_access
 from ..services.interpret import InterpretationService
+from ..supabase_auth import SUPABASE_ROLE_TO_PERMISSION_ROLE, require_supabase_user
 
 router = APIRouter(prefix="/api/v1", tags=["v1"])
 
@@ -64,6 +65,37 @@ def require_any(*permissions: str):
         if not any(p in allowed for p in permissions):
             raise HTTPException(
                 403, f"role {role} lacks any of {permissions!r}")
+        return role
+    return checker
+
+
+# ---------------------------------------------------------- real identity ----
+# Phase B1: routes that read/write a specific patient's data must not trust a
+# client-supplied X-Role header — that stays an architecture-only hint for
+# the stateless/deidentified research endpoints above. These routes require
+# a real Supabase-issued token; role comes from `profiles`, looked up
+# server-side (see supabase_auth.py), never asserted by the client.
+
+def get_authenticated_role(user=Depends(require_supabase_user)) -> str:
+    role = SUPABASE_ROLE_TO_PERMISSION_ROLE.get(user.role)
+    if role is None:
+        raise HTTPException(403, f"role {user.role!r} has no permission mapping")
+    return role
+
+
+def require_authenticated(permission: str):
+    def checker(role: str = Depends(get_authenticated_role)) -> str:
+        if permission not in ROLE_PERMISSIONS[role]:
+            raise HTTPException(403, f"role {role} lacks permission {permission!r}")
+        return role
+    return checker
+
+
+def require_authenticated_any(*permissions: str):
+    def checker(role: str = Depends(get_authenticated_role)) -> str:
+        allowed = ROLE_PERMISSIONS[role]
+        if not any(p in allowed for p in permissions):
+            raise HTTPException(403, f"role {role} lacks any of {permissions!r}")
         return role
     return checker
 
@@ -183,18 +215,24 @@ class InterpretRequest(BaseModel):
 
 
 @router.post("/interpret")
-def interpret(req: InterpretRequest, _: str = Depends(require("interpret"))) -> dict[str, Any]:
+def interpret(req: InterpretRequest, _: str = Depends(require_authenticated("interpret")),
+             user=Depends(require_supabase_user)) -> dict[str, Any]:
     obj = interp_service().interpret(
         _canonical(req.variant),
         patient=req.patient.model_dump() if req.patient else None,
         include_somatic_therapy=req.include_somatic_therapy,
         oncology_indication=(req.patient.oncology_indication if req.patient else None))
+    from ..supabase_auth import log_audit
+    patient_id = req.patient.patient_id if req.patient else None
+    log_audit(actor=user, action="view_interpretation", resource_type="interpretation",
+              resource_id=obj.provenance.interpretation_id if obj.provenance else None,
+              patient_id=patient_id)
     return obj.model_dump(mode="json")
 
 
 @router.post("/interpret/batch")
 def interpret_batch(reqs: list[InterpretRequest],
-                    _: str = Depends(require("interpret"))) -> list[dict[str, Any]]:
+                    _: str = Depends(require_authenticated("interpret"))) -> list[dict[str, Any]]:
     if len(reqs) > 100:
         raise HTTPException(413, "batch limited to 100 interpretations")
     return [interpret(r, _) for r in reqs]
@@ -320,12 +358,12 @@ class VcfPath(BaseModel):
 
 
 @router.post("/vcf/validate")
-def vcf_validate(req: VcfPath, _: str = Depends(require("vcf"))) -> dict[str, Any]:
+def vcf_validate(req: VcfPath, _: str = Depends(require_authenticated("vcf"))) -> dict[str, Any]:
     return vcfmod.validate_vcf(req.path)
 
 
 @router.post("/vcf/normalize")
-def vcf_normalize(req: VcfPath, _: str = Depends(require("vcf"))) -> dict[str, Any]:
+def vcf_normalize(req: VcfPath, _: str = Depends(require_authenticated("vcf"))) -> dict[str, Any]:
     return vcfmod.normalize_vcf(req.path)
 
 
@@ -356,7 +394,7 @@ def _as_recs(vs: list[VariantIn]) -> list[dict[str, Any]]:
 
 
 @router.post("/family/trio")
-def family_trio(req: TrioRequest, _: str = Depends(require("interpret"))) -> dict[str, Any]:
+def family_trio(req: TrioRequest, _: str = Depends(require_authenticated("interpret"))) -> dict[str, Any]:
     from ..phenotype.family import analyze_trio, compound_het_candidates
     child, mother, father = _as_recs(req.child), _as_recs(req.mother), _as_recs(req.father)
     return {**analyze_trio(child, mother, father),
@@ -364,7 +402,7 @@ def family_trio(req: TrioRequest, _: str = Depends(require("interpret"))) -> dic
 
 
 @router.post("/family/couple")
-def family_couple(req: CoupleRequest, _: str = Depends(require("interpret"))) -> dict[str, Any]:
+def family_couple(req: CoupleRequest, _: str = Depends(require_authenticated("interpret"))) -> dict[str, Any]:
     from ..phenotype.family import couple_carrier_overlap
     return couple_carrier_overlap(_as_recs(req.partner_a), _as_recs(req.partner_b))
 
@@ -409,6 +447,13 @@ class TherapyRequest(BaseModel):
     gene: str
     variant: str = Field(description="Protein shorthand (L858R) or HGVS.p (p.Leu858Arg)")
     disease: str
+    patient_id: Optional[str] = Field(
+        default=None,
+        description="Supabase patients.id — when provided, Phase B5's sign-off "
+        "gate is enforced against that patient's most recent interpretations row "
+        "for this variant. Omit for an anonymous/research-mode query, which is "
+        "not gated (there is no patient record to check sign-off against).",
+    )
 
 
 class TherapyBatchRequest(BaseModel):
@@ -434,21 +479,90 @@ def therapy_map(hgvs_p: Optional[str] = None, disease: Optional[str] = None) -> 
     }
 
 
+def _addressable_or_skipped(gene: str, variant: str, disease: str) -> Optional[dict[str, Any]]:
+    """Phase B4: reject non-substitution variants before they reach the
+    ranker at all, with a labeled reason (SKIPPED), not a 422 or empty list."""
+    from ..schemas.therapy import SomaticTherapy, TherapyAvailability
+    from ..services.drug_recommendation import classify_therapy_addressability
+    addr = classify_therapy_addressability(variant)
+    if addr.therapy_addressable:
+        return None
+    return SomaticTherapy(
+        availability=TherapyAvailability.SKIPPED,
+        reason=f"not therapy-addressable: {addr.therapy_block_reason}",
+        request={"gene": gene, "variant": variant, "disease": disease},
+        human_review_status="not_applicable",
+    ).model_dump(mode="json")
+
+
+def _gated_or_none(req: TherapyRequest) -> Optional[dict[str, Any]]:
+    """Phase B5: when a patient_id is given, enforce gate() against that
+    patient's persisted interpretation record (reviewed_by/reviewed_at,
+    classification) before allowing the ranker to run at all. Distinct from
+    SKIPPED (B4's variant-shape reason) — GATED means the variant IS
+    addressable but hasn't cleared the clinical bar yet."""
+    if not req.patient_id:
+        return None
+    from ..schemas.therapy import SomaticTherapy, TherapyAvailability
+    from ..services.drug_recommendation import classify_therapy_addressability
+    from ..services.therapy_gate import gate
+    from ..supabase_auth import rest_get
+
+    rows = rest_get(
+        "interpretations",
+        {
+            "patient_id": f"eq.{req.patient_id}",
+            "variant": f"eq.{req.variant}",
+            "select": "acmg_classification,therapy_addressable,reviewed_by,reviewed_at",
+            "order": "created_at.desc",
+            "limit": "1",
+        },
+    )
+    if not rows:
+        result = gate(None, classify_therapy_addressability(req.variant).therapy_addressable, None)
+    else:
+        row = rows[0]
+        review_status = "reviewed" if row.get("reviewed_by") and row.get("reviewed_at") else None
+        result = gate(row.get("acmg_classification"), bool(row.get("therapy_addressable")), review_status)
+
+    if result.allow:
+        return None
+    return SomaticTherapy(
+        availability=TherapyAvailability.NOT_APPLICABLE,
+        reason=f"gated: {result.reason}",
+        request={"gene": req.gene, "variant": req.variant, "disease": req.disease},
+        human_review_status="pending",
+    ).model_dump(mode="json")
+
+
 @router.post("/therapy/recommend")
 def therapy_recommend(req: TherapyRequest,
-                      _: str = Depends(require_any("interpret", "research"))) -> dict[str, Any]:
+                      _: str = Depends(require_authenticated_any("interpret", "research")),
+                      user=Depends(require_supabase_user)) -> dict[str, Any]:
+    from ..supabase_auth import log_audit
+    log_audit(actor=user, action="view_therapy_recommendation", resource_type="therapy",
+              resource_id=req.variant, patient_id=req.patient_id)
+    skipped = _addressable_or_skipped(req.gene, req.variant, req.disease)
+    if skipped is not None:
+        return skipped
+    gated = _gated_or_none(req)
+    if gated is not None:
+        return gated
     from ..services.drug_recommendation import recommend
     return recommend(req.gene, req.variant, req.disease).model_dump(mode="json")
 
 
 @router.post("/therapy/recommend/batch")
 def therapy_recommend_batch(req: TherapyBatchRequest,
-                            _: str = Depends(require_any("interpret", "research"))) -> dict[str, Any]:
+                            _: str = Depends(require_authenticated_any("interpret", "research"))) -> dict[str, Any]:
     if len(req.queries) > 20:
         raise HTTPException(413, "batch limited to 20 therapy queries")
     from ..services.drug_recommendation import recommend
-    return {"results": [recommend(q.gene, q.variant, q.disease).model_dump(mode="json")
-                        for q in req.queries]}
+    results = []
+    for q in req.queries:
+        skipped = _addressable_or_skipped(q.gene, q.variant, q.disease)
+        results.append(skipped if skipped is not None else recommend(q.gene, q.variant, q.disease).model_dump(mode="json"))
+    return {"results": results}
 
 
 @router.post("/therapy/health")

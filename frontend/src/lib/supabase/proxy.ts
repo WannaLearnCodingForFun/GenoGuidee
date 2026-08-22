@@ -1,5 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { allowedPathsForRole } from "@/lib/nav";
+import type { Role } from "@/lib/useAccount";
 
 const PROTECTED_PREFIXES = [
   "/dashboard",
@@ -47,6 +49,25 @@ export async function updateSession(request: NextRequest) {
     url.pathname = "/login";
     url.searchParams.set("next", path);
     return NextResponse.redirect(url);
+  }
+
+  // Phase B2 — server-side route guard. Client-side nav filtering alone is
+  // not access control: a patient hitting /therapy directly must be blocked
+  // here too. `role` is looked up from `profiles` (never client-asserted).
+  if (isProtected && user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+    const role = (profile?.role ?? "") as Role;
+    const allowed = allowedPathsForRole(role);
+    const pathAllowed = allowed.some((p) => path === p || path.startsWith(`${p}/`));
+    if (!pathAllowed) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/dashboard";
+      return NextResponse.redirect(url);
+    }
   }
 
   return response;

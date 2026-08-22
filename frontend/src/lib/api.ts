@@ -1,9 +1,28 @@
+import { createClient } from "@/lib/supabase/client";
+
 const API = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").trim() || "http://localhost:8000";
 const TUNNEL_KEY = process.env.NEXT_PUBLIC_GENOGUIDE_TUNNEL_KEY ?? "";
 
-function apiHeaders(extra?: Record<string, string>): Record<string, string> {
+// Phase B1: attach the current Supabase session's access token to every
+// backend call so the FastAPI side can verify identity server-side instead
+// of trusting a client-supplied role. Best-effort — if there's no session
+// (e.g. demo/showcase browsing) requests still go out without the header,
+// and routes that require it will 401.
+async function authHeader(): Promise<Record<string, string>> {
+  try {
+    const supabase = createClient();
+    const { data } = await supabase.auth.getSession();
+    const token = data.session?.access_token;
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  } catch {
+    return {};
+  }
+}
+
+async function apiHeaders(extra?: Record<string, string>): Promise<Record<string, string>> {
   const headers: Record<string, string> = {
     "ngrok-skip-browser-warning": "true",
+    ...(await authHeader()),
     ...extra,
   };
   if (TUNNEL_KEY) headers["X-GenoGuide-Key"] = TUNNEL_KEY;
@@ -328,7 +347,7 @@ export interface Stats {
 // ---------------------------------------------------------------------------
 
 async function get<T>(path: string): Promise<T> {
-  const res = await fetch(`${API}${path}`, { headers: apiHeaders() });
+  const res = await fetch(`${API}${path}`, { headers: await apiHeaders() });
   if (!res.ok) throw new Error(`${path} failed (${res.status})`);
   return res.json();
 }
@@ -336,7 +355,7 @@ async function get<T>(path: string): Promise<T> {
 async function post<T>(path: string, body: unknown): Promise<T> {
   const res = await fetch(`${API}${path}`, {
     method: "POST",
-    headers: apiHeaders({ "Content-Type": "application/json" }),
+    headers: await apiHeaders({ "Content-Type": "application/json" }),
     body: JSON.stringify(body),
   });
   if (!res.ok) throw new Error(`${path} failed (${res.status})`);
@@ -346,7 +365,7 @@ async function post<T>(path: string, body: unknown): Promise<T> {
 async function postV1<T>(path: string, body: unknown): Promise<T> {
   const res = await fetch(`${API}${path}`, {
     method: "POST",
-    headers: apiHeaders({
+    headers: await apiHeaders({
       "Content-Type": "application/json",
       "X-Role": "RESEARCHER",
     }),

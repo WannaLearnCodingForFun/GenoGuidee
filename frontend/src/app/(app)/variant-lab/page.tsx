@@ -29,6 +29,7 @@ import {
   type VariantListItem,
 } from "@/lib/api";
 import { listAllAccessibleVariants, type AccessibleVariant } from "@/lib/uploads";
+import { useAccount } from "@/lib/useAccount";
 import { variantLabel } from "@/lib/vcf";
 import { classColor, formatAf, shortHash } from "@/lib/ui";
 
@@ -60,6 +61,7 @@ interface UploadMeta {
 
 function VariantLabInner() {
   const searchParams = useSearchParams();
+  const { account } = useAccount();
   const [variants, setVariants] = useState<VariantListItem[]>([]);
   const [selectedId, setSelectedId] = useState<string>("VAR-BRCA1-5266DUP");
   const [phase, setPhase] = useState<Phase>("idle");
@@ -147,7 +149,7 @@ function VariantLabInner() {
             });
             return res as AnalyzeResult;
           })
-      : api.analyze(selectedId, "G-1027");
+      : api.analyze(selectedId, account?.id);
 
     STAGES.forEach((_, i) => {
       timers.current.push(setTimeout(() => setStageIdx(i), i * 520));

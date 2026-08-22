@@ -17,8 +17,14 @@ import {
 } from "lucide-react";
 import { api, type LedgerBlock, type VerifyResult } from "@/lib/api";
 import { shortHash, timestampLabel } from "@/lib/ui";
+import { useAccount } from "@/lib/useAccount";
+
+// Demo fallback only — used when a ledger block has no assigned patient and
+// there's no authenticated identity to fall back to instead.
+const DEMO_PATIENT_ID = "G-1027";
 
 export default function Provenance() {
+  const { account } = useAccount();
   const [blocks, setBlocks] = useState<LedgerBlock[]>([]);
   const [functions, setFunctions] = useState<string[]>([]);
   const [selected, setSelected] = useState<LedgerBlock | null>(null);
@@ -72,7 +78,7 @@ export default function Provenance() {
 
   async function openConsent() {
     if (!selected) return;
-    const pid = selected.subject_id === "UNASSIGNED" ? "G-1027" : selected.subject_id;
+    const pid = selected.subject_id === "UNASSIGNED" ? (account?.id ?? DEMO_PATIENT_ID) : selected.subject_id;
     const c = await api.consent(pid);
     setConsent(c);
   }

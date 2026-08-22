@@ -220,6 +220,30 @@ export async function ingestVcf(
     throw new Error(insertErr?.message ?? "Could not create the upload record.");
   }
 
+  // Phase B7 — append-only audit trail. Best-effort: an audit-log failure
+  // must never block the actual upload.
+  void supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+    .then(({ data: profile }) =>
+      supabase.from("audit_log").insert({
+        actor_id: user.id,
+        actor_role: profile?.role ?? "patient",
+        action: "upload",
+        resource_type: "vcf_upload",
+        resource_id: uploadId,
+        patient_id: patientId,
+        detail: { filename: file.name },
+      }),
+    )
+    .then((res) => {
+      if (res && "error" in res && res.error) {
+        console.warn("audit_log insert failed (non-fatal):", res.error.message);
+      }
+    });
+
   const fail = async (message: string): Promise<never> => {
     await supabase
       .from("vcf_uploads")

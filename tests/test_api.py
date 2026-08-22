@@ -30,13 +30,23 @@ def test_legacy_status_still_works():
         assert "ACMG Engine" in names
 
 
-def test_role_forbidden():
+def test_role_forbidden(supabase_auth_as):
     with _client() as client:
         r = client.post("/api/v1/interpret",
                         json={"variant": {"chromosome": "17", "position": 1,
                                           "reference": "A", "alternate": "T"}},
-                        headers={"X-Role": "PATIENT"})
+                        headers=supabase_auth_as("patient"))
         assert r.status_code == 403
+
+
+def test_interpret_requires_valid_supabase_token():
+    """Phase B1: X-Role alone is no longer authoritative for /interpret."""
+    with _client() as client:
+        r = client.post("/api/v1/interpret",
+                        json={"variant": {"chromosome": "17", "position": 1,
+                                          "reference": "A", "alternate": "T"}},
+                        headers={"X-Role": "DOCTOR"})
+        assert r.status_code in (401, 503)
 
 
 def test_normalize_variant():
@@ -76,19 +86,50 @@ def test_therapy_map_endpoint():
         assert r.json()["indication"] == "NSCLC"
 
 
-def test_therapy_recommend_disabled_still_200():
+def test_therapy_recommend_disabled_still_200(supabase_auth_as):
     with _client() as client:
         r = client.post("/api/v1/therapy/recommend",
-                        json={"gene": "EGFR", "variant": "L858R", "disease": "NSCLC"})
+                        json={"gene": "EGFR", "variant": "L858R", "disease": "NSCLC"},
+                        headers=supabase_auth_as("doctor"))
         assert r.status_code == 200
         assert r.json()["availability"] == "SOURCE_NOT_CONFIGURED"
 
 
-def test_patient_cannot_call_therapy_recommend():
+def test_therapy_recommend_skips_non_substitution_variant(supabase_auth_as):
+    """Phase B4: a frameshift must never reach the ranker — SKIPPED with a
+    reason, not a 422 and not an empty AVAILABLE list."""
+    with _client() as client:
+        r = client.post("/api/v1/therapy/recommend",
+                        json={"gene": "BRCA1", "variant": "p.Gln1756fs", "disease": "breast cancer"},
+                        headers=supabase_auth_as("doctor"))
+        assert r.status_code == 200
+        body = r.json()
+        assert body["availability"] == "SKIPPED"
+        assert "frameshift" in body["reason"].lower()
+        assert body["recommendations"] == []
+
+
+def test_therapy_recommend_gated_when_patient_id_given_but_unreviewed(supabase_auth_as):
+    """Phase B5: passing patient_id enforces the sign-off gate. With no
+    Supabase project configured in tests, the lookup finds nothing and the
+    gate fails closed (NOT_APPLICABLE), never silently falling through to
+    an AVAILABLE ranked list."""
+    with _client() as client:
+        r = client.post("/api/v1/therapy/recommend",
+                        json={"gene": "EGFR", "variant": "L858R", "disease": "NSCLC",
+                              "patient_id": "22222222-2222-2222-2222-222222222222"},
+                        headers=supabase_auth_as("doctor"))
+        assert r.status_code == 200
+        body = r.json()
+        assert body["availability"] == "NOT_APPLICABLE"
+        assert "gated" in body["reason"].lower()
+
+
+def test_patient_cannot_call_therapy_recommend(supabase_auth_as):
     with _client() as client:
         r = client.post("/api/v1/therapy/recommend",
                         json={"gene": "EGFR", "variant": "L858R", "disease": "NSCLC"},
-                        headers={"X-Role": "PATIENT"})
+                        headers=supabase_auth_as("patient"))
         assert r.status_code == 403
 
 
@@ -155,12 +196,12 @@ def test_frontend_therapy_patient_role_blocked_without_key():
         assert r.status_code == 403
 
 
-def test_interpret_germline_marks_therapy_not_applicable():
+def test_interpret_germline_marks_therapy_not_applicable(supabase_auth_as):
     with _client() as client:
         r = client.post("/api/v1/interpret",
                         json={"variant": {"chromosome": "17", "position": 1,
                                           "reference": "A", "alternate": "T"}},
-                        headers={"X-Role": "DOCTOR"})
+                        headers=supabase_auth_as("doctor"))
         assert r.status_code == 200
         body = r.json()
         assert body["somatic_therapy"]["availability"] == "NOT_APPLICABLE"

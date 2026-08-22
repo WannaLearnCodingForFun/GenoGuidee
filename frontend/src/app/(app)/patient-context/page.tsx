@@ -24,6 +24,10 @@ import {
 } from "recharts";
 import { api, type ContextAnalysis, type Patient } from "@/lib/api";
 import { classColor, levelColor } from "@/lib/ui";
+import { useAccount } from "@/lib/useAccount";
+
+// Demo fallback only — used when no authenticated patient context exists.
+const DEMO_PATIENT_ID = "G-1027";
 
 const CONSIDERATION_ICONS: Record<string, typeof Info> = {
   guideline: BookOpenCheck,
@@ -36,14 +40,19 @@ const CONSIDERATION_ICONS: Record<string, typeof Info> = {
 };
 
 export default function PatientContext() {
+  const { account } = useAccount();
   const [patients, setPatients] = useState<Patient[]>([]);
-  const [selectedId, setSelectedId] = useState("G-1027");
+  const [selectedId, setSelectedId] = useState(DEMO_PATIENT_ID);
   const [context, setContext] = useState<{ patient: Patient; analyses: ContextAnalysis[] } | null>(null);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     api.patients().then(setPatients).catch(() => setError(true));
   }, []);
+
+  useEffect(() => {
+    if (account?.role === "patient" && account.id) setSelectedId(account.id);
+  }, [account]);
 
   useEffect(() => {
     setContext(null);

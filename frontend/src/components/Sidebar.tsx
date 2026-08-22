@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import {
@@ -16,6 +15,8 @@ import {
   UserRound,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { useAccount, type Role } from "@/lib/useAccount";
+import { NAV_BY_ROLE } from "@/lib/nav";
 
 const ROLE_LABEL: Record<string, string> = {
   doctor: "Doctor",
@@ -23,44 +24,22 @@ const ROLE_LABEL: Record<string, string> = {
   lab_technician: "Lab Technician",
 };
 
-const NAV = [
-  { href: "/dashboard", label: "Overview", icon: Activity },
-  { href: "/upload", label: "Upload & Tracker", icon: FileUp },
-  { href: "/clinical-workup", label: "Clinical Workup", icon: Stethoscope },
-  { href: "/variant-lab", label: "Variant Lab", icon: FlaskConical },
-  { href: "/patient-context", label: "Patient Context", icon: UserRound },
-  { href: "/therapy", label: "Therapy Ranking", icon: Pill },
-  { href: "/knowledge-graph", label: "Knowledge Graph", icon: Network },
-  { href: "/provenance", label: "Provenance", icon: ShieldCheck },
-];
+const ICONS: Record<string, typeof Activity> = {
+  Overview: Activity,
+  "Upload & Tracker": FileUp,
+  "Clinical Workup": Stethoscope,
+  "Variant Lab": FlaskConical,
+  "Patient Context": UserRound,
+  "Therapy Ranking": Pill,
+  "Knowledge Graph": Network,
+  Provenance: ShieldCheck,
+};
 
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const [account, setAccount] = useState<{ name: string; role: string; email: string } | null>(
-    null,
-  );
-
-  useEffect(() => {
-    const supabase = createClient();
-    supabase.auth.getUser().then(async ({ data: { user } }) => {
-      if (!user) return;
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("role, full_name")
-        .eq("id", user.id)
-        .single();
-      // Fall back to signup metadata for accounts created before the
-      // profiles table/trigger existed, so they don't render blank.
-      const role = profile?.role ?? (user.user_metadata?.role as string | undefined) ?? "";
-      const fullName = profile?.full_name || (user.user_metadata?.full_name as string | undefined);
-      setAccount({
-        name: fullName || user.email || "Account",
-        role,
-        email: user.email ?? "",
-      });
-    });
-  }, []);
+  const { account } = useAccount();
+  const nav = NAV_BY_ROLE[(account?.role as Role) || "doctor"] ?? NAV_BY_ROLE.doctor;
 
   async function signOut() {
     const supabase = createClient();
@@ -84,7 +63,8 @@ export default function Sidebar() {
       </Link>
 
       <nav className="mt-2 flex flex-col gap-1 px-3">
-        {NAV.map(({ href, label, icon: Icon }) => {
+        {nav.map(({ href, label }) => {
+          const Icon = ICONS[label] ?? Activity;
           const active = pathname === href;
           return (
             <Link
@@ -121,7 +101,6 @@ export default function Sidebar() {
             </button>
           </div>
         )}
-        <div className="text-right text-[10px] uppercase tracking-widest text-muted">v1.0</div>
       </div>
     </aside>
   );

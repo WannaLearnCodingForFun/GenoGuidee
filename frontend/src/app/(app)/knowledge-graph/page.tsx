@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Network, X } from "lucide-react";
 import { api, type GraphEdge, type GraphNode } from "@/lib/api";
+import { useAccount } from "@/lib/useAccount";
 
 const NODE_STYLE: Record<string, { color: string; r: number; label: string }> = {
   patient: { color: "#b4182d", r: 26, label: "Patient" },
@@ -79,9 +80,14 @@ function layout(nodes: GraphNode[], edges: GraphEdge[]): PositionedNode[] {
   return pos;
 }
 
+// Demo fallback only — used when no authenticated patient context exists
+// (logged-out/demo browsing of the showcase dataset).
+const DEMO_PATIENT_ID = "G-1027";
+
 export default function KnowledgeGraph() {
+  const { account } = useAccount();
   const [patientIds, setPatientIds] = useState<string[]>([]);
-  const [selectedPatient, setSelectedPatient] = useState("G-1027");
+  const [selectedPatient, setSelectedPatient] = useState(DEMO_PATIENT_ID);
   const [graph, setGraph] = useState<{ nodes: GraphNode[]; edges: GraphEdge[] } | null>(null);
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [error, setError] = useState(false);
@@ -89,6 +95,12 @@ export default function KnowledgeGraph() {
   useEffect(() => {
     api.patients().then((ps) => setPatientIds(ps.map((p) => p.id))).catch(() => setError(true));
   }, []);
+
+  // Real identity, once available, takes over as the selected patient —
+  // still overridable via the picker below.
+  useEffect(() => {
+    if (account?.role === "patient" && account.id) setSelectedPatient(account.id);
+  }, [account]);
 
   useEffect(() => {
     setGraph(null);
