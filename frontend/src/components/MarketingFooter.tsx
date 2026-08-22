@@ -62,7 +62,7 @@ export default function MarketingFooter() {
 
         <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/50 md:flex-row md:items-center md:justify-between">
           <p>© {new Date().getFullYear()} GenoGuide. All patient records shown are synthetic demo data.</p>
-          <p className="mono">v1.0 · demo mode</p>
+          <p className="mono">v1.0</p>
         </div>
       </div>
     </footer>

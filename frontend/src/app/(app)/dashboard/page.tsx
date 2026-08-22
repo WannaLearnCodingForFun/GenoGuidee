@@ -95,7 +95,7 @@ export default function Overview() {
         >
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-cyan/25 bg-cyan/5 px-4 py-1.5 text-xs tracking-widest text-cyan">
             <span className="size-1.5 rounded-full bg-cyan pulse-glow" />
-            CLINICAL GENOMICS INTELLIGENCE · {status?.mode ?? "DEMO"}
+            CLINICAL GENOMICS INTELLIGENCE
           </div>
           <h1 className="text-6xl font-black tracking-tight">
             GENO<span className="text-gradient">GUIDE</span>
@@ -117,13 +117,6 @@ export default function Overview() {
               <FlaskConical className="size-4" />
               Open Variant Lab
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <Link
-              href="/patient-context"
-              className="inline-flex items-center gap-2 rounded-xl border border-navy-950/10 px-6 py-3 text-sm text-muted transition-colors hover:border-violet/40 hover:text-violet"
-            >
-              <UserRound className="size-4" />
-              Patient G-1027 showcase
             </Link>
           </div>
 

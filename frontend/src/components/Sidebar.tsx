@@ -12,9 +12,7 @@ import {
   Pill,
   ShieldCheck,
   UserRound,
-  CheckCircle2,
 } from "lucide-react";
-import { api, type SystemStatus } from "@/lib/api";
 import { createClient } from "@/lib/supabase/client";
 
 const ROLE_LABEL: Record<string, string> = {
@@ -35,14 +33,9 @@ const NAV = [
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const [status, setStatus] = useState<SystemStatus | null>(null);
   const [account, setAccount] = useState<{ name: string; role: string; email: string } | null>(
     null,
   );
-
-  useEffect(() => {
-    api.status().then(setStatus).catch(() => setStatus(null));
-  }, []);
 
   useEffect(() => {
     const supabase = createClient();
@@ -120,36 +113,7 @@ export default function Sidebar() {
             </button>
           </div>
         )}
-        <div className="card p-3">
-          <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-muted">
-            System status
-          </p>
-          <ul className="space-y-1.5">
-            {(status?.components ?? [
-              { name: "ESM-2", ready: false },
-              { name: "XGBoost", ready: false },
-              { name: "ACMG Engine", ready: false },
-              { name: "Provenance", ready: false },
-            ]).map((c) => (
-              <li key={c.name} className="flex items-center justify-between text-xs">
-                <span className="text-muted">{c.name}</span>
-                {c.ready ? (
-                  <span className="flex items-center gap-1 text-success">
-                    <CheckCircle2 className="size-3" /> READY
-                  </span>
-                ) : (
-                  <span className="text-warning">CONNECTING…</span>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="flex items-center justify-between text-[10px] uppercase tracking-widest">
-          <span className="rounded border border-violet/40 bg-violet/10 px-2 py-1 text-violet">
-            {status?.mode ?? "OFFLINE"}
-          </span>
-          <span className="text-muted">v1.0</span>
-        </div>
+        <div className="text-right text-[10px] uppercase tracking-widest text-muted">v1.0</div>
       </div>
     </aside>
   );
