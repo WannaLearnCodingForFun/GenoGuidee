@@ -30,7 +30,7 @@ function evidenceTone(level: string): string {
   if (level === "A") return "border-success/40 bg-success/10 text-success";
   if (level === "B") return "border-cyan/40 bg-cyan/10 text-cyan";
   if (level === "C") return "border-warning/40 bg-warning/10 text-warning";
-  return "border-white/15 bg-white/5 text-muted";
+  return "border-navy-950/15 bg-navy-950/5 text-muted";
 }
 
 function responseTone(response: string): string {
@@ -156,8 +156,8 @@ export default function TherapyPage() {
             }}
             className={`rounded-xl border px-3 py-2 text-left text-sm transition-all ${
               gene === p.gene && variant === p.variant
-                ? "border-cyan/50 bg-cyan/10 shadow-[0_0_18px_-8px_#00e5ff]"
-                : "border-white/10 bg-panel2/60 hover:border-white/25"
+                ? "border-cyan/50 bg-cyan/10 shadow-[0_0_18px_-8px_#b4182d]"
+                : "border-navy-950/10 bg-panel2/60 hover:border-navy-950/25"
             }`}
           >
             {p.label}
@@ -175,7 +175,7 @@ export default function TherapyPage() {
             <input
               value={gene}
               onChange={(e) => setGene(e.target.value.toUpperCase())}
-              className="mt-1 w-full rounded-lg border border-white/10 bg-bg px-3 py-2 font-mono text-sm text-fg"
+              className="mt-1 w-full rounded-lg border border-navy-950/10 bg-bg px-3 py-2 font-mono text-sm text-fg"
             />
           </label>
           <label className="mb-3 block text-xs text-muted">
@@ -183,7 +183,7 @@ export default function TherapyPage() {
             <input
               value={variant}
               onChange={(e) => setVariant(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-white/10 bg-bg px-3 py-2 font-mono text-sm text-fg"
+              className="mt-1 w-full rounded-lg border border-navy-950/10 bg-bg px-3 py-2 font-mono text-sm text-fg"
               placeholder="L858R"
             />
           </label>
@@ -198,7 +198,7 @@ export default function TherapyPage() {
                   if (m.protein_shorthand) setVariant(m.protein_shorthand);
                 }).catch(() => undefined);
               }}
-              className="mt-1 w-full rounded-lg border border-white/10 bg-bg px-3 py-2 font-mono text-sm text-fg"
+              className="mt-1 w-full rounded-lg border border-navy-950/10 bg-bg px-3 py-2 font-mono text-sm text-fg"
               placeholder="p.Leu858Arg"
             />
           </label>
@@ -210,7 +210,7 @@ export default function TherapyPage() {
             <input
               value={disease}
               onChange={(e) => setDisease(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-white/10 bg-bg px-3 py-2 text-sm text-fg"
+              className="mt-1 w-full rounded-lg border border-navy-950/10 bg-bg px-3 py-2 text-sm text-fg"
               placeholder="NSCLC"
             />
           </label>
@@ -258,14 +258,14 @@ export default function TherapyPage() {
                       key={`${r.rank}-${r.drug}`}
                       initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="border-t border-white/8"
+                      className="border-t border-navy-950/8"
                     >
                       <td className="py-2.5 font-mono text-muted">{r.rank}</td>
                       <td className="py-2.5 font-medium">{r.drug}</td>
                       <td className="py-2.5">
                         <div className="flex items-center gap-2">
                           <span className="w-12 font-mono text-xs">{r.score.toFixed(3)}</span>
-                          <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
+                          <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-navy-950/10">
                             <span
                               className="block h-full rounded-full bg-cyan"
                               style={{ width: `${Math.max(8, (r.score / maxScore) * 100)}%` }}

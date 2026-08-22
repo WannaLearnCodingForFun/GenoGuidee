@@ -7,6 +7,7 @@ const PROTECTED_PREFIXES = [
   "/patient-context",
   "/knowledge-graph",
   "/provenance",
+  "/therapy",
 ];
 
 export async function updateSession(request: NextRequest) {
