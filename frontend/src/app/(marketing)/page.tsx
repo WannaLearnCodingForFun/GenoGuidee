@@ -188,18 +188,9 @@ export default function Landing() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
           >
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-crimson/25 bg-crimson/5 px-4 py-1.5 text-xs tracking-widest text-crimson">
-              <span className="size-1.5 rounded-full bg-crimson pulse-glow" />
-              CLINICAL GENOMICS INTELLIGENCE
-            </div>
             <h1 className="max-w-3xl text-5xl font-black leading-[1.05] tracking-tight text-navy-950 lg:text-6xl">
               Variant interpretation that is <span className="mkt-text-gradient">explainable, reconciled,</span> and provable.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg text-navy-800">
-              GenoGuide pairs AI pathogenicity prediction with an independent, deterministic
-              ACMG/AMP rule engine — reconciled, contextualized to the patient, and sealed on a
-              hash-chained provenance ledger. The model informs. It never overrides.
-            </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-4">
               <Link
@@ -210,17 +201,11 @@ export default function Landing() {
                 Launch the platform
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
               </Link>
-              <a
-                href="#how-it-works"
-                className="inline-flex items-center gap-2 rounded-xl border border-navy-800/20 px-6 py-3 text-sm text-navy-800 transition-colors hover:border-crimson/40 hover:text-crimson"
-              >
-                See how it works
-              </a>
             </div>
           </motion.div>
 
           {/* Live stats */}
-          <div className="mt-16 grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <div className="mt-24 grid grid-cols-2 gap-4 lg:grid-cols-4">
             {statCards.map((s, i) => (
               <motion.div
                 key={s.label}
@@ -239,9 +224,6 @@ export default function Landing() {
               </motion.div>
             ))}
           </div>
-          <p className="mt-3 text-xs text-navy-800/70">
-            Live figures from the running demo instance — synthetic patients and variants, clearly labeled throughout.
-          </p>
         </div>
       </section>
 
