@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pandas
+xgboost
+shap
+chromadb
+sentence-transformers
+streamlit
+requests
+duckdb
