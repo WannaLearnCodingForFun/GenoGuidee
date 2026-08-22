@@ -1,0 +1,33 @@
+{
+  "file": "tests/data/mini.vcf",
+  "valid": true,
+  "fileformat": "VCFv4.2",
+  "n_header_lines": 6,
+  "n_records": 5,
+  "n_samples": 1,
+  "samples": [
+    "SAMPLE1"
+  ],
+  "contigs_seen": [
+    {
+      "contig": "13",
+      "records": 2
+    },
+    {
+      "contig": "17",
+      "records": 2
+    },
+    {
+      "contig": "7",
+      "records": 1
+    }
+  ],
+  "filters_seen": [
+    "PASS"
+  ],
+  "multiallelic_records": 1,
+  "sorted": false,
+  "errors": [],
+  "warnings": [],
+  "timestamp": "2026-08-22T17:11:13"
+}

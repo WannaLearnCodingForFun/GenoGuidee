@@ -1,0 +1,12 @@
+##fileformat=VCFv4.2
+##contig=<ID=17>
+##contig=<ID=13>
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=AD,Number=R,Type=Integer,Description="Allelic depths">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Read depth">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	SAMPLE1
+17	43057062	.	T	TG	812.3	PASS	.	GT:AD:DP	0/1:18,16:34
+17	7675139	.	C	T	655.1	PASS	.	GT:AD:DP	0/1:22,19:41
+13	32332592	.	A	C,G	402.0	PASS	.	GT:AD:DP	1/2:2,15,14:31
+13	20189547	.	ACAC	AC	310.9	PASS	.	GT:AD:DP	1/1:1,28:29
+7	117559590	.	ATCT	A	501.2	PASS	.	GT:AD:DP	0/1:20,17:37
