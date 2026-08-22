@@ -46,9 +46,13 @@ export default function Sidebar() {
         .select("role, full_name")
         .eq("id", user.id)
         .single();
+      // Fall back to signup metadata for accounts created before the
+      // profiles table/trigger existed, so they don't render blank.
+      const role = profile?.role ?? (user.user_metadata?.role as string | undefined) ?? "";
+      const fullName = profile?.full_name || (user.user_metadata?.full_name as string | undefined);
       setAccount({
-        name: profile?.full_name || user.email || "Account",
-        role: profile?.role ?? "",
+        name: fullName || user.email || "Account",
+        role,
         email: user.email ?? "",
       });
     });
