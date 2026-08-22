@@ -54,7 +54,7 @@ datasets:
 
   gnomad_constraint:
     source: gnomAD v4.1 (Broad Institute)
-    url: https://storage.googleapis.com/gcp-public-data--gnomad/release/v4.1/constraint/gnomad.v4.1.constraint_metrics.tsv
+    url: https://storage.googleapis.com/gcp-public-data--gnomad/release/4.1/constraint/gnomad.v4.1.constraint_metrics.tsv
     version: v4.1
     genome_build: GRCh38
     license: CC0 (gnomAD data are released free of restrictions)

@@ -1,0 +1,14 @@
+{
+  "generated": "2026-08-22T11:47:12.628603+00:00",
+  "n_genes": 18204,
+  "n_genes_with_clingen": 2708,
+  "missingness": {
+    "loeuf": 251,
+    "pli": 251,
+    "mis_z": 15
+  },
+  "sources": {
+    "constraint": "gnomAD v4.1 constraint_metrics.tsv (CC0)",
+    "clingen": "ClinGen gene-validity CSV (CC0)"
+  }
+}
