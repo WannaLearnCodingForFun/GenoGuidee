@@ -8,6 +8,7 @@ import {
   Dna,
   FileUp,
   FlaskConical,
+  Stethoscope,
   LogOut,
   Network,
   Pill,
@@ -25,6 +26,7 @@ const ROLE_LABEL: Record<string, string> = {
 const NAV = [
   { href: "/dashboard", label: "Overview", icon: Activity },
   { href: "/upload", label: "Upload & Tracker", icon: FileUp },
+  { href: "/clinical-workup", label: "Clinical Workup", icon: Stethoscope },
   { href: "/variant-lab", label: "Variant Lab", icon: FlaskConical },
   { href: "/patient-context", label: "Patient Context", icon: UserRound },
   { href: "/therapy", label: "Therapy Ranking", icon: Pill },

@@ -87,6 +87,8 @@ export interface AnalyzeResult {
   reconciliation: {
     status: "CONCORDANT" | "DISCORDANT";
     confidence: string;
+    ml_bucket: string;
+    acmg_bucket: string;
     final_classification: string;
     authority: string;
     note: string;
@@ -130,6 +132,103 @@ export interface UploadedAnalyzeRequest {
   phylop?: number | null;
   subject_ref?: string | null;
   upload_id?: string | null;
+}
+
+// --- Clinical workup: intake -> triple -> classification -> reconciliation
+//     -> medication. Each stage is returned separately so the UI can reveal
+//     them in order and show exactly where a run stopped.
+
+export interface PatientHistory {
+  age: number | null;
+  sex: string | null;
+  diagnosis: string | null;
+  presenting_complaint: string | null;
+  phenotypes: string[];
+  prior_conditions: string[];
+  medications: string[];
+  family_history_positive: boolean;
+  family_details: string | null;
+  consent_confirmed: boolean;
+}
+
+export interface WorkupRequest {
+  variant_id?: string | null;
+  uploaded_variant?: UploadedAnalyzeRequest | null;
+  history: PatientHistory;
+  subject_ref?: string | null;
+}
+
+export interface WorkupStage {
+  id: "intake" | "triple" | "classification" | "reconciliation" | "medication";
+  label: string;
+  status: string;
+}
+
+export interface WorkupTriple {
+  gene: string | null;
+  variant: string;
+  variant_display: string;
+  token_precision: "EXACT" | "GENE_LEVEL";
+  token_note: string;
+  disease: string | null;
+  disease_source: string | null;
+  gene_disease: string | null;
+  guideline: string | null;
+  complete: boolean;
+}
+
+export interface PhenotypeOverlap {
+  status: "SUPPORTED" | "NO_OVERLAP" | "NO_HISTORY" | "NO_CURATED_ASSOCIATION";
+  matched: string[];
+  gene_keywords?: string[];
+  note: string;
+}
+
+export interface MedicationStage {
+  availability:
+    | "AVAILABLE"
+    | "NOT_INDICATED"
+    | "INSUFFICIENT_INPUT"
+    | "ENGINE_UNAVAILABLE"
+    | "ENGINE_ERROR";
+  reason?: string;
+  query?: { gene: string; variant: string; disease: string };
+  token_precision?: "EXACT" | "GENE_LEVEL";
+  recommendations: TherapyRecommendation[];
+  count?: number;
+  human_review_required?: boolean;
+  reconciliation_status?: string;
+  advisory?: string;
+  caution?: string | null;
+  classification_gate?: string;
+}
+
+export interface WorkupResult {
+  stages: WorkupStage[];
+  variant: Variant;
+  variant_source: "curated" | "upload";
+  annotation_completeness: AnnotationCompleteness | null;
+  missing_evidence: { criterion: string; reason: string }[];
+  history_summary: {
+    text: string;
+    keywords: string[];
+    age: number | null;
+    sex: string | null;
+    family_history_positive: boolean;
+    phenotype_count: number;
+    medication_count: number;
+    prior_condition_count: number;
+  };
+  triple: WorkupTriple;
+  esm2: AnalyzeResult["esm2"];
+  ml: AnalyzeResult["ml"];
+  acmg: AnalyzeResult["acmg"];
+  reconciliation: AnalyzeResult["reconciliation"];
+  phenotype_overlap: PhenotypeOverlap;
+  medication: MedicationStage;
+  considerations: { type: string; text: string }[];
+  provenance: AnalyzeResult["provenance"];
+  mode: string;
 }
 
 export interface UploadedAnalyzeResult extends AnalyzeResult {
@@ -333,6 +432,7 @@ export const api = {
     post<AnalyzeResult>("/api/analyze", { variant_id, patient_id }),
   analyzeUploaded: (variant: UploadedAnalyzeRequest) =>
     post<UploadedAnalyzeResult>("/api/analyze/uploaded", variant),
+  workup: (body: WorkupRequest) => post<WorkupResult>("/api/workup", body),
   patients: () => get<Patient[]>("/api/patients"),
   patientContext: (id: string) =>
     get<{ patient: Patient; analyses: ContextAnalysis[] }>(`/api/patients/${id}/context`),

@@ -9,7 +9,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from . import provenance, uploads
+from . import provenance, uploads, workup
 from .acmg import classify
 from .clinical import analyze_variant_for_patient, build_knowledge_graph
 from .config import (
@@ -309,6 +309,129 @@ def analyze_uploaded(req: UploadedVariantRequest) -> dict[str, Any]:
         },
         "mode": "DEMO_MODE" if DEMO_MODE else "LIVE_MODE",
         "source": "upload",
+    }
+
+# ---------------------------------------------------------------------------
+# Clinical workup — the full staged flow
+#
+#   intake (history + variant) -> triple (gene/variant/disease)
+#   -> classification (ACMG || ML) -> reconciliation -> medication
+#
+# Each stage is returned separately so the UI can reveal them in order and
+# show exactly where a run stopped and why.
+# ---------------------------------------------------------------------------
+
+class HistoryPayload(BaseModel):
+    age: int | None = None
+    sex: str | None = None
+    diagnosis: str | None = None
+    presenting_complaint: str | None = None
+    phenotypes: list[str] = []
+    prior_conditions: list[str] = []
+    medications: list[str] = []
+    family_history_positive: bool = False
+    family_details: str | None = None
+    consent_confirmed: bool = False
+
+
+class WorkupRequest(BaseModel):
+    # Exactly one variant source: a curated dataset id, or an inline record
+    # parsed from an uploaded VCF.
+    variant_id: str | None = None
+    uploaded_variant: UploadedVariantRequest | None = None
+    history: HistoryPayload = HistoryPayload()
+    subject_ref: str | None = None
+
+
+@app.post("/api/workup")
+def clinical_workup(req: WorkupRequest) -> dict[str, Any]:
+    # --- stage 1: intake -------------------------------------------------
+    if req.variant_id:
+        variant = VARIANTS_BY_ID.get(req.variant_id)
+        if not variant:
+            raise HTTPException(404, "Variant not found")
+        variant_source = "curated"
+        missing_evidence: list[dict[str, str]] = []
+        completeness = None
+    elif req.uploaded_variant:
+        variant = uploads.normalize(req.uploaded_variant.model_dump())
+        variant_source = "upload"
+        missing_evidence = variant["missing_evidence"]
+        completeness = variant["annotation_completeness"]
+    else:
+        raise HTTPException(422, "Provide either variant_id or uploaded_variant")
+
+    history = req.history.model_dump()
+    summary = workup.summarize_history(history)
+
+    # --- stage 2: gene / variant / disease --------------------------------
+    triple = workup.resolve_triple(variant, history)
+
+    # --- stage 3: independent classification paths ------------------------
+    esm = esm_representation(variant)
+    if variant_source == "upload" and esm["mode"] == "demo-precomputed":
+        esm = {**esm, "mode": "proxy-from-annotations"}
+    ml = predict(variant, esm["delta_score"])
+    acmg = classify(variant)
+
+    # --- stage 4: reconciliation ------------------------------------------
+    reconciliation = _reconcile(ml, acmg)
+    final_classification = reconciliation["final_classification"]
+    human_review_required = reconciliation["status"] == "DISCORDANT"
+
+    overlap = workup.phenotype_overlap(triple["gene"], summary)
+
+    # --- stage 5: medication (gated on the verdict above) ------------------
+    medication = workup.medication_stage(
+        triple, final_classification, reconciliation["status"], human_review_required,
+    )
+
+    considerations = workup.history_considerations(
+        summary, overlap, triple, final_classification, history,
+    )
+
+    # Seal the interpretation. Only hashes reach the ledger.
+    block = provenance.record_interpretation(
+        req.subject_ref or "WORKUP-UNASSIGNED", variant["id"],
+        f"{variant['gene']} {variant['hgvs_c']}", acmg["classification"],
+        reconciliation["status"], acmg["met_criteria"], ml["top_class"],
+    )
+
+    return {
+        "stages": [
+            {"id": "intake", "label": "Intake", "status": "COMPLETE"},
+            {"id": "triple", "label": "Gene · Variant · Disease",
+             "status": "COMPLETE" if triple["complete"] else "PARTIAL"},
+            {"id": "classification", "label": "Classification", "status": "COMPLETE"},
+            {"id": "reconciliation", "label": "AI vs ACMG", "status": reconciliation["status"]},
+            {"id": "medication", "label": "Medication", "status": medication["availability"]},
+        ],
+        "variant": {k: v for k, v in variant.items()
+                    if k not in ("_target_hint", "missing_evidence", "annotation_completeness")},
+        "variant_source": variant_source,
+        "annotation_completeness": completeness,
+        "missing_evidence": missing_evidence,
+        "history_summary": summary,
+        "triple": triple,
+        "esm2": esm,
+        "ml": ml,
+        "acmg": acmg,
+        "reconciliation": reconciliation,
+        "phenotype_overlap": overlap,
+        "medication": medication,
+        "considerations": considerations,
+        "provenance": {
+            "recorded": True,
+            "contract": CONTRACT_INTERPRETATION,
+            "tx_id": block["tx_id"],
+            "block_index": block["block_index"],
+            "interpretation_hash": block["payload"]["interpretation_hash"],
+            "patient_hash": block["payload"]["patient_hash"],
+            "model_version": MODEL_VERSION,
+            "evidence_version": EVIDENCE_VERSION,
+            "timestamp": block["timestamp"],
+        },
+        "mode": "DEMO_MODE" if DEMO_MODE else "LIVE_MODE",
     }
 
 # ---------------------------------------------------------------------------
