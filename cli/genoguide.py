@@ -63,6 +63,14 @@ def main(argv: list[str] | None = None) -> int:
     p_graph = sub.add_parser("graph")
     p_graph.add_argument("gene")
 
+    p_fam = sub.add_parser("family")
+    p_fam.add_argument("family_json")
+
+    p_res = sub.add_parser("research")
+    p_res.add_argument("action", choices=["run"])
+    p_res.add_argument("--config", default="configs/research_full.yaml")
+    p_res.add_argument("--train", action="store_true")
+
     p_train = sub.add_parser("train")
     p_train.add_argument("--config", default="configs/model.yaml")
 
@@ -108,6 +116,12 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "graph":
         from cli.commands import graph_cmd
         return graph_cmd.run(args)
+    if args.command == "family":
+        from cli.commands import family_cmd
+        return family_cmd.run(args)
+    if args.command == "research":
+        from cli.commands import research_cmd
+        return research_cmd.run(args)
     if args.command == "train":
         from cli.commands import train_cmd
         return train_cmd.run(args)

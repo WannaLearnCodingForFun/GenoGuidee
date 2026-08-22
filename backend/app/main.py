@@ -69,6 +69,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Research-engine API v1 (legacy /api/* endpoints above/below are preserved
+# unchanged for the existing frontend). Optional: v1 requires the research
+# data stores; if unavailable the router still mounts and reports states.
+try:
+    from .api.v1 import router as v1_router
+    app.include_router(v1_router)
+except Exception as _v1_err:  # noqa: BLE001 — legacy demo API must keep working
+    import logging
+    logging.getLogger("genoguide").warning("API v1 unavailable: %s", _v1_err)
+
 # ---------------------------------------------------------------------------
 # System status / overview
 # ---------------------------------------------------------------------------

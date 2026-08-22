@@ -28,6 +28,7 @@ REPO = Path(__file__).resolve().parents[2]
 CLINVAR = REPO / "research/data/processed/clinvar_grch38.parquet"
 GENES = REPO / "research/data/processed/gene_features.parquet"
 AM_STORE = REPO / "research/data/interim/alphamissense_hg38.parquet"
+POP_AF = REPO / "research/data/processed/population_af.parquet"
 OUT = REPO / "research/data/processed/training_dataset.parquet"
 QREPORT = REPO / "research/reports/data_quality_report.json"
 
@@ -46,7 +47,8 @@ FEATURE_COLUMNS: list[str] = (
     + ["ref_len", "alt_len", "len_delta",
        "loeuf", "pli", "mis_z", "syn_z", "gene_feat_missing",
        "clingen_validity", "clingen_n_diseases",
-       "am_pathogenicity", "am_missing"]
+       "am_pathogenicity", "am_missing",
+       "log10_af", "af_missing", "is_rare"]
 )
 
 FORBIDDEN_AS_FEATURES = {
@@ -69,6 +71,15 @@ def build(min_tier: int = 1) -> dict:
     """ if am_available else ""
     am_select = "am.am_pathogenicity AS am_pathogenicity," if am_available else "NULL AS am_pathogenicity,"
 
+    pop_available = POP_AF.exists()
+    pop_join = f"""
+        LEFT JOIN '{POP_AF}' pop
+          ON pop.chrom = c.chrom AND pop.pos = c.pos
+         AND pop.ref = c.ref AND pop.alt = c.alt
+    """ if pop_available else ""
+    pop_select = ("pop.af_max AS af_max, pop.log10_af AS log10_af,"
+                  if pop_available else "NULL AS af_max, NULL AS log10_af,")
+
     df = con.sql(f"""
         SELECT
             c.variant_key, c.gene, c.chrom, c.pos, c.ref, c.alt,
@@ -81,11 +92,13 @@ def build(min_tier: int = 1) -> dict:
             c.name              AS meta_name,
             c.last_evaluated_year AS meta_year,
             {am_select}
+            {pop_select}
             g.loeuf, g.pli, g.mis_z, g.syn_z,
             g.clingen_validity, g.clingen_n_diseases
         FROM '{CLINVAR}' c
         LEFT JOIN '{GENES}' g ON g.gene = c.gene
         {am_join}
+        {pop_join}
         WHERE c.label IS NOT NULL
           AND c.confidence_tier >= {min_tier}
     """).df()
@@ -109,6 +122,11 @@ def build(min_tier: int = 1) -> dict:
 
     df["am_pathogenicity"] = pd.to_numeric(df["am_pathogenicity"], errors="coerce")
     df["am_missing"] = df["am_pathogenicity"].isna().astype(np.int8)
+
+    df["af_max"] = pd.to_numeric(df["af_max"], errors="coerce")
+    df["log10_af"] = pd.to_numeric(df["log10_af"], errors="coerce")
+    df["af_missing"] = df["af_max"].isna().astype(np.int8)
+    df["is_rare"] = ((df["af_max"] < 1e-4) & df["af_max"].notna()).astype(np.int8)
 
     df["y"] = df["label"].map({l: i for i, l in enumerate(LABELS)}).astype(np.int8)
     df["y_binary"] = df["label"].map(

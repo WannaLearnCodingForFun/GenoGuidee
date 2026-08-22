@@ -18,12 +18,16 @@ _BUCKETS = {
     "likely_pathogenic": "pathogenic_spectrum",
     "PATHOGENIC": "pathogenic_spectrum",
     "LIKELY_PATHOGENIC": "pathogenic_spectrum",
+    "Pathogenic": "pathogenic_spectrum",
+    "Likely Pathogenic": "pathogenic_spectrum",
     "vus": "uncertain",
     "VUS": "uncertain",
     "likely_benign": "benign_spectrum",
     "benign": "benign_spectrum",
     "LIKELY_BENIGN": "benign_spectrum",
     "BENIGN": "benign_spectrum",
+    "Likely Benign": "benign_spectrum",
+    "Benign": "benign_spectrum",
 }
 
 
