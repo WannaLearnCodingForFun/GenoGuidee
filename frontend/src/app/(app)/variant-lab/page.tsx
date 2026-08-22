@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertTriangle,
@@ -9,6 +11,8 @@ import {
   CheckCircle2,
   ChevronRight,
   CircleDot,
+  Database,
+  FileUp,
   FlaskConical,
   Loader2,
   Scale,
@@ -21,8 +25,11 @@ import {
   api,
   type AcmgCriterion,
   type AnalyzeResult,
+  type AnnotationCompleteness,
   type VariantListItem,
 } from "@/lib/api";
+import { listAllAccessibleVariants, type AccessibleVariant } from "@/lib/uploads";
+import { variantLabel } from "@/lib/vcf";
 import { classColor, formatAf, shortHash } from "@/lib/ui";
 
 const STAGES = [
@@ -43,8 +50,16 @@ const PROB_ROWS: { key: string; label: string; color: string }[] = [
 ];
 
 type Phase = "idle" | "running" | "done";
+type Source = "demo" | "uploads";
 
-export default function VariantLab() {
+interface UploadMeta {
+  completeness: AnnotationCompleteness;
+  missing: { criterion: string; reason: string }[];
+  filename: string | null;
+}
+
+function VariantLabInner() {
+  const searchParams = useSearchParams();
   const [variants, setVariants] = useState<VariantListItem[]>([]);
   const [selectedId, setSelectedId] = useState<string>("VAR-BRCA1-5266DUP");
   const [phase, setPhase] = useState<Phase>("idle");
@@ -54,13 +69,41 @@ export default function VariantLab() {
   const [openCriterion, setOpenCriterion] = useState<AcmgCriterion | null>(null);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
+  // Uploaded-VCF source
+  const [source, setSource] = useState<Source>("demo");
+  const [uploaded, setUploaded] = useState<AccessibleVariant[]>([]);
+  const [uploadedId, setUploadedId] = useState<number | null>(null);
+  const [loadingUploads, setLoadingUploads] = useState(false);
+  const [uploadMeta, setUploadMeta] = useState<UploadMeta | null>(null);
+
   useEffect(() => {
     api.variants().then(setVariants).catch(() => setError("Backend not reachable."));
     return () => timers.current.forEach(clearTimeout);
   }, []);
 
+  // Deep links from the upload tracker: ?source=uploads&variant=<row id>
+  useEffect(() => {
+    if (searchParams.get("source") === "uploads") setSource("uploads");
+    const v = searchParams.get("variant");
+    if (v && Number.isFinite(Number(v))) setUploadedId(Number(v));
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (source !== "uploads" || uploaded.length) return;
+    setLoadingUploads(true);
+    listAllAccessibleVariants()
+      .then((rows) => {
+        setUploaded(rows);
+        setUploadedId((cur) => cur ?? rows[0]?.id ?? null);
+      })
+      .catch((e) => setError(e instanceof Error ? e.message : "Could not load uploaded variants."))
+      .finally(() => setLoadingUploads(false));
+  }, [source, uploaded.length]);
+
   const showcase = useMemo(() => variants.filter((v) => v.showcase), [variants]);
   const selected = variants.find((v) => v.id === selectedId);
+  const selectedUploaded = uploaded.find((v) => v.id === uploadedId) ?? null;
+  const canRun = source === "demo" ? !!selected : !!selectedUploaded;
 
   function runAnalysis() {
     if (phase === "running") return;
@@ -68,11 +111,43 @@ export default function VariantLab() {
     setResult(null);
     setError(null);
     setOpenCriterion(null);
+    setUploadMeta(null);
     setStageIdx(0);
     timers.current.forEach(clearTimeout);
     timers.current = [];
 
-    const request = api.analyze(selectedId, "G-1027");
+    // Uploaded variants carry their annotations inline; curated ones are
+    // looked up by id in the backend's in-memory dataset. Both paths get the
+    // identical ACMG -> ML -> reconciliation -> provenance treatment.
+    const request = source === "uploads" && selectedUploaded
+      ? api
+          .analyzeUploaded({
+            chrom: selectedUploaded.chrom,
+            pos: selectedUploaded.pos,
+            ref: selectedUploaded.ref,
+            alt: selectedUploaded.alt,
+            gene: selectedUploaded.gene,
+            transcript: selectedUploaded.transcript,
+            hgvs_c: selectedUploaded.hgvs_c,
+            hgvs_p: selectedUploaded.hgvs_p,
+            consequence: selectedUploaded.consequence,
+            gnomad_af: selectedUploaded.gnomad_af,
+            cadd: selectedUploaded.cadd,
+            revel: selectedUploaded.revel,
+            spliceai: selectedUploaded.spliceai,
+            phylop: selectedUploaded.phylop,
+            subject_ref: selectedUploaded.upload?.patient_id ?? `UPLOAD-${selectedUploaded.upload_id}`,
+            upload_id: selectedUploaded.upload_id,
+          })
+          .then((res) => {
+            setUploadMeta({
+              completeness: res.annotation_completeness,
+              missing: res.missing_evidence,
+              filename: selectedUploaded.upload?.filename ?? null,
+            });
+            return res as AnalyzeResult;
+          })
+      : api.analyze(selectedId, "G-1027");
 
     STAGES.forEach((_, i) => {
       timers.current.push(setTimeout(() => setStageIdx(i), i * 520));
@@ -83,8 +158,12 @@ export default function VariantLab() {
           const res = await request;
           setResult(res);
           setPhase("done");
-        } catch {
-          setError("Analysis failed — is the backend running on port 8000?");
+        } catch (e) {
+          setError(
+            e instanceof Error && e.message.includes("failed (")
+              ? `Analysis failed — ${e.message}`
+              : "Analysis failed — is the backend running on port 8000?",
+          );
           setPhase("idle");
         }
       }, STAGES.length * 520 + 200),
@@ -104,62 +183,140 @@ export default function VariantLab() {
         </p>
       </header>
 
+      {/* Source toggle */}
+      <div className="mb-4 inline-flex rounded-xl border border-navy-950/10 bg-panel2/60 p-1">
+        {([
+          { id: "demo" as Source, label: "Demo dataset", icon: Database },
+          { id: "uploads" as Source, label: "Uploaded VCFs", icon: FileUp },
+        ]).map((opt) => (
+          <button
+            key={opt.id}
+            onClick={() => {
+              setSource(opt.id);
+              setError(null);
+            }}
+            className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+              source === opt.id
+                ? "border border-cyan/40 bg-cyan/10 text-cyan"
+                : "border border-transparent text-muted hover:text-fg"
+            }`}
+          >
+            <opt.icon className="size-4" />
+            {opt.label}
+            {opt.id === "uploads" && uploaded.length > 0 && (
+              <span className="rounded-full bg-cyan/15 px-1.5 text-[10px] tabular-nums">
+                {uploaded.length}
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+
       {/* Case selection */}
       <section className="card p-5">
-        <h2 className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-muted">
-          Showcase cases
-        </h2>
-        <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-4">
-          {showcase.map((v) => {
-            const active = v.id === selectedId;
-            return (
-              <button
-                key={v.id}
-                onClick={() => setSelectedId(v.id)}
-                className={`rounded-xl border p-3 text-left transition-all ${
-                  active
-                    ? "border-cyan/50 bg-cyan/10 shadow-[0_0_20px_-8px_#b4182d]"
-                    : "border-navy-950/10 bg-panel2/60 hover:border-navy-950/25"
-                }`}
+        {source === "demo" ? (
+          <>
+            <h2 className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-muted">
+              Showcase cases
+            </h2>
+            <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+              {showcase.map((v) => {
+                const active = v.id === selectedId;
+                return (
+                  <button
+                    key={v.id}
+                    onClick={() => setSelectedId(v.id)}
+                    className={`rounded-xl border p-3 text-left transition-all ${
+                      active
+                        ? "border-cyan/50 bg-cyan/10 shadow-[0_0_20px_-8px_#b4182d]"
+                        : "border-navy-950/10 bg-panel2/60 hover:border-navy-950/25"
+                    }`}
+                  >
+                    <p className="text-sm font-semibold">
+                      {v.gene} <span className="mono text-xs font-normal text-muted">{v.hgvs_c}</span>
+                    </p>
+                    <p className="mt-1 line-clamp-2 text-[11px] text-muted">{v.showcase_label}</p>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <label className="text-xs uppercase tracking-widest text-muted">
+                Full demo dataset ({variants.length} variants)
+              </label>
+              <select
+                value={selectedId}
+                onChange={(e) => setSelectedId(e.target.value)}
+                className="min-w-72 rounded-lg border border-navy-950/15 bg-panel2 px-3 py-2 text-sm outline-none focus:border-cyan/50"
               >
-                <p className="text-sm font-semibold">
-                  {v.gene} <span className="mono text-xs font-normal text-muted">{v.hgvs_c}</span>
+                {variants.map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.gene} {v.hgvs_c} ({v.consequence})
+                  </option>
+                ))}
+              </select>
+
+              <RunButton phase={phase} disabled={phase === "running" || !canRun} onClick={runAnalysis} />
+            </div>
+          </>
+        ) : (
+          <>
+            <h2 className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-muted">
+              <FileUp className="size-3.5" /> Variants from uploaded VCFs
+            </h2>
+
+            {loadingUploads ? (
+              <p className="flex items-center gap-2 py-6 text-sm text-muted">
+                <Loader2 className="size-4 animate-spin" /> Loading your uploaded variants&hellip;
+              </p>
+            ) : uploaded.length === 0 ? (
+              <div className="flex flex-col items-start gap-2 py-6">
+                <p className="text-sm font-medium">No uploaded variants yet</p>
+                <p className="text-sm text-muted">
+                  Upload a patient VCF and its variants become analyzable here, through the same
+                  pipeline as the curated cases.
                 </p>
-                <p className="mt-1 line-clamp-2 text-[11px] text-muted">{v.showcase_label}</p>
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="mt-4 flex flex-wrap items-center gap-3">
-          <label className="text-xs uppercase tracking-widest text-muted">
-            Full demo dataset ({variants.length} variants)
-          </label>
-          <select
-            value={selectedId}
-            onChange={(e) => setSelectedId(e.target.value)}
-            className="min-w-72 rounded-lg border border-navy-950/15 bg-panel2 px-3 py-2 text-sm outline-none focus:border-cyan/50"
-          >
-            {variants.map((v) => (
-              <option key={v.id} value={v.id}>
-                {v.gene} {v.hgvs_c} ({v.consequence})
-              </option>
-            ))}
-          </select>
-
-          <button
-            onClick={runAnalysis}
-            disabled={phase === "running" || !selected}
-            className="ml-auto inline-flex items-center gap-2 rounded-xl border border-cyan/50 bg-cyan/15 px-6 py-2.5 text-sm font-bold tracking-wide text-cyan transition-all hover:bg-cyan/25 hover:shadow-[0_0_28px_-6px_#b4182d] disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {phase === "running" ? (
-              <Loader2 className="size-4 animate-spin" />
+                <Link
+                  href="/upload"
+                  className="mt-2 inline-flex items-center gap-2 rounded-xl border border-cyan/40 bg-cyan/10 px-5 py-2.5 text-sm font-semibold text-cyan transition-colors hover:bg-cyan/20"
+                >
+                  <FileUp className="size-4" />
+                  Go to Upload &amp; Tracker
+                  <ChevronRight className="size-3.5" />
+                </Link>
+              </div>
             ) : (
-              <Sparkles className="size-4" />
+              <div className="flex flex-wrap items-center gap-3">
+                <label className="text-xs uppercase tracking-widest text-muted">
+                  Select variant ({uploaded.length} available)
+                </label>
+                <select
+                  value={uploadedId ?? ""}
+                  onChange={(e) => setUploadedId(Number(e.target.value))}
+                  className="min-w-96 rounded-lg border border-navy-950/15 bg-panel2 px-3 py-2 text-sm outline-none focus:border-cyan/50"
+                >
+                  {uploaded.map((v) => (
+                    <option key={v.id} value={v.id}>
+                      {variantLabel(v)} ({v.consequence ?? "unannotated"}) &mdash; {v.upload?.filename ?? "file"}
+                    </option>
+                  ))}
+                </select>
+
+                <RunButton phase={phase} disabled={phase === "running" || !canRun} onClick={runAnalysis} />
+
+                {selectedUploaded && (
+                  <p className="mono w-full text-[11px] text-muted">
+                    {selectedUploaded.chrom}:{selectedUploaded.pos} {selectedUploaded.ref}&gt;
+                    {selectedUploaded.alt}
+                    {selectedUploaded.transcript ? ` \u00b7 ${selectedUploaded.transcript}` : ""}
+                    {selectedUploaded.upload ? ` \u00b7 from ${selectedUploaded.upload.filename}` : ""}
+                  </p>
+                )}
+              </div>
             )}
-            ANALYZE VARIANT
-          </button>
-        </div>
+          </>
+        )}
         {error && <p className="mt-3 text-sm text-error">{error}</p>}
       </section>
 
@@ -223,6 +380,7 @@ export default function VariantLab() {
             transition={{ duration: 0.5 }}
           >
             <VariantSummary result={result} />
+            {uploadMeta && <UploadEvidenceNotice meta={uploadMeta} />}
             <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_320px_1fr]">
               <AiPath result={result} />
               <Verdict result={result} />
@@ -239,6 +397,109 @@ export default function VariantLab() {
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+function RunButton({
+  phase,
+  disabled,
+  onClick,
+}: {
+  phase: Phase;
+  disabled: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className="ml-auto inline-flex items-center gap-2 rounded-xl border border-cyan/50 bg-cyan/15 px-6 py-2.5 text-sm font-bold tracking-wide text-cyan transition-all hover:bg-cyan/25 hover:shadow-[0_0_28px_-6px_#b4182d] disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      {phase === "running" ? (
+        <Loader2 className="size-4 animate-spin" />
+      ) : (
+        <Sparkles className="size-4" />
+      )}
+      ANALYZE VARIANT
+    </button>
+  );
+}
+
+/**
+ * Uploaded variants carry only the evidence their VCF annotations provide.
+ * Saying so explicitly matters: a VUS here may mean "genuinely uncertain" or
+ * merely "half the criteria could not be evaluated", and those are very
+ * different clinical situations.
+ */
+function UploadEvidenceNotice({ meta }: { meta: UploadMeta }) {
+  const { completeness, missing } = meta;
+  const tone =
+    completeness.level === "HIGH"
+      ? "border-success/35 bg-success/5"
+      : completeness.level === "PARTIAL"
+        ? "border-warning/40 bg-warning/5"
+        : "border-error/40 bg-error/5";
+
+  return (
+    <section className={`card mt-4 border p-5 ${tone}`}>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.25em]">
+          <FileUp className="size-3.5" />
+          Uploaded variant &middot; evidence available
+        </h3>
+        <span className="text-xs text-muted">
+          {meta.filename ? `from ${meta.filename} \u00b7 ` : ""}
+          annotation completeness{" "}
+          <span className="font-bold text-fg">
+            {completeness.present}/{completeness.total} ({completeness.percent}%)
+          </span>
+        </span>
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-1.5">
+        {Object.entries(completeness.fields).map(([field, present]) => (
+          <span
+            key={field}
+            className={`mono rounded border px-2 py-0.5 text-[10px] ${
+              present
+                ? "border-success/40 bg-success/10 text-success"
+                : "border-navy-950/15 bg-navy-950/5 text-muted line-through"
+            }`}
+          >
+            {field}
+          </span>
+        ))}
+      </div>
+
+      <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-muted">
+        Criteria that cannot be evaluated from a VCF
+      </p>
+      <ul className="mt-2 space-y-1.5">
+        {missing.map((m) => (
+          <li key={m.criterion} className="flex gap-2 text-xs text-muted">
+            <span className="mono shrink-0 font-bold text-warning">{m.criterion}</span>
+            <span>{m.reason}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-3 text-xs text-muted/80">
+        These criteria require curated evidence a VCF does not carry, so they are reported as
+        NOT_MET rather than assumed. An uploaded variant therefore classifies more conservatively
+        than a curated case with identical annotations.
+      </p>
+    </section>
+  );
+}
+
+export default function VariantLab() {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto max-w-7xl px-8 py-10 text-sm text-muted">Loading Variant Lab&hellip;</div>
+      }
+    >
+      <VariantLabInner />
+    </Suspense>
   );
 }
 

@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 const PROTECTED_PREFIXES = [
   "/dashboard",
+  "/upload",
   "/variant-lab",
   "/patient-context",
   "/knowledge-graph",

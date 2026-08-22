@@ -95,6 +95,39 @@ export interface AnalyzeResult {
   mode: string;
 }
 
+export interface AnnotationCompleteness {
+  present: number;
+  total: number;
+  percent: number;
+  level: "HIGH" | "PARTIAL" | "LOW";
+  fields: Record<string, boolean>;
+}
+
+export interface UploadedAnalyzeRequest {
+  chrom: string;
+  pos: number;
+  ref: string;
+  alt: string;
+  gene?: string | null;
+  transcript?: string | null;
+  hgvs_c?: string | null;
+  hgvs_p?: string | null;
+  consequence?: string | null;
+  gnomad_af?: number | null;
+  cadd?: number | null;
+  revel?: number | null;
+  spliceai?: number | null;
+  phylop?: number | null;
+  subject_ref?: string | null;
+  upload_id?: string | null;
+}
+
+export interface UploadedAnalyzeResult extends AnalyzeResult {
+  annotation_completeness: AnnotationCompleteness;
+  missing_evidence: { criterion: string; reason: string }[];
+  source: "upload";
+}
+
 export interface Patient {
   id: string;
   synthetic: boolean;
@@ -207,6 +240,8 @@ export const api = {
   variants: () => get<VariantListItem[]>("/api/variants"),
   analyze: (variant_id: string, patient_id?: string) =>
     post<AnalyzeResult>("/api/analyze", { variant_id, patient_id }),
+  analyzeUploaded: (variant: UploadedAnalyzeRequest) =>
+    post<UploadedAnalyzeResult>("/api/analyze/uploaded", variant),
   patients: () => get<Patient[]>("/api/patients"),
   patientContext: (id: string) =>
     get<{ patient: Patient; analyses: ContextAnalysis[] }>(`/api/patients/${id}/context`),
