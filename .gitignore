@@ -11,6 +11,16 @@ env/
 # Environment variables
 .env
 .env.*
+!.env.example
+
+# Clinical / ledger SQLite and uploaded genomes
+backend/app/clinical.db
+backend/app/genoguide.db
+backend/app/uploads/
+research/data/raw/
+research/data/processed/
+research/data/interim/
+research/data/external_holdout/
 
 # IDE
 .vscode/

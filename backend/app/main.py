@@ -1,6 +1,7 @@
 """GenoGuide backend — FastAPI application."""
 from __future__ import annotations
 
+import logging
 import os
 from contextlib import asynccontextmanager
 from typing import Any
@@ -55,15 +56,25 @@ def _seed_ledger() -> None:
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
+    log = logging.getLogger("genoguide")
+    log.info("[BACKEND] starting FastAPI on local process")
+    from . import clinical_db as clinical_db
+    clinical_db.init()
+    log.info("[DATABASE] clinical SQLite ready")
     provenance.init_ledger()
+    log.info("[PROVENANCE] local hash-chain ledger initialized (not Hyperledger Fabric)")
     try:
         init_xgboost()
         if xgb_status().get("ready"):
-            _seed_ledger()
+            log.info("[ML] demo XGBoost artifact present (not used as clinical application state)")
+        else:
+            log.warning("[ML] demo XGBoost not ready")
     except Exception as exc:  # noqa: BLE001 — demo ML must not block the API
-        import logging
-        logging.getLogger("genoguide").warning("demo XGBoost not started: %s", exc)
+        log.warning("[ML] demo XGBoost not started: %s", exc)
+    log.info("[ACMG] deterministic engine mounted (authoritative; ML never overrides)")
     yield
+    log.info("[BACKEND] shutting down")
 
 
 app = FastAPI(title="GenoGuide API", version="1.0.0", lifespan=lifespan)
@@ -87,9 +98,16 @@ app.add_middleware(
 try:
     from .api.v1 import router as v1_router
     app.include_router(v1_router)
+    logging.getLogger("genoguide").info("[RESEARCH] /api/v1 mounted")
 except Exception as _v1_err:  # noqa: BLE001 — legacy demo API must keep working
-    import logging
-    logging.getLogger("genoguide").warning("API v1 unavailable: %s", _v1_err)
+    logging.getLogger("genoguide").warning("[RESEARCH] API v1 unavailable: %s", _v1_err)
+
+try:
+    from .clinical_routes import router as clinical_router
+    app.include_router(clinical_router)
+    logging.getLogger("genoguide").info("[CLINICAL] auth/workup/upload routes mounted")
+except Exception as _clin_err:  # noqa: BLE001
+    logging.getLogger("genoguide").warning("[CLINICAL] routes unavailable: %s", _clin_err)
 
 # ---------------------------------------------------------------------------
 # Drug Recommendation Module Router Integration
@@ -117,13 +135,32 @@ except Exception as _e:
 # System status / overview
 # ---------------------------------------------------------------------------
 
+@app.get("/health")
+def root_health() -> dict[str, Any]:
+    from .health import assemble_health
+    return assemble_health()
+
+
+@app.get("/health/detailed")
+def root_health_detailed() -> dict[str, Any]:
+    from .health import assemble_health
+    return assemble_health(detailed=True)
+
+
+@app.get("/api/health")
+def api_health() -> dict[str, Any]:
+    from .health import assemble_health
+    return assemble_health()
+
+
 @app.get("/api/status")
 def status() -> dict[str, Any]:
     ledger = provenance.ledger_stats()
+    esm = esm_status()
     return {
         "mode": "DEMO_MODE" if DEMO_MODE else "LIVE_MODE",
         "components": [
-            {"name": "ESM-2", "ready": True, "detail": esm_status()},
+            {"name": "ESM-2", "ready": bool(esm.get("ready")), "detail": esm},
             {"name": "XGBoost", "ready": xgb_status()["ready"], "detail": xgb_status()},
             {"name": "ACMG Engine", "ready": True,
              "detail": {"framework": "ACMG/AMP 2015", "criteria": 13, "deterministic": True}},
@@ -440,7 +477,10 @@ def clinical_workup(req: WorkupRequest) -> dict[str, Any]:
 
 @app.get("/api/patients")
 def list_patients() -> list[dict[str, Any]]:
-    return PATIENTS
+    """Persisted clinical patients only — never the synthetic G-1027 cohort."""
+    from . import clinical_db as C
+    C.init()
+    return []
 
 
 @app.get("/api/patients/{patient_id}")

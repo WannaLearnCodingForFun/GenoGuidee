@@ -17,6 +17,22 @@ const PROTECTED_PREFIXES = [
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
 
+  const path = request.nextUrl.pathname;
+  const isProtected = PROTECTED_PREFIXES.some((p) => path === p || path.startsWith(`${p}/`));
+
+  // Local auth: cookie is a presence check only. Role/resource authorization
+  // is enforced by FastAPI from the bearer token, not this cookie.
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    const token = request.cookies.get("genoguide_token")?.value;
+    if (isProtected && !token) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/login";
+      url.searchParams.set("next", path);
+      return NextResponse.redirect(url);
+    }
+    return response;
+  }
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -40,9 +56,6 @@ export async function updateSession(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
-  const path = request.nextUrl.pathname;
-  const isProtected = PROTECTED_PREFIXES.some((p) => path === p || path.startsWith(`${p}/`));
 
   if (isProtected && !user) {
     const url = request.nextUrl.clone();

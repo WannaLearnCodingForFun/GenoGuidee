@@ -47,3 +47,4 @@ class SomaticTherapy(BaseModel):
     cached: bool = False
     latency_ms: Optional[float] = None
     engine: Optional[dict[str, Any]] = None
+    abstained: bool = False

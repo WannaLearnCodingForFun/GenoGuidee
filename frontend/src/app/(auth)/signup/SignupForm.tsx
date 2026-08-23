@@ -4,6 +4,8 @@ import { useState, type FormEvent, type ReactNode } from "react";
 import Link from "next/link";
 import { ArrowRight, Loader2, UserPlus } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { api, setLocalToken } from "@/lib/api";
 
 export type Role = "doctor" | "patient" | "lab_technician";
 
@@ -35,6 +37,7 @@ export function SignupForm({
   const [loading, setLoading] = useState(false);
   const [checkEmail, setCheckEmail] = useState(false);
   const [referenceId, setReferenceId] = useState<string | null>(null);
+  const [issuedPatientId, setIssuedPatientId] = useState<string | null>(null);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -42,6 +45,33 @@ export function SignupForm({
     setLoading(true);
 
     const metadata: Record<string, string> = { role, full_name: fullName, ...buildMetadata() };
+
+    if (!isSupabaseConfigured()) {
+      try {
+        const invite = new URLSearchParams(window.location.search).get("invite") || undefined;
+        const res = await api.signup({
+          email,
+          password,
+          full_name: fullName,
+          role,
+          invite_token: role === "patient" ? invite : undefined,
+        });
+        setLocalToken(res.token);
+        if (res.patient?.identifier) {
+          window.sessionStorage.setItem("genoguide_patient_code", res.patient.identifier);
+        }
+        if (role === "patient" && res.patient?.identifier) {
+          setIssuedPatientId(res.patient.identifier);
+          setLoading(false);
+          return;
+        }
+        window.location.href = "/dashboard";
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Signup failed");
+        setLoading(false);
+      }
+      return;
+    }
 
     const supabase = createClient();
     const { data, error } = await supabase.auth.signUp({
@@ -71,6 +101,29 @@ export function SignupForm({
     }
   }
 
+  if (issuedPatientId) {
+    return (
+      <div className="card p-8 text-center">
+        <h1 className="text-2xl font-bold tracking-tight">Your Patient ID</h1>
+        <p className="mt-2 text-sm text-muted">
+          Share this ID with your doctor. They must enter it on Clinical Workup.
+          You will also need it to sign in.
+        </p>
+        <p className="mt-5 rounded-lg border border-cyan/30 bg-cyan/10 p-4 font-mono text-lg font-semibold text-cyan">
+          {issuedPatientId}
+        </p>
+        <button
+          type="button"
+          onClick={() => { window.location.href = "/dashboard"; }}
+          className="group mx-auto mt-6 flex items-center justify-center gap-2 rounded-xl border border-cyan/40 bg-cyan/10 px-6 py-3 text-sm font-semibold text-cyan transition-all hover:bg-cyan/20"
+        >
+          Continue to dashboard
+          <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+        </button>
+      </div>
+    );
+  }
+
   if (checkEmail) {
     return (
       <div className="card p-8 text-center">
@@ -98,6 +151,12 @@ export function SignupForm({
           Choose a different role
         </Link>
       </p>
+      {role === "patient" && (
+        <p className="mt-3 text-sm text-muted">
+          Creating an account issues a unique Patient ID. Give that ID to your doctor
+          before they run a clinical workup. Use the same ID when you sign in.
+        </p>
+      )}
 
       <form onSubmit={onSubmit} className="mt-6 space-y-4">
         <div>
@@ -154,6 +213,12 @@ export function SignupForm({
           <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
         </button>
       </form>
+
+      {!isSupabaseConfigured() && (
+        <p className="mt-3 text-center text-[11px] uppercase tracking-widest text-muted">
+          Local offline demo — no cloud identity. Create account opens the workspace as this role.
+        </p>
+      )}
 
       <p className="mt-6 text-center text-sm text-muted">
         Already have an account?{" "}

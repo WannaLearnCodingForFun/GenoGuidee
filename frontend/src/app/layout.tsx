@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-bg text-fg" suppressHydrationWarning>
+        <Script src="/ignore-extension-errors.js" strategy="beforeInteractive" />
         {children}
       </body>
     </html>

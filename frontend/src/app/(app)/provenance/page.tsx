@@ -15,45 +15,85 @@ import {
   ShieldX,
   X,
 } from "lucide-react";
-import { api, type LedgerBlock, type VerifyResult } from "@/lib/api";
+import { api, type ClinicalPatient, type LedgerBlock, type VerifyResult } from "@/lib/api";
 import { shortHash, timestampLabel } from "@/lib/ui";
 import { useAccount } from "@/lib/useAccount";
 
-// Demo fallback only — used when a ledger block has no assigned patient and
-// there's no authenticated identity to fall back to instead.
-const DEMO_PATIENT_ID = "G-1027";
+function toLedger(raw: Record<string, unknown>): LedgerBlock {
+  let payload: Record<string, unknown> = {};
+  try {
+    payload = JSON.parse(String(raw.payload_json || "{}")) as Record<string, unknown>;
+  } catch {
+    payload = {};
+  }
+  return {
+    block_index: Number(raw.block_number),
+    tx_id: String(raw.id),
+    contract: String(raw.contract_name || "ClinicalContract"),
+    function: String(raw.function_name || raw.event_type),
+    subject_id: raw.patient_id == null ? "UNASSIGNED" : String(raw.patient_id),
+    payload,
+    payload_hash: String(raw.payload_hash || ""),
+    prev_hash: String(raw.previous_hash || ""),
+    block_hash: String(raw.block_hash || ""),
+    timestamp: Number(raw.timestamp || 0),
+    channel: "clinical",
+  };
+}
 
 export default function Provenance() {
-  const { account } = useAccount();
+  const { account, loading } = useAccount();
+  const [patients, setPatients] = useState<ClinicalPatient[]>([]);
+  const [patientId, setPatientId] = useState<number | null>(null);
   const [blocks, setBlocks] = useState<LedgerBlock[]>([]);
   const [functions, setFunctions] = useState<string[]>([]);
   const [selected, setSelected] = useState<LedgerBlock | null>(null);
   const [verify, setVerify] = useState<VerifyResult | null>(null);
   const [verifying, setVerifying] = useState(false);
   const [auditFilter, setAuditFilter] = useState<string | null>(null);
+  const [auditEvents, setAuditEvents] = useState<Record<string, unknown>[]>([]);
   const [showAudit, setShowAudit] = useState(false);
   const [consent, setConsent] = useState<{ patient_id: string; state: string; record: LedgerBlock | null } | null>(null);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(() => {
+    if (loading || !account) return;
     api
-      .audit()
+      .clinicalPatients()
+      .then((rows) => {
+        setPatients(rows);
+        setPatientId((prev) => prev ?? rows[0]?.id ?? null);
+        setError(null);
+      })
+      .catch((e) => setError(e instanceof Error ? e.message : "Unable to load patients"));
+  }, [account, loading]);
+
+  useEffect(load, [load]);
+
+  useEffect(() => {
+    if (patientId == null) {
+      setBlocks([]);
+      setSelected(null);
+      return;
+    }
+    api
+      .clinicalProvenance(patientId)
       .then((d) => {
-        setBlocks(d.blocks);
-        setFunctions(d.contract_functions);
+        const mapped = (d.blocks as Record<string, unknown>[]).map(toLedger);
+        setBlocks(mapped);
+        setFunctions([...new Set(mapped.map((b) => b.function))]);
         setSelected((prev) => {
-          if (prev) return d.blocks.find((b) => b.tx_id === prev.tx_id) ?? prev;
+          if (prev) return mapped.find((b) => b.tx_id === prev.tx_id) ?? mapped[mapped.length - 1] ?? null;
           return (
-            [...d.blocks].reverse().find((b) => b.function === "recordInterpretation") ??
-            d.blocks[d.blocks.length - 1] ??
+            [...mapped].reverse().find((b) => b.function === "recordInterpretation") ??
+            mapped[mapped.length - 1] ??
             null
           );
         });
+        setError(null);
       })
-      .catch(() => setError(true));
-  }, []);
-
-  useEffect(load, [load]);
+      .catch((e) => setError(e instanceof Error ? e.message : "Unable to load provenance"));
+  }, [patientId]);
 
   const interpretations = useMemo(
     () => blocks.filter((b) => b.function === "recordInterpretation").length,
@@ -65,30 +105,51 @@ export default function Provenance() {
     setVerifying(true);
     setVerify(null);
     try {
-      const res = await api.verify(selected.tx_id);
-      // Small theatrical delay so the chain check reads as a real recomputation
-      await new Promise((r) => setTimeout(r, 700));
-      setVerify(res);
-    } catch {
-      setError(true);
+      const res = await api.clinicalVerify(Number(selected.tx_id));
+      const mapped: VerifyResult = {
+        verified: Boolean(res.verified),
+        status: String(res.status ?? ""),
+        tx_id: String(res.tx_id ?? selected.tx_id),
+        checks: ((res.checks as { block_number?: number; intact?: boolean }[]) ?? []).map((c) => ({
+          block_index: Number(c.block_number),
+          tx_id: "",
+          intact: Boolean(c.intact),
+        })),
+        chain_depth: Number(res.chain_depth ?? 0),
+      };
+      setVerify(mapped);
+      const refreshed = await api.clinicalProvenance(patientId!);
+      setBlocks((refreshed.blocks as Record<string, unknown>[]).map(toLedger));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Verification failed");
     } finally {
       setVerifying(false);
     }
   }
 
   async function openConsent() {
-    if (!selected) return;
-    const pid = selected.subject_id === "UNASSIGNED" ? (account?.id ?? DEMO_PATIENT_ID) : selected.subject_id;
-    const c = await api.consent(pid);
-    setConsent(c);
+    if (patientId == null) return;
+    const c = await api.clinicalConsent(patientId);
+    const record = c.records[0] ? toLedger(c.records[0] as Record<string, unknown>) : null;
+    setConsent({
+      patient_id: c.patient_id,
+      state: c.state === "granted" ? "GRANTED" : c.state.toUpperCase(),
+      record,
+    });
   }
 
   async function toggleConsent() {
-    if (!consent) return;
-    if (consent.state === "GRANTED") await api.revokeConsent(consent.patient_id);
-    else await api.recordConsent(consent.patient_id);
-    const c = await api.consent(consent.patient_id);
-    setConsent(c);
+    if (!consent || patientId == null) return;
+    if (consent.state === "GRANTED") {
+      await api.clinicalRevokeConsent(patientId);
+    }
+    const c = await api.clinicalConsent(patientId);
+    const record = c.records[0] ? toLedger(c.records[0] as Record<string, unknown>) : null;
+    setConsent({
+      patient_id: c.patient_id,
+      state: c.state === "granted" ? "GRANTED" : c.state.toUpperCase(),
+      record,
+    });
     load();
   }
 
@@ -107,7 +168,28 @@ export default function Provenance() {
         </p>
       </header>
 
-      {error && <p className="mb-4 text-sm text-error">Backend not reachable.</p>}
+      {error && <p className="mb-4 text-sm text-error">{error}</p>}
+      <div className="mb-4 flex flex-wrap gap-2">
+        {patients.map((pt) => (
+          <button
+            key={pt.id}
+            onClick={() => {
+              setPatientId(pt.id);
+              setVerify(null);
+            }}
+            className={`rounded-lg border px-4 py-2 text-sm font-semibold transition-all ${
+              pt.id === patientId
+                ? "border-cyan/50 bg-cyan/10 text-cyan"
+                : "border-navy-950/10 text-muted hover:border-navy-950/25"
+            }`}
+          >
+            {pt.identifier}
+          </button>
+        ))}
+        {patients.length === 0 && !error && (
+          <p className="text-sm text-muted">No persisted patients yet. Complete Clinical Workup first.</p>
+        )}
+      </div>
 
       {/* Contract + stats strip */}
       <section className="card card-glow-violet mb-6 flex flex-wrap items-center gap-x-10 gap-y-4 p-5">
@@ -256,8 +338,11 @@ export default function Provenance() {
                 VERIFY INTERPRETATION
               </button>
               <button
-                onClick={() => {
-                  setAuditFilter(selected.subject_id === "UNASSIGNED" ? null : selected.subject_id);
+                onClick={async () => {
+                  if (patientId == null) return;
+                  const trail = await api.clinicalAudit(patientId);
+                  setAuditEvents(trail.events);
+                  setAuditFilter(patients.find((p) => p.id === patientId)?.identifier ?? String(patientId));
                   setShowAudit(true);
                 }}
                 className="inline-flex items-center gap-2 rounded-xl border border-cyan/40 bg-cyan/10 px-5 py-2.5 text-sm font-bold tracking-wide text-cyan transition-all hover:bg-cyan/20"
@@ -358,22 +443,16 @@ export default function Provenance() {
                 </button>
               </div>
               <ol className="relative space-y-4 border-l border-navy-950/10 pl-5">
-                {blocks
-                  .filter((b) => !auditFilter || b.subject_id === auditFilter)
-                  .map((b) => (
-                    <li key={b.tx_id} className="relative">
-                      <span
-                        className={`absolute -left-[26px] top-1 size-2.5 rounded-full ${
-                          b.function === "recordInterpretation" ? "bg-cyan" : "bg-violet"
-                        }`}
-                      />
+                {auditEvents.map((ev) => (
+                    <li key={String(ev.id)} className="relative">
+                      <span className="absolute -left-[26px] top-1 size-2.5 rounded-full bg-cyan" />
                       <p className="mono text-xs font-semibold">
-                        {b.function}() <span className="text-muted">· block #{b.block_index}</span>
+                        {String(ev.action)} <span className="text-muted">· {String(ev.resource)}</span>
                       </p>
                       <p className="text-[11px] text-muted">
-                        {b.subject_id} · {timestampLabel(b.timestamp)}
+                        {timestampLabel(Number(ev.timestamp))}
                       </p>
-                      <p className="mono mt-0.5 text-[10px] text-cyan/70">{shortHash(b.tx_id, 14)}</p>
+                      <p className="mono mt-0.5 text-[10px] text-cyan/70">{String(ev.resource_id ?? "")}</p>
                     </li>
                   ))}
               </ol>

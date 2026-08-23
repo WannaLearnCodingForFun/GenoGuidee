@@ -19,16 +19,11 @@ const ALL: Record<string, NavItem> = {
 /**
  * Phase B2 — per-role page visibility.
  *
- * doctor: everything.
- * patient: dashboard, upload, and their own provenance — NOT variant-lab or
- *   therapy ranking (raw classifications/drug rankings are not shown to
- *   patients unmediated; this mirrors a clinical-safety norm, not just a nav
- *   preference).
- * lab_technician: dashboard + upload only, scoped to lab_orders assigned to
- *   them — NOT clinical-workup, NOT therapy. (Knowledge graph/patient context/
- *   variant-lab are clinician tools; a technician's job is limited to
- *   processing an assigned order, so they're excluded too pending explicit
- *   confirmation of a broader technician scope.)
+ * doctor: full clinical workspace.
+ * patient: own record, uploads, context (including longitudinal), provenance.
+ *   Therapy ranking remains clinician-mediated.
+ * lab_technician: all patients, uploads, variant lab, context, provenance.
+ *   Cannot create patients or submit clinical workup.
  */
 export const NAV_BY_ROLE: Record<Role, NavItem[]> = {
   doctor: [
@@ -41,11 +36,21 @@ export const NAV_BY_ROLE: Record<Role, NavItem[]> = {
     ALL.provenance,
     ALL.upload,
   ],
-  patient: [ALL.dashboard, ALL.upload, ALL.provenance],
-  lab_technician: [ALL.dashboard, ALL.upload],
+  patient: [ALL.dashboard, ALL.patientContext, ALL.upload, ALL.provenance],
+  lab_technician: [
+    ALL.dashboard,
+    ALL.variantLab,
+    ALL.patientContext,
+    ALL.provenance,
+    ALL.upload,
+  ],
   "": [ALL.dashboard],
 };
 
 export function allowedPathsForRole(role: Role): string[] {
-  return (NAV_BY_ROLE[role] ?? NAV_BY_ROLE.doctor).map((n) => n.href);
+  return (NAV_BY_ROLE[role] ?? NAV_BY_ROLE[""]).map((n) => n.href);
+}
+
+export function pathAllowedForRole(role: Role, path: string): boolean {
+  return allowedPathsForRole(role).some((p) => path === p || path.startsWith(`${p}/`));
 }

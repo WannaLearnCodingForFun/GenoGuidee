@@ -27,6 +27,7 @@ from ..provenance2 import ledger
 from ..schemas.interpretation import InterpretationObject, MlPrediction, ProvenanceRecord
 from ..schemas.variant import CanonicalVariant
 from .evidence import ANNOTATION_VERSION, EvidenceService
+from . import esm2_service
 
 REPO = Path(__file__).resolve().parents[3]
 MODEL_DIR = REPO / "models/production"
@@ -98,40 +99,23 @@ def _feature_vector(annotation: dict[str, Any], features: list[str]) -> np.ndarr
 
 
 def _ml_predict(annotation: dict[str, Any]) -> Optional[MlPrediction]:
-    bundle = _load_ml_model()
-    if bundle is None:
+    from .ml_predict import predict_from_annotation
+
+    pred = predict_from_annotation(annotation)
+    if pred is None:
         return None
-    X = _feature_vector(annotation, bundle["features"])
-    proba = bundle["model"].predict_proba(X)
-    # temperature calibration
-    T = bundle.get("temperature", 1.0)
-    logp = np.log(np.clip(proba, 1e-12, 1.0)) / T
-    logp -= logp.max(axis=1, keepdims=True)
-    cal = np.exp(logp)
-    cal /= cal.sum(axis=1, keepdims=True)
-
-    labels = bundle["labels"]
-    p = cal[0]
-    entropy = float(-(p * np.log(np.clip(p, 1e-12, 1))).sum())
-    ood_state, ood_detail = "IN_DISTRIBUTION", {}
-    if bundle.get("ood") is not None:
-        try:
-            d = float(bundle["ood"].distance(X)[0])
-            ood_state = bundle["ood"].state(X)[0]
-            ood_detail = {"mahalanobis": round(d, 3), **bundle["ood"].to_dict()}
-        except Exception:  # noqa: BLE001 — OOD failure must not block interpretation
-            ood_state = "OOD_CHECK_FAILED"
-
+    probs = pred["probabilities"]
     return MlPrediction(
-        model_id=bundle["meta"]["model_id"],
-        model_version=bundle["meta"].get("registered", "unknown"),
-        probabilities={l: round(float(x), 4) for l, x in zip(labels, proba[0])},
-        top_class=labels[int(np.argmax(p))],
-        calibrated=True,
-        calibrated_probabilities={l: round(float(x), 4) for l, x in zip(labels, p)},
-        uncertainty={"entropy": round(entropy, 4),
-                     "max_probability": round(float(p.max()), 4)},
-        ood={"state": ood_state, **ood_detail},
+        model_id=pred["model_name"],
+        model_version=pred["model_version"],
+        probabilities=probs,
+        top_class=pred["predicted_class"],
+        calibrated=pred["calibrated"],
+        calibrated_probabilities=probs,
+        uncertainty={
+            "max_probability": pred["confidence"],
+        },
+        ood=None,
     )
 
 
@@ -264,9 +248,13 @@ class InterpretationService:
                                  else ("SOURCE_NOT_CONFIGURED"
                                        if annotation["sources"]["alphamissense"] != "AVAILABLE"
                                        else "NOT_AVAILABLE")},
-            sequence_model={"availability": "NOT_IMPLEMENTED",
-                            "note": "ESM-2 delta embeddings require a protein sequence source; "
-                                    "see research/training/esm_representation.py"},
+            sequence_model=esm2_service.represent(
+                (annotation.get("protein_lookup") or {}).get("ref_seq")
+                or (patient or {}).get("protein_ref_seq"),
+                (annotation.get("protein_lookup") or {}).get("alt_seq")
+                or (patient or {}).get("protein_alt_seq"),
+                annotation.get("consequence"),
+            ),
             ml_prediction=ml,
             acmg_interpretation=acmg,
             reconciliation=recon,

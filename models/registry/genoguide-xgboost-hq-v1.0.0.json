@@ -1,0 +1,39 @@
+{
+  "model_id": "genoguide-xgboost-hq-v1.0.0",
+  "registered": "2026-08-23T00:15:16.526735+00:00",
+  "artifact": "models/production/xgboost_hq_binary.joblib",
+  "training_dataset": {
+    "path": "research/data/processed/training_dataset.parquet",
+    "filter": "label in P/LP/B/LB and meta_confidence_tier>=2",
+    "n_hq": 388009
+  },
+  "split": "gene_disjoint",
+  "threshold": 0.175,
+  "metrics_gene_disjoint_test": {
+    "n": 58481,
+    "accuracy": 0.905730066175339,
+    "balanced_accuracy": 0.9224376110134205,
+    "precision": 0.7281234334094581,
+    "recall": 0.9538820782253357,
+    "f1": 0.8258521022206778,
+    "roc_auc": 0.9785521633306109,
+    "pr_auc": 0.9466634936430544,
+    "confusion_matrix": [
+      [
+        39896,
+        4881
+      ],
+      [
+        632,
+        13072
+      ]
+    ]
+  },
+  "leakage": {
+    "severity": "OK",
+    "exact_coordinate_overlap": 0,
+    "variation_id_overlap": 0,
+    "gene_protein_change_overlap": 0
+  },
+  "seed": 62
+}

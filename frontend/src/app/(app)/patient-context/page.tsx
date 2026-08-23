@@ -22,12 +22,10 @@ import {
   RadialBarChart,
   ResponsiveContainer,
 } from "recharts";
-import { api, type ContextAnalysis, type Patient } from "@/lib/api";
+import { api, type ClinicalBundle, type ClinicalPatient, type ContextAnalysis, type WorkupResult } from "@/lib/api";
+import { WorkupStages, workupPayload } from "@/components/WorkupStages";
 import { classColor, levelColor } from "@/lib/ui";
 import { useAccount } from "@/lib/useAccount";
-
-// Demo fallback only — used when no authenticated patient context exists.
-const DEMO_PATIENT_ID = "G-1027";
 
 const CONSIDERATION_ICONS: Record<string, typeof Info> = {
   guideline: BookOpenCheck,
@@ -40,32 +38,57 @@ const CONSIDERATION_ICONS: Record<string, typeof Info> = {
 };
 
 export default function PatientContext() {
-  const { account } = useAccount();
-  const [patients, setPatients] = useState<Patient[]>([]);
-  const [selectedId, setSelectedId] = useState(DEMO_PATIENT_ID);
-  const [context, setContext] = useState<{ patient: Patient; analyses: ContextAnalysis[] } | null>(null);
-  const [error, setError] = useState(false);
+  const { account, loading } = useAccount();
+  const [patients, setPatients] = useState<ClinicalPatient[]>([]);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [bundle, setBundle] = useState<ClinicalBundle | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [longitudinal, setLongitudinal] = useState<Awaited<ReturnType<typeof api.clinicalLongitudinal>> | null>(null);
+  const [report, setReport] = useState<Record<string, unknown> | null>(null);
+  const [storedWorkup, setStoredWorkup] = useState<WorkupResult | null>(null);
+  const [labNotes, setLabNotes] = useState("");
 
   useEffect(() => {
-    api.patients().then(setPatients).catch(() => setError(true));
-  }, []);
+    if (loading || !account) return;
+    api.clinicalPatients()
+      .then((rows) => {
+        setPatients(rows);
+        setSelectedId((prev) => prev ?? rows[0]?.id ?? null);
+      })
+      .catch((e) => setError(e instanceof Error ? e.message : "Unable to load patients"));
+  }, [account, loading]);
 
   useEffect(() => {
-    if (account?.role === "patient" && account.id) setSelectedId(account.id);
-  }, [account]);
+    if (!account || selectedId == null) {
+      setBundle(null);
+      setStoredWorkup(null);
+      return;
+    }
+    api.clinicalPatient(selectedId)
+      .then((b) => {
+        setBundle(b);
+        const fromBundle = workupPayload(b.workup);
+        if (fromBundle) setStoredWorkup(fromBundle);
+      })
+      .catch((e) => setError(e instanceof Error ? e.message : "Unable to load patient"));
+    api.clinicalWorkupResult(selectedId)
+      .then((snap) => setStoredWorkup(workupPayload(snap)))
+      .catch(() => setStoredWorkup((cur) => cur));
+    api.clinicalLongitudinal(selectedId)
+      .then(setLongitudinal)
+      .catch(() => setLongitudinal(null));
+    api.clinicalReport(selectedId)
+      .then(setReport)
+      .catch(() => setReport(null));
+  }, [account, selectedId]);
 
-  useEffect(() => {
-    setContext(null);
-    api.patientContext(selectedId).then(setContext).catch(() => setError(true));
-  }, [selectedId]);
-
-  const p = context?.patient;
-  const funnel = p
+  const p = bundle?.patient;
+  const funnel = bundle
     ? [
-        { label: "Total variants", value: p.genome_stats.total_variants },
-        { label: "Candidates", value: p.genome_stats.candidates },
-        { label: "Annotated", value: p.genome_stats.annotated },
-        { label: "Prioritized", value: p.genome_stats.prioritized },
+        { label: "Uploads", value: bundle.uploads.length },
+        { label: "Phenotypes", value: bundle.phenotypes.length },
+        { label: "Medications", value: bundle.medications.length },
+        { label: "Interpretations", value: bundle.reconciliations.length },
       ]
     : [];
 
@@ -94,32 +117,33 @@ export default function PatientContext() {
                 : "border-navy-950/10 bg-panel2/60 hover:border-navy-950/25"
             }`}
           >
-            <p className="text-sm font-bold">{pt.id}</p>
+            <p className="text-sm font-bold">{pt.identifier}</p>
             <p className="text-[11px] text-muted">
-              {pt.age}y {pt.sex} · {pt.diagnosis_short}
+              {pt.age ?? "—"}y {pt.sex ?? ""} · {pt.diagnosis ?? "no diagnosis"}
             </p>
           </button>
         ))}
       </div>
 
-      {error && (
-        <p className="text-sm text-error">Backend not reachable — start the FastAPI server.</p>
+      {error && <p className="text-sm text-error">{error}</p>}
+      {!error && patients.length === 0 && (
+        <p className="text-sm text-muted">No persisted patients yet. Enter a registered Patient ID on Clinical Workup.</p>
       )}
 
-      {p && context && (
+      {p && bundle && (
         <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} key={p.id}>
           {/* Demographics + funnel */}
           <div className="grid gap-4 lg:grid-cols-[380px_1fr]">
             <section className="card p-5">
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-xl font-bold">{p.id}</p>
+                  <p className="text-xl font-bold">{p.identifier}</p>
                   <p className="text-sm text-muted">
-                    {p.age} years · {p.sex}
+                    {p.age ?? "—"} years · {p.sex ?? "not stated"}
                   </p>
                 </div>
                 <span className="rounded border border-warning/40 bg-warning/10 px-2 py-1 text-[9px] font-bold uppercase tracking-widest text-warning">
-                  {p.label}
+                  persisted
                 </span>
               </div>
               <dl className="mt-4 space-y-3 text-sm">
@@ -134,13 +158,12 @@ export default function PatientContext() {
                     Phenotypes (HPO)
                   </dt>
                   <dd className="mt-1.5 flex flex-wrap gap-1.5">
-                    {p.phenotypes.map((ph) => (
+                    {bundle.phenotypes.map((ph) => (
                       <span
-                        key={ph.hpo}
+                        key={ph.phenotype}
                         className="rounded border border-violet/30 bg-violet/10 px-2 py-0.5 text-[11px] text-violet"
-                        title={ph.hpo}
                       >
-                        {ph.term}
+                        {ph.phenotype}
                       </span>
                     ))}
                   </dd>
@@ -148,13 +171,13 @@ export default function PatientContext() {
                 <div>
                   <dt className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted">
                     <HeartPulse className="size-3" /> Family history{" "}
-                    <span className={p.family_history.positive ? "text-warning" : "text-success"}>
-                      {p.family_history.positive ? "POSITIVE" : "NEGATIVE"}
+                    <span className={bundle.family_history.length ? "text-warning" : "text-success"}>
+                      {bundle.family_history.length ? "RECORDED" : "NONE"}
                     </span>
                   </dt>
                   <dd className="mt-1.5 space-y-1 text-xs text-muted">
-                    {p.family_history.entries.map((e) => (
-                      <p key={e}>· {e}</p>
+                    {bundle.family_history.map((e) => (
+                      <p key={e.condition}>· {e.condition}</p>
                     ))}
                   </dd>
                 </div>
@@ -163,16 +186,9 @@ export default function PatientContext() {
                     <Pill className="size-3" /> Medications
                   </dt>
                   <dd className="mt-1.5 space-y-1.5">
-                    {p.medications.map((m) => (
-                      <div key={m.name} className="rounded-lg border border-navy-950/8 bg-panel2 px-3 py-2">
-                        <p className="text-xs font-medium">
-                          {m.name} <span className="text-muted">— {m.dose}</span>
-                        </p>
-                        {m.pgx_gene && (
-                          <p className="mt-0.5 text-[10px] text-cyan">
-                            PGx: {m.pgx_gene} — {m.pgx_note}
-                          </p>
-                        )}
+                    {bundle.medications.map((m) => (
+                      <div key={m.medication} className="rounded-lg border border-navy-950/8 bg-panel2 px-3 py-2">
+                        <p className="text-xs font-medium">{m.medication}</p>
                       </div>
                     ))}
                   </dd>
@@ -214,39 +230,114 @@ export default function PatientContext() {
                 </div>
               </section>
 
-              {/* Top-line finding */}
-              {context.analyses[0] && (
+              {storedWorkup ? (
                 <section className="card flex items-center gap-6 p-5">
                   <div className="min-w-0">
                     <p className="text-[10px] font-semibold uppercase tracking-widest text-muted">
-                      Highest clinical relevance
+                      Latest ACMG-authoritative classification
                     </p>
                     <p className="mt-1 truncate text-lg font-bold">
-                      {context.analyses[0].variant.gene}{" "}
-                      <span className="mono text-sm font-medium text-cyan">
-                        {context.analyses[0].variant.hgvs_c}
-                      </span>
+                      {storedWorkup.reconciliation.final_classification}
                     </p>
-                    <p className="text-xs text-muted">{context.analyses[0].gene_disease}</p>
+                    <p className="mt-1 text-xs text-muted">
+                      {[storedWorkup.variant.gene, storedWorkup.variant.hgvs_c].filter(Boolean).join(" ")}
+                    </p>
                   </div>
-                  <span
-                    className={`ml-auto shrink-0 rounded-lg border px-4 py-2 text-sm font-black tracking-widest ${levelColor(
-                      context.analyses[0].relevance.level,
-                    )}`}
-                  >
-                    {context.analyses[0].relevance.level}
-                  </span>
+                </section>
+              ) : bundle.reconciliations[0] ? (
+                <section className="card flex items-center gap-6 p-5">
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-semibold uppercase tracking-widest text-muted">
+                      Latest ACMG-authoritative classification
+                    </p>
+                    <p className="mt-1 truncate text-lg font-bold">
+                      {bundle.reconciliations[0].final_classification}
+                    </p>
+                  </div>
+                </section>
+              ) : (
+                <section className="card p-5">
+                  <p className="text-sm text-muted">
+                    No clinical workup result stored for this patient yet.
+                  </p>
                 </section>
               )}
             </div>
           </div>
 
-          {/* Variant analyses */}
-          <div className="mt-6 space-y-5">
-            {context.analyses.map((a, i) => (
-              <VariantContextCard key={a.variant.id} analysis={a} index={i} />
+          {storedWorkup && (
+            <div className="mt-4">
+              <WorkupStages result={storedWorkup} />
+            </div>
+          )}
+
+          <section className="card mt-4 p-5">
+            <h2 className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-muted">
+              <Activity className="size-4 text-cyan" /> Mutation progression
+            </h2>
+            <p className="mb-3 text-xs text-muted">
+              Observed timepoints only. No interpolated or invented trajectory.
+            </p>
+            {longitudinal?.message && (
+              <p className="rounded-lg border border-navy-950/10 bg-panel2 px-3 py-2 text-sm">
+                {longitudinal.message}
+              </p>
+            )}
+            {longitudinal?.series.filter((s) => s.trajectory_available).map((s) => (
+              <div key={s.variant_key} className="mt-3 rounded-xl border border-navy-950/10 p-3">
+                <p className="text-sm font-semibold">{s.gene ?? "variant"} · {s.variant_key}</p>
+                <ol className="mt-2 space-y-1 text-xs text-muted">
+                  {s.points.map((pt, i) => (
+                    <li key={`${s.variant_key}-${i}`}>
+                      {new Date(pt.observation_date * 1000).toLocaleDateString()}
+                      {pt.allele_fraction != null ? ` · VAF ${(pt.allele_fraction * 100).toFixed(1)}%` : " · VAF not reported"}
+                      {pt.filename ? ` · ${pt.filename}` : ""}
+                    </li>
+                  ))}
+                </ol>
+              </div>
             ))}
-          </div>
+            {longitudinal?.outcome && (
+              <p className="mt-3 text-xs text-muted">
+                {longitudinal.outcome.message} {longitudinal.outcome.note}
+              </p>
+            )}
+          </section>
+
+          <section className="card mt-4 p-5">
+            <h2 className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-muted">
+              Persistent report
+            </h2>
+            {report ? (
+              <pre className="max-h-64 overflow-auto rounded-lg bg-panel2 p-3 text-[11px] text-muted">
+                {JSON.stringify((report as { payload?: unknown }).payload ?? report, null, 2)}
+              </pre>
+            ) : (
+              <p className="text-sm text-muted">No report for this patient yet.</p>
+            )}
+            {account?.role === "lab_technician" && (
+              <div className="mt-3 flex flex-wrap items-end gap-2">
+                <textarea
+                  value={labNotes}
+                  onChange={(e) => setLabNotes(e.target.value)}
+                  placeholder="Laboratory review notes"
+                  className="min-h-20 flex-1 rounded-lg border border-navy-950/15 bg-panel2 px-3 py-2 text-sm"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (selectedId == null) return;
+                    api.clinicalPatchReport(selectedId, { lab_notes: labNotes, review_status: "REVIEWED" })
+                      .then(setReport)
+                      .catch((e) => setError(e instanceof Error ? e.message : "Report update failed"));
+                  }}
+                  className="rounded-lg border border-cyan/40 bg-cyan/10 px-4 py-2 text-sm font-semibold text-cyan"
+                >
+                  Save lab review
+                </button>
+              </div>
+            )}
+          </section>
         </motion.div>
       )}
     </div>

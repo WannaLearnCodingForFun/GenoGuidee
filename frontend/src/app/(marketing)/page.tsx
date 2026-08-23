@@ -158,7 +158,7 @@ export default function Landing() {
     supabase
       .rpc("landing_stats")
       .single()
-      .then(({ data, error }) => {
+      .then(({ data, error }: { data: { patients: number; doctors: number } | null; error: { message?: string } | null }) => {
         if (error || !data) return;
         const row = data as { patients: number; doctors: number };
         setAccountStats({ patients: row.patients, doctors: row.doctors });

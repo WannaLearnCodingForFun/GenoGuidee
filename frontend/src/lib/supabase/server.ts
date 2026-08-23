@@ -1,7 +1,13 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { createLocalDemoBrowserClient } from "@/lib/supabase/localDemo";
 
 export async function createClient() {
+  if (!isSupabaseConfigured()) {
+    return createLocalDemoBrowserClient() as unknown as ReturnType<typeof createServerClient>;
+  }
+
   const cookieStore = await cookies();
 
   return createServerClient(

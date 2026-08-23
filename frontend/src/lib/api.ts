@@ -8,15 +8,55 @@ const TUNNEL_KEY = process.env.NEXT_PUBLIC_GENOGUIDE_TUNNEL_KEY ?? "";
 // of trusting a client-supplied role. Best-effort — if there's no session
 // (e.g. demo/showcase browsing) requests still go out without the header,
 // and routes that require it will 401.
+const LOCAL_TOKEN_KEY = "genoguide_token";
+
+export function getLocalToken(): string | null {
+  if (typeof window === "undefined") return null;
+  const stored = window.localStorage.getItem(LOCAL_TOKEN_KEY);
+  if (stored) return stored;
+  const match = document.cookie.match(new RegExp(`(?:^|; )${LOCAL_TOKEN_KEY}=([^;]*)`));
+  const fromCookie = match ? decodeURIComponent(match[1]) : "";
+  if (fromCookie) {
+    window.localStorage.setItem(LOCAL_TOKEN_KEY, fromCookie);
+    return fromCookie;
+  }
+  return null;
+}
+
+export function setLocalToken(token: string | null): void {
+  if (typeof window === "undefined") return;
+  if (token) {
+    window.localStorage.setItem(LOCAL_TOKEN_KEY, token);
+    document.cookie = `${LOCAL_TOKEN_KEY}=${encodeURIComponent(token)}; Path=/; Max-Age=${7 * 86400}; SameSite=Lax`;
+  } else {
+    window.localStorage.removeItem(LOCAL_TOKEN_KEY);
+    document.cookie = `${LOCAL_TOKEN_KEY}=; Path=/; Max-Age=0; SameSite=Lax`;
+  }
+}
+
 async function authHeader(): Promise<Record<string, string>> {
+  const local = getLocalToken();
+  if (local) return { Authorization: `Bearer ${local}` };
   try {
     const supabase = createClient();
     const { data } = await supabase.auth.getSession();
     const token = data.session?.access_token;
-    return token ? { Authorization: `Bearer ${token}` } : {};
+    if (token) return { Authorization: `Bearer ${token}` };
   } catch {
-    return {};
+    /* no session */
   }
+  return {};
+}
+
+function describeHttpError(path: string, status: number, detail?: string): string {
+  if (status === 0 || status === 502 || status === 503 || status === 504) {
+    if (path.includes("therapy")) {
+      return "THERAPY SERVICE UNAVAILABLE — the local backend is running, but the therapy ranker did not respond.";
+    }
+    return "BACKEND UNAVAILABLE — unable to connect to the GenoGuide API. Check that the backend is running on port 8000.";
+  }
+  if (detail) return detail;
+  return `${path} failed (${status})`;
 }
 
 async function apiHeaders(extra?: Record<string, string>): Promise<Record<string, string>> {
@@ -41,6 +81,8 @@ export interface Variant {
   hgvs_p: string;
   chrom: string;
   pos: number;
+  ref?: string;
+  alt?: string;
   consequence: string;
   gnomad_af: number;
   cadd: number | null;
@@ -112,6 +154,8 @@ export interface AnalyzeResult {
     authority: string;
     note: string;
   };
+  observation_status?: string;
+  source_type?: string;
   provenance: {
     recorded: boolean;
     contract: string;
@@ -333,6 +377,18 @@ export interface SystemStatus {
   evidence_version: string;
 }
 
+export interface HealthComponent {
+  status: "READY" | "DEGRADED" | "OFFLINE" | "NOT_CONFIGURED" | "ERROR";
+  detail: string;
+}
+
+export interface HealthReport {
+  status: "READY" | "DEGRADED" | "FAILED";
+  ok: boolean;
+  components: Record<string, HealthComponent>;
+  demo_mode?: boolean;
+}
+
 export interface Stats {
   patients: number;
   variants_analyzed: number;
@@ -347,39 +403,104 @@ export interface Stats {
 // ---------------------------------------------------------------------------
 
 async function get<T>(path: string): Promise<T> {
-  const res = await fetch(`${API}${path}`, { headers: await apiHeaders() });
-  if (!res.ok) throw new Error(`${path} failed (${res.status})`);
+  let res: Response;
+  try {
+    res = await fetch(`${API}${path}`, { headers: await apiHeaders() });
+  } catch {
+    throw new Error(
+      "BACKEND UNAVAILABLE — unable to connect to the GenoGuide API. Check that the backend is running on port 8000.",
+    );
+  }
+  if (!res.ok) {
+    let detail = "";
+    try {
+      const err = await res.json();
+      if (err?.detail) detail = typeof err.detail === "string" ? err.detail : "";
+    } catch {
+      /* keep status */
+    }
+    throw new Error(describeHttpError(path, res.status, detail));
+  }
   return res.json();
 }
 
 async function post<T>(path: string, body: unknown): Promise<T> {
-  const res = await fetch(`${API}${path}`, {
-    method: "POST",
-    headers: await apiHeaders({ "Content-Type": "application/json" }),
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) throw new Error(`${path} failed (${res.status})`);
+  let res: Response;
+  try {
+    res = await fetch(`${API}${path}`, {
+      method: "POST",
+      headers: await apiHeaders({ "Content-Type": "application/json" }),
+      body: JSON.stringify(body),
+    });
+  } catch {
+    throw new Error(
+      "BACKEND UNAVAILABLE — unable to connect to the GenoGuide API. Check that the backend is running on port 8000.",
+    );
+  }
+  if (!res.ok) {
+    let detail = "";
+    try {
+      const err = await res.json();
+      if (err?.detail) detail = typeof err.detail === "string" ? err.detail : "";
+    } catch {
+      /* keep status */
+    }
+    throw new Error(describeHttpError(path, res.status, detail));
+  }
+  return res.json();
+}
+
+async function patch<T>(path: string, body: unknown): Promise<T> {
+  let res: Response;
+  try {
+    res = await fetch(`${API}${path}`, {
+      method: "PATCH",
+      headers: await apiHeaders({ "Content-Type": "application/json" }),
+      body: JSON.stringify(body),
+    });
+  } catch {
+    throw new Error(
+      "BACKEND UNAVAILABLE — unable to connect to the GenoGuide API. Check that the backend is running on port 8000.",
+    );
+  }
+  if (!res.ok) {
+    let detail = "";
+    try {
+      const err = await res.json();
+      if (err?.detail) detail = typeof err.detail === "string" ? err.detail : "";
+    } catch {
+      /* keep status */
+    }
+    throw new Error(describeHttpError(path, res.status, detail));
+  }
   return res.json();
 }
 
 async function postV1<T>(path: string, body: unknown): Promise<T> {
-  const res = await fetch(`${API}${path}`, {
-    method: "POST",
-    headers: await apiHeaders({
-      "Content-Type": "application/json",
-      "X-Role": "RESEARCHER",
-    }),
-    body: JSON.stringify(body),
-  });
+  let res: Response;
+  try {
+    res = await fetch(`${API}${path}`, {
+      method: "POST",
+      headers: await apiHeaders({
+        "Content-Type": "application/json",
+        "X-Role": "RESEARCHER",
+      }),
+      body: JSON.stringify(body),
+    });
+  } catch {
+    throw new Error(
+      "BACKEND UNAVAILABLE — unable to connect to the GenoGuide API. Check that the backend is running on port 8000.",
+    );
+  }
   if (!res.ok) {
-    let detail = `${path} failed (${res.status})`;
+    let detail = "";
     try {
       const err = await res.json();
-      if (err?.detail) detail = typeof err.detail === "string" ? err.detail : detail;
+      if (err?.detail) detail = typeof err.detail === "string" ? err.detail : "";
     } catch {
       /* keep status text */
     }
-    throw new Error(detail);
+    throw new Error(describeHttpError(path, res.status, detail));
   }
   return res.json();
 }
@@ -403,6 +524,7 @@ export interface SomaticTherapy {
   disclaimer: string;
   cached: boolean;
   latency_ms: number | null;
+  abstained?: boolean;
 }
 
 export interface TherapyStatus {
@@ -444,9 +566,12 @@ export interface FrontendBridgeHealth {
 }
 
 export const api = {
+  health: () => get<HealthReport>("/health"),
+  healthDetailed: () => get<HealthReport>("/health/detailed"),
   status: () => get<SystemStatus>("/api/status"),
   stats: () => get<Stats>("/api/stats"),
   variants: () => get<VariantListItem[]>("/api/variants"),
+  variant: (id: string) => get<Variant>(`/api/variants/${id}`),
   analyze: (variant_id: string, patient_id?: string) =>
     post<AnalyzeResult>("/api/analyze", { variant_id, patient_id }),
   analyzeUploaded: (variant: UploadedAnalyzeRequest) =>
@@ -522,4 +647,257 @@ export const api = {
   frontendHealth: () => get<FrontendBridgeHealth>("/api/v1/frontend/health"),
   frontendTherapy: (body: FrontendTherapyRequest) =>
     postV1<FrontendTherapyResponse>("/api/v1/frontend/therapy", body),
+  signup: (body: {
+    email: string;
+    password: string;
+    full_name: string;
+    role: string;
+    invite_token?: string;
+  }) =>
+    post<{
+      token: string;
+      user: { id: number; email: string; role: string; full_name: string };
+      patient?: { id: number; uuid: string; identifier: string } | null;
+    }>("/api/auth/signup", body),
+  login: (body: { email: string; password: string; patient_id?: string }) =>
+    post<{
+      token: string;
+      user: { id: number; email: string; role: string; full_name: string };
+      patient?: ClinicalPatient | null;
+    }>("/api/auth/login", body),
+  me: () =>
+    get<{
+      id: number;
+      email: string;
+      role: string;
+      full_name: string;
+      patient?: Record<string, unknown> | null;
+      linked?: boolean;
+    }>("/api/auth/me"),
+  patientMe: () =>
+    get<{
+      linked: boolean;
+      message?: string;
+      patient: ClinicalPatient | null;
+      uploads?: ClinicalUpload[];
+      report?: Record<string, unknown> | null;
+      reconciliations?: { final_classification: string; confidence?: string }[];
+      workup?: WorkupSnapshot | null;
+      longitudinal?: { message: string | null; trajectory_available: boolean };
+    }>("/api/patient/me"),
+  patientClaim: (invite_token: string) =>
+    post<{ linked: boolean; patient: ClinicalPatient }>("/api/patient/claim", { invite_token }),
+  clinicalInvite: (patientId: number) =>
+    post<{
+      patient: ClinicalPatient;
+      invitation: { token: string; account_status: string; signup_path: string };
+    }>(`/api/clinical/patients/${patientId}/invite`, {}),
+  clinicalOverview: () =>
+    get<{
+      user: { id: number; email: string; role: string; full_name: string };
+      patients: Record<string, unknown>[];
+      uploads: Record<string, unknown>[];
+      pending_signoffs: number;
+      counts: Record<string, number>;
+    }>("/api/clinical/overview"),
+  clinicalPatients: () => get<ClinicalPatient[]>("/api/clinical/patients"),
+  clinicalLookupPatient: (identifier: string) =>
+    get<{
+      id: number;
+      identifier: string;
+      full_name: string | null;
+      email: string | null;
+      account_status: string;
+    }>(`/api/clinical/patient-lookup?identifier=${encodeURIComponent(identifier)}`),
+  clinicalPatient: (id: number) => get<ClinicalBundle>(`/api/clinical/patients/${id}`),
+  clinicalWorkup: (body: Record<string, unknown>) =>
+    post<{
+      patient: ClinicalPatient;
+      bundle: ClinicalBundle;
+      interpretation: unknown;
+      invitation?: { token: string; signup_path: string; account_status: string } | null;
+    }>("/api/clinical/workup", body),
+  clinicalUploads: () => get<ClinicalUpload[]>("/api/clinical/uploads"),
+  clinicalUpload: (id: number) =>
+    get<ClinicalUpload & { variants: ClinicalVariant[] }>(`/api/clinical/uploads/${id}`),
+  clinicalAssign: (uploadId: number, patient_id: number | null) =>
+    post<ClinicalUpload>(`/api/clinical/uploads/${uploadId}/assign`, { patient_id }),
+  clinicalVariants: (page = 1) =>
+    get<{ items: ClinicalVariant[]; total: number }>(`/api/clinical/variants?page=${page}&page_size=50`),
+  clinicalInterpret: (variantId: number, patientId?: number) =>
+    post<Record<string, unknown>>(
+      `/api/clinical/variants/${variantId}/interpret${patientId ? `?patient_id=${patientId}` : ""}`,
+      {},
+    ),
+  clinicalGraph: (patientId: number) =>
+    get<{ nodes: GraphNode[]; edges: GraphEdge[]; patient_id: number }>(
+      `/api/clinical/patients/${patientId}/graph`,
+    ),
+  clinicalProvenance: (patientId: number) =>
+    get<{ blocks: Record<string, unknown>[]; block_count: number; interpretations: number }>(
+      `/api/clinical/patients/${patientId}/provenance`,
+    ),
+  clinicalConsent: (patientId: number) =>
+    get<{ patient_id: string; state: string; records: Record<string, unknown>[] }>(
+      `/api/clinical/patients/${patientId}/consent`,
+    ),
+  clinicalAudit: (patientId: number) =>
+    get<{ events: Record<string, unknown>[] }>(`/api/clinical/patients/${patientId}/audit`),
+  clinicalVerify: (block_id: number) =>
+    post<Record<string, unknown>>("/api/clinical/provenance/verify", { block_id }),
+  clinicalRevokeConsent: (patientId: number) =>
+    post<{ patient_id: string; state: string }>(`/api/clinical/patients/${patientId}/consent/revoke`, {}),
+  clinicalReport: (patientId: number) =>
+    get<Record<string, unknown>>(`/api/clinical/patients/${patientId}/report`),
+  clinicalPatchReport: (patientId: number, body: { lab_notes?: string; review_status?: string }) =>
+    patch<Record<string, unknown>>(`/api/clinical/patients/${patientId}/report`, body),
+  clinicalSaveWorkupResult: (patientId: number, result: WorkupResult) =>
+    post<{ ok: boolean; workup: WorkupSnapshot }>(
+      `/api/clinical/patients/${patientId}/workup-result`,
+      result,
+    ),
+  clinicalWorkupResult: (patientId: number) =>
+    get<WorkupSnapshot>(`/api/clinical/patients/${patientId}/workup-result`),
+  clinicalLongitudinal: (patientId: number) =>
+    get<{
+      patient_id: number;
+      series: Array<{
+        variant_key: string;
+        gene: string | null;
+        observation_count: number;
+        trajectory_available: boolean;
+        points: Array<{
+          observation_date: number;
+          allele_fraction: number | null;
+          filename: string | null;
+        }>;
+      }>;
+      observation_count: number;
+      trajectory_available: boolean;
+      message: string | null;
+      outcome: { supported: boolean; message: string; note: string };
+    }>(`/api/clinical/patients/${patientId}/longitudinal`),
+  clinicalCandidates: (patientId: number) =>
+    get<{
+      kind: string;
+      disclaimer: string;
+      items: Array<Record<string, unknown>>;
+      genes?: string[];
+      reason?: string;
+    }>(`/api/clinical/patients/${patientId}/candidates`),
+  clinicalCurated: (gene: string) =>
+    get<{
+      kind: string;
+      disclaimer: string;
+      items: Array<{
+        gene: string;
+        chrom: string;
+        pos: number;
+        ref: string;
+        alt: string;
+        label?: string;
+        review_status?: string;
+        disclaimer: string;
+        source_type: string;
+      }>;
+      reason?: string;
+    }>(`/api/clinical/curated?gene=${encodeURIComponent(gene)}`),
+  clinicalInterpretCurated: (body: {
+    chromosome: string;
+    position: number;
+    reference: string;
+    alternate: string;
+    gene?: string;
+    patient_id?: number;
+  }) => post<Record<string, unknown>>("/api/clinical/curated/interpret", body),
+  mlHealth: () => get<Record<string, unknown>>("/api/ml/health"),
 };
+
+export interface ClinicalPatient {
+  id: number;
+  uuid?: string;
+  identifier: string;
+  email?: string | null;
+  full_name?: string | null;
+  account_status?: string;
+  user_id?: number | null;
+  age: number | null;
+  sex: string | null;
+  diagnosis: string | null;
+  presenting_complaint: string | null;
+  consent_confirmed: number;
+  created_at: number;
+}
+
+export interface ClinicalUpload {
+  id: number;
+  patient_id: number | null;
+  filename: string;
+  file_type: string;
+  file_size: number;
+  sha256: string;
+  parsing_status: string;
+  parsing_error: string | null;
+  variant_count: number;
+  uploaded_at: number;
+}
+
+export interface ClinicalVariant {
+  id: number;
+  vcf_upload_id: number;
+  chromosome: string | null;
+  position: number | null;
+  reference: string | null;
+  alternate: string | null;
+  gene: string | null;
+  hgvs_c: string | null;
+  hgvs_p: string | null;
+  normalized_variant: string | null;
+  source_type?: string;
+}
+
+export interface WorkupSnapshot {
+  id: number;
+  patient_id: number;
+  gene: string | null;
+  hgvs_c: string | null;
+  variant_label: string | null;
+  acmg_classification: string | null;
+  ml_top_class: string | null;
+  final_classification: string | null;
+  reconciliation_status: string | null;
+  created_at: number;
+  payload: WorkupResult;
+}
+
+export interface ClinicalBundle {
+  patient: ClinicalPatient;
+  phenotypes: { phenotype: string }[];
+  family_history: { condition: string }[];
+  medications: { medication: string }[];
+  uploads: ClinicalUpload[];
+  reconciliations: { final_classification: string; confidence?: string }[];
+  workup?: WorkupSnapshot | null;
+}
+
+export async function uploadClinicalFile(file: File, patientId?: number | null): Promise<ClinicalUpload> {
+  const body = new FormData();
+  body.append("file", file);
+  if (patientId) body.append("patient_id", String(patientId));
+  const res = await fetch(`${API}/api/clinical/uploads`, {
+    method: "POST",
+    headers: await apiHeaders(),
+    body,
+  });
+  if (!res.ok) {
+    let detail = "";
+    try {
+      const err = await res.json();
+      detail = typeof err?.detail === "string" ? err.detail : "";
+    } catch {
+      /* ignore */
+    }
+    throw new Error(detail || `upload failed (${res.status})`);
+  }
+  return res.json();
+}

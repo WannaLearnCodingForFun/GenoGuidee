@@ -116,10 +116,11 @@ def esm_representation(variant: dict[str, Any]) -> dict[str, Any]:
 
 def esm_status() -> dict[str, Any]:
     return {
-        "ready": True,
+        "ready": bool(_esm_live_ready),
         "mode": "live" if _esm_live_ready else "demo-precomputed",
         "model": ESM_MODEL_NAME,
         "dims": ESM_EMBED_DIM,
+        "implementation": "IMPLEMENTED" if _esm_live_ready else "DEMO",
     }
 
 # ---------------------------------------------------------------------------

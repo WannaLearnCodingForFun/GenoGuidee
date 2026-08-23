@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle2, Clock, FileUp, Stethoscope, UserRound } from "lucide-react";
-import { api } from "@/lib/api";
+import { api, type WorkupResult } from "@/lib/api";
+import { WorkupStages, workupPayload } from "@/components/WorkupStages";
 import { createClient } from "@/lib/supabase/client";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { useAccount } from "@/lib/useAccount";
 
 const ROLE_LABEL: Record<string, string> = {
@@ -32,6 +34,10 @@ interface DoctorWidgetData {
 interface PatientWidgetData {
   uploads: { id: string; filename: string; status: string; uploaded_at: string }[];
   latestStatus: string | null;
+  identifier?: string | null;
+  linked?: boolean;
+  message?: string | null;
+  workup?: WorkupResult | null;
 }
 
 interface LabWidgetData {
@@ -60,18 +66,36 @@ function DoctorWidgets() {
   const [data, setData] = useState<DoctorWidgetData | null>(null);
 
   useEffect(() => {
+    if (!isSupabaseConfigured()) {
+      api.clinicalOverview()
+        .then((o) => {
+          setData({
+            patients: o.patients.map((p) => ({
+              id: String((p as { id: number }).id),
+              mrn: String((p as { identifier?: string }).identifier ?? p.id),
+            })),
+            pendingSignoffs: o.pending_signoffs,
+            recentInterpretations: [],
+          });
+        })
+        .catch(() => setData({ patients: [], pendingSignoffs: 0, recentInterpretations: [] }));
+      return;
+    }
     const supabase = createClient();
     (async () => {
       const { data: userData } = await supabase.auth.getUser();
       const uid = userData.user?.id;
-      if (!uid) return;
+      if (!uid) {
+        setData({ patients: [], pendingSignoffs: 0, recentInterpretations: [] });
+        return;
+      }
 
       const { data: patients } = await supabase
         .from("patients")
         .select("id, mrn")
         .eq("primary_doctor_id", uid);
 
-      const patientIds = (patients ?? []).map((p) => p.id);
+      const patientIds = (patients ?? []).map((p: { id: string }) => p.id);
 
       let pendingSignoffs = 0;
       let recentInterpretations: DoctorWidgetData["recentInterpretations"] = [];
@@ -145,14 +169,54 @@ function DoctorWidgets() {
 }
 
 function PatientWidgets() {
+  const { account, loading } = useAccount();
   const [data, setData] = useState<PatientWidgetData | null>(null);
 
   useEffect(() => {
+    if (loading || !account) return;
+    if (!isSupabaseConfigured()) {
+      api.patientMe()
+        .then(async (me) => {
+          let result = workupPayload(me.workup);
+          if (!result && me.patient?.id) {
+            try {
+              result = workupPayload(await api.clinicalWorkupResult(me.patient.id));
+            } catch {
+              /* no stored workup yet */
+            }
+          }
+          setData({
+            uploads: (me.uploads ?? []).map((u) => ({
+              id: String(u.id),
+              filename: u.filename,
+              status: u.parsing_status,
+              uploaded_at: new Date(u.uploaded_at * 1000).toISOString(),
+            })),
+            latestStatus: result
+              ? null
+              : me.reconciliations?.[0]
+                ? PLAIN_STATUS[me.reconciliations[0].final_classification.toLowerCase()]
+                  ?? "Your care team has recorded a result for review."
+                : me.linked
+                  ? "Your record is stored. No reviewed result is available yet."
+                  : null,
+            identifier: me.patient?.identifier ?? null,
+            linked: me.linked,
+            message: me.message ?? null,
+            workup: result,
+          });
+        })
+        .catch(() => setData({ uploads: [], latestStatus: null, linked: false }));
+      return;
+    }
     const supabase = createClient();
     (async () => {
       const { data: userData } = await supabase.auth.getUser();
       const uid = userData.user?.id;
-      if (!uid) return;
+      if (!uid) {
+        setData({ uploads: [], latestStatus: null });
+        return;
+      }
 
       const { data: uploads } = await supabase
         .from("vcf_uploads")
@@ -175,21 +239,35 @@ function PatientWidgets() {
 
       setData({ uploads: uploads ?? [], latestStatus });
     })();
-  }, []);
+  }, [account, loading]);
 
   if (!data) return <EmptyState text="Loading your status…" />;
 
   return (
     <div className="mt-8 space-y-6">
       <div className="card p-5">
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted">Your result status</h2>
-        <div className="mt-3">
-          {data.latestStatus ? (
-            <p className="text-sm">{data.latestStatus}</p>
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted">Your record</h2>
+        <p className="mt-2 text-sm">
+          {data.linked && data.identifier ? (
+            <>Patient ID: <span className="font-mono font-semibold">{data.identifier}</span></>
           ) : (
-            <EmptyState text="No results are available yet. Once your care team has reviewed your sample, a plain-language status will appear here." />
+            data.message || "Your patient record exists, but your account has not been linked yet."
           )}
-        </div>
+        </p>
+      </div>
+      <div>
+        <h2 className="mb-3 text-sm font-semibold uppercase tracking-widest text-muted">Your result status</h2>
+        {data.workup ? (
+          <WorkupStages result={data.workup} />
+        ) : data.latestStatus ? (
+          <div className="card p-5">
+            <p className="text-sm">{data.latestStatus}</p>
+          </div>
+        ) : (
+          <div className="card p-5">
+            <EmptyState text="No results are available yet. Once your care team has completed a clinical workup, the same result cards will appear here." />
+          </div>
+        )}
       </div>
 
       <div className="card p-5">
@@ -220,11 +298,28 @@ function LabTechnicianWidgets() {
   const [data, setData] = useState<LabWidgetData | null>(null);
 
   useEffect(() => {
+    if (!isSupabaseConfigured()) {
+      api.clinicalOverview()
+        .then((o) => {
+          setData({
+            orders: o.uploads.map((u) => ({
+              id: Number((u as { id: number }).id),
+              status: String((u as { parsing_status?: string }).parsing_status ?? ""),
+              created_at: new Date(Number((u as { uploaded_at?: number }).uploaded_at ?? 0) * 1000).toISOString(),
+            })),
+          });
+        })
+        .catch(() => setData({ orders: [] }));
+      return;
+    }
     const supabase = createClient();
     (async () => {
       const { data: userData } = await supabase.auth.getUser();
       const uid = userData.user?.id;
-      if (!uid) return;
+      if (!uid) {
+        setData({ orders: [] });
+        return;
+      }
 
       const { data: orders } = await supabase
         .from("lab_orders")

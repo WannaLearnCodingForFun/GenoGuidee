@@ -1,0 +1,14 @@
+{
+  "model_id": "genoguide-tabular-xgboost-v0.1.0",
+  "registered": "2026-08-22T11:55:23.000000+00:00",
+  "artifact": "models/production/xgboost_gene_disjoint.joblib",
+  "training_dataset": {
+    "path": "research/data/processed/training_dataset.parquet"
+  },
+  "labels": ["benign", "likely_benign", "vus", "likely_pathogenic", "pathogenic"],
+  "split": "gene_disjoint",
+  "note": "ClinVar 5-class gene-disjoint XGBoost. Headline accuracy is NOT 85% — see docs/model_evaluation.md for the separate high-review binary task.",
+  "calibration": {
+    "method": "temperature"
+  }
+}

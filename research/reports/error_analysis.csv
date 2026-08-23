@@ -1,0 +1,6 @@
+true_class,n_test,correct,recall,confused_as
+benign,773,500,0.6468305304010349,"likely_benign:156,vus:98,likely_pathogenic:14,pathogenic:5"
+likely_benign,4284,2423,0.5655929038281979,"benign:1384,vus:431,likely_pathogenic:41,pathogenic:5"
+vus,8718,7717,0.8851800871759578,"benign:515,likely_benign:81,likely_pathogenic:312,pathogenic:93"
+likely_pathogenic,556,138,0.24820143884892087,"benign:25,likely_benign:2,vus:170,pathogenic:221"
+pathogenic,669,507,0.757847533632287,"benign:22,vus:63,likely_pathogenic:77"

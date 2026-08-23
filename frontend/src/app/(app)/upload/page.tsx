@@ -20,6 +20,7 @@ import {
   XCircle,
 } from "lucide-react";
 import {
+  assignUploadPatient,
   deleteUpload,
   downloadUrl,
   getCurrentAccount,
@@ -92,8 +93,7 @@ export default function UploadPage() {
   useEffect(() => {
     getCurrentAccount().then((acc) => {
       setAccount(acc);
-      // A patient's file is always about themselves — preselect and lock it.
-      if (acc?.role === "patient") setPatientId(acc.id);
+      if (acc?.role === "patient") setPatientId("");
     });
     listAssignablePatients().then(setPatients);
     refresh();
@@ -467,6 +467,7 @@ function TrackerRow({
             <span className="block truncate text-sm font-semibold">{upload.filename}</span>
             <span className="mono block truncate text-[11px] text-muted">
               {when(upload.uploaded_at)} · {bytes(upload.file_size)}
+              {upload.sha256 ? ` · SHA256 ${upload.sha256.slice(0, 12)}…` : ""}
               {upload.reference_genome ? ` · ${upload.reference_genome}` : ""}
             </span>
           </span>
@@ -474,7 +475,25 @@ function TrackerRow({
 
         <div className="flex items-center gap-2 text-xs text-muted">
           <UserRound className="size-3.5" />
-          {patient ? `${patient.full_name} · ${patient.mrn}` : upload.patient_id ? "Assigned" : "Unassigned"}
+          {patient ? `${patient.mrn}` : upload.patient_id ? "Assigned" : "UNASSIGNED"}
+          <select
+            className="rounded border border-navy-950/10 bg-panel2 px-2 py-1 text-[11px]"
+            value={upload.patient_id ?? ""}
+            onChange={async (e) => {
+              const next = e.target.value || null;
+              try {
+                await assignUploadPatient(upload.id, next);
+                onDeleted();
+              } catch (err) {
+                alert(err instanceof Error ? err.message : "Assign failed");
+              }
+            }}
+          >
+            <option value="">UNASSIGNED</option>
+            {patients.map((p) => (
+              <option key={p.id} value={p.id}>{p.mrn}</option>
+            ))}
+          </select>
         </div>
 
         <div className="text-right">

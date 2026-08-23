@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -26,7 +26,7 @@ import {
   type AcmgCriterion,
   type AnalyzeResult,
   type AnnotationCompleteness,
-  type VariantListItem,
+  type ClinicalPatient,
 } from "@/lib/api";
 import { listAllAccessibleVariants, type AccessibleVariant } from "@/lib/uploads";
 import { useAccount } from "@/lib/useAccount";
@@ -61,9 +61,7 @@ interface UploadMeta {
 
 function VariantLabInner() {
   const searchParams = useSearchParams();
-  const { account } = useAccount();
-  const [variants, setVariants] = useState<VariantListItem[]>([]);
-  const [selectedId, setSelectedId] = useState<string>("VAR-BRCA1-5266DUP");
+  useAccount();
   const [phase, setPhase] = useState<Phase>("idle");
   const [stageIdx, setStageIdx] = useState(0);
   const [result, setResult] = useState<AnalyzeResult | null>(null);
@@ -72,14 +70,29 @@ function VariantLabInner() {
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   // Uploaded-VCF source
-  const [source, setSource] = useState<Source>("demo");
+  const [source, setSource] = useState<Source>("uploads");
   const [uploaded, setUploaded] = useState<AccessibleVariant[]>([]);
   const [uploadedId, setUploadedId] = useState<number | null>(null);
   const [loadingUploads, setLoadingUploads] = useState(false);
   const [uploadMeta, setUploadMeta] = useState<UploadMeta | null>(null);
+  const [patients, setPatients] = useState<ClinicalPatient[]>([]);
+  const [candidatePatientId, setCandidatePatientId] = useState<number | null>(null);
+  const [geneQuery, setGeneQuery] = useState("BRCA1");
+  const [curated, setCurated] = useState<Array<{
+    gene: string; chrom: string; pos: number; ref: string; alt: string;
+    label?: string; disclaimer: string;
+  }>>([]);
+  const [curatedIdx, setCuratedIdx] = useState(0);
+  const [curatedNote, setCuratedNote] = useState<string | null>(null);
+  const [loadingCurated, setLoadingCurated] = useState(false);
 
   useEffect(() => {
-    api.variants().then(setVariants).catch(() => setError("Backend not reachable."));
+    api.clinicalPatients()
+      .then((rows) => {
+        setPatients(rows);
+        setCandidatePatientId(rows[0]?.id ?? null);
+      })
+      .catch(() => setPatients([]));
     return () => timers.current.forEach(clearTimeout);
   }, []);
 
@@ -102,10 +115,9 @@ function VariantLabInner() {
       .finally(() => setLoadingUploads(false));
   }, [source, uploaded.length]);
 
-  const showcase = useMemo(() => variants.filter((v) => v.showcase), [variants]);
-  const selected = variants.find((v) => v.id === selectedId);
+  const selectedCurated = curated[curatedIdx] ?? null;
   const selectedUploaded = uploaded.find((v) => v.id === uploadedId) ?? null;
-  const canRun = source === "demo" ? !!selected : !!selectedUploaded;
+  const canRun = source === "demo" ? !!selectedCurated : !!selectedUploaded;
 
   function runAnalysis() {
     if (phase === "running") return;
@@ -118,38 +130,111 @@ function VariantLabInner() {
     timers.current.forEach(clearTimeout);
     timers.current = [];
 
-    // Uploaded variants carry their annotations inline; curated ones are
-    // looked up by id in the backend's in-memory dataset. Both paths get the
-    // identical ACMG -> ML -> reconciliation -> provenance treatment.
-    const request = source === "uploads" && selectedUploaded
-      ? api
-          .analyzeUploaded({
-            chrom: selectedUploaded.chrom,
-            pos: selectedUploaded.pos,
-            ref: selectedUploaded.ref,
-            alt: selectedUploaded.alt,
-            gene: selectedUploaded.gene,
-            transcript: selectedUploaded.transcript,
-            hgvs_c: selectedUploaded.hgvs_c,
-            hgvs_p: selectedUploaded.hgvs_p,
-            consequence: selectedUploaded.consequence,
-            gnomad_af: selectedUploaded.gnomad_af,
-            cadd: selectedUploaded.cadd,
-            revel: selectedUploaded.revel,
-            spliceai: selectedUploaded.spliceai,
-            phylop: selectedUploaded.phylop,
-            subject_ref: selectedUploaded.upload?.patient_id ?? `UPLOAD-${selectedUploaded.upload_id}`,
-            upload_id: selectedUploaded.upload_id,
+    const persistedId = source === "uploads" && selectedUploaded ? selectedUploaded.id : 0;
+    const request = (
+      source === "demo" && selectedCurated
+        ? api.clinicalInterpretCurated({
+            chromosome: String(selectedCurated.chrom),
+            position: Number(selectedCurated.pos),
+            reference: String(selectedCurated.ref),
+            alternate: String(selectedCurated.alt),
+            gene: selectedCurated.gene,
+            patient_id: candidatePatientId ?? undefined,
           })
-          .then((res) => {
-            setUploadMeta({
-              completeness: res.annotation_completeness,
-              missing: res.missing_evidence,
-              filename: selectedUploaded.upload?.filename ?? null,
-            });
-            return res as AnalyzeResult;
-          })
-      : api.analyze(selectedId, account?.id);
+        : api.clinicalInterpret(persistedId)
+    ).then((res) => {
+      const acmg = (res.acmg ?? {}) as Record<string, unknown>;
+      const ml = (res.ml ?? {}) as Record<string, unknown>;
+      const recon = (res.reconciliation ?? {}) as Record<string, unknown>;
+      const variant = (res.variant ?? {}) as Record<string, unknown>;
+      const criteria = Array.isArray(acmg.criteria) ? (acmg.criteria as AcmgCriterion[]) : [];
+      setUploadMeta({
+        completeness: {
+          present: criteria.filter((c) => c.met).length,
+          total: criteria.length || 1,
+          percent: 0,
+          level: "PARTIAL",
+          fields: {},
+        },
+        missing: [],
+        filename: selectedUploaded?.upload?.filename ?? null,
+      });
+      return {
+        variant: {
+          id: String(variant.id ?? persistedId),
+          gene: String(variant.gene ?? selectedUploaded?.gene ?? "—"),
+          transcript: String(variant.transcript ?? ""),
+          hgvs_c: String(variant.hgvs_c ?? variant.normalized_variant ?? ""),
+          hgvs_p: String(variant.hgvs_p ?? ""),
+          chrom: String(variant.chromosome ?? selectedUploaded?.chrom ?? ""),
+          pos: Number(variant.position ?? selectedUploaded?.pos ?? 0),
+          consequence: String(variant.consequence ?? ""),
+          gnomad_af: 0,
+          cadd: null,
+          revel: null,
+          spliceai: null,
+          phylop: null,
+          hotspot_domain: null,
+          functional_evidence: null,
+          condition: "",
+          inheritance: "",
+          showcase: false,
+          showcase_label: null,
+          public_note: "",
+        },
+        esm2: {
+          mode: String((ml.esm2 as { mode?: string } | undefined)?.mode ?? "unavailable"),
+          model: String((ml.esm2 as { model?: string } | undefined)?.model ?? "esm2_t6_8M_UR50D"),
+          dims: Number((ml.esm2 as { dims?: number } | undefined)?.dims ?? 0),
+          embedding_preview: ((ml.esm2 as { embedding_preview?: number[] } | undefined)?.embedding_preview) ?? [],
+          delta_score: Number((ml.esm2 as { delta_score?: number } | undefined)?.delta_score ?? 0),
+        },
+        ml: {
+          probabilities: (ml.probabilities as Record<string, number>) ?? {},
+          top_class: String(ml.predicted_class_label ?? ml.top_class ?? "not computed"),
+          top_class_key: String(ml.predicted_class ?? ml.top_class_key ?? ""),
+          confidence: typeof ml.confidence === "number" ? ml.confidence : 0,
+          engine: String(ml.model_name ?? ml.engine ?? ""),
+          model_version: String(ml.model_version ?? ""),
+        },
+        acmg: {
+          criteria,
+          met: criteria.filter((c) => c.met),
+          classification: String(acmg.classification ?? "NOT_EVALUABLE"),
+          met_criteria: (acmg.met_criteria as string[]) ?? [],
+          rule_note: String(acmg.rule_note ?? ""),
+          framework: String(acmg.framework ?? "ACMG/AMP 2015"),
+        },
+        reconciliation: {
+          status: recon.status === "DISCORDANT" ? "DISCORDANT" : recon.status === "CONCORDANT" ? "CONCORDANT" : "DISCORDANT",
+          confidence: String(recon.confidence ?? ml.calibration ?? ""),
+          ml_bucket: String(ml.top_class ?? ""),
+          acmg_bucket: String(acmg.classification ?? ""),
+          final_classification: String(recon.final_classification ?? acmg.classification ?? "NOT_EVALUABLE"),
+          authority: String(recon.authority ?? "ACMG/AMP (ML never overrides)"),
+          note: String(recon.note ?? (recon.disagreement ? "Model/ACMG disagreement" : "")),
+        },
+        provenance: {
+          recorded: true,
+          contract: "ClinicalContract",
+          tx_id: "clinical",
+          block_index: 0,
+          interpretation_hash: "",
+          patient_hash: "",
+          model_version: String(ml.model_version ?? ""),
+          evidence_version: String(acmg.framework ?? ""),
+          timestamp: Date.now() / 1000,
+        },
+        mode: "CLINICAL",
+        observation_status: String(
+          res.observation_status
+          ?? (source === "demo"
+            ? "CANDIDATE VARIANT — NOT CONFIRMED IN PATIENT"
+            : "PATIENT OBSERVED VARIANT"),
+        ),
+        source_type: String(res.source_type ?? (source === "demo" ? "CURATED_DATASET" : "UPLOADED_VCF")),
+      } as AnalyzeResult;
+    });
 
     STAGES.forEach((_, i) => {
       timers.current.push(setTimeout(() => setStageIdx(i), i * 520));
@@ -188,8 +273,8 @@ function VariantLabInner() {
       {/* Source toggle */}
       <div className="mb-4 inline-flex rounded-xl border border-navy-950/10 bg-panel2/60 p-1">
         {([
-          { id: "demo" as Source, label: "Demo dataset", icon: Database },
-          { id: "uploads" as Source, label: "Uploaded VCFs", icon: FileUp },
+          { id: "demo" as Source, label: "Curated catalog", icon: Database },
+          { id: "uploads" as Source, label: "Patient observed", icon: FileUp },
         ]).map((opt) => (
           <button
             key={opt.id}
@@ -219,53 +304,106 @@ function VariantLabInner() {
         {source === "demo" ? (
           <>
             <h2 className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-muted">
-              Showcase cases
+              Curated ClinVar catalog
             </h2>
-            <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-4">
-              {showcase.map((v) => {
-                const active = v.id === selectedId;
-                return (
-                  <button
-                    key={v.id}
-                    onClick={() => setSelectedId(v.id)}
-                    className={`rounded-xl border p-3 text-left transition-all ${
-                      active
-                        ? "border-cyan/50 bg-cyan/10 shadow-[0_0_20px_-8px_#b4182d]"
-                        : "border-navy-950/10 bg-panel2/60 hover:border-navy-950/25"
-                    }`}
+            <p className="mb-3 rounded-lg border border-warning/30 bg-warning/10 px-3 py-2 text-xs text-warning">
+              CANDIDATE VARIANT — NOT CONFIRMED IN PATIENT. Searching the catalog does not mean the
+              patient carries the variant.
+            </p>
+            <div className="flex flex-wrap items-end gap-3">
+              {patients.length > 0 && (
+                <label className="text-xs uppercase tracking-widest text-muted">
+                  Phenotype context
+                  <select
+                    value={candidatePatientId ?? ""}
+                    onChange={(e) => setCandidatePatientId(e.target.value ? Number(e.target.value) : null)}
+                    className="mt-1 block min-w-56 rounded-lg border border-navy-950/15 bg-panel2 px-3 py-2 text-sm normal-case tracking-normal outline-none"
                   >
-                    <p className="text-sm font-semibold">
-                      {v.gene} <span className="mono text-xs font-normal text-muted">{v.hgvs_c}</span>
-                    </p>
-                    <p className="mt-1 line-clamp-2 text-[11px] text-muted">{v.showcase_label}</p>
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="mt-4 flex flex-wrap items-center gap-3">
+                    {patients.map((p) => (
+                      <option key={p.id} value={p.id}>{p.identifier}</option>
+                    ))}
+                  </select>
+                </label>
+              )}
               <label className="text-xs uppercase tracking-widest text-muted">
-                Full demo dataset ({variants.length} variants)
+                Gene
+                <input
+                  value={geneQuery}
+                  onChange={(e) => setGeneQuery(e.target.value.toUpperCase())}
+                  className="mt-1 block w-32 rounded-lg border border-navy-950/15 bg-panel2 px-3 py-2 text-sm normal-case tracking-normal outline-none"
+                />
               </label>
-              <select
-                value={selectedId}
-                onChange={(e) => setSelectedId(e.target.value)}
-                className="min-w-72 rounded-lg border border-navy-950/15 bg-panel2 px-3 py-2 text-sm outline-none focus:border-cyan/50"
+              <button
+                type="button"
+                onClick={() => {
+                  setLoadingCurated(true);
+                  api.clinicalCurated(geneQuery)
+                    .then((d) => {
+                      setCurated(d.items ?? []);
+                      setCuratedNote(d.reason ?? d.disclaimer);
+                      setCuratedIdx(0);
+                    })
+                    .catch((e) => setError(e instanceof Error ? e.message : "Catalog search failed"))
+                    .finally(() => setLoadingCurated(false));
+                }}
+                className="rounded-lg border border-cyan/40 bg-cyan/10 px-4 py-2 text-sm font-semibold text-cyan"
               >
-                {variants.map((v) => (
-                  <option key={v.id} value={v.id}>
-                    {v.gene} {v.hgvs_c} ({v.consequence})
-                  </option>
-                ))}
-              </select>
-
-              <RunButton phase={phase} disabled={phase === "running" || !canRun} onClick={runAnalysis} />
+                Search catalog
+              </button>
+              {candidatePatientId && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLoadingCurated(true);
+                    api.clinicalCandidates(candidatePatientId)
+                      .then((d) => {
+                        setCurated(
+                          (d.items ?? []).map((item) => ({
+                            gene: String(item.gene ?? geneQuery),
+                            chrom: String(item.chrom ?? ""),
+                            pos: Number(item.pos ?? 0),
+                            ref: String(item.ref ?? ""),
+                            alt: String(item.alt ?? ""),
+                            label: String(item.label ?? ""),
+                            disclaimer: String(item.disclaimer ?? d.disclaimer),
+                          })),
+                        );
+                        setCuratedNote(d.disclaimer);
+                        setCuratedIdx(0);
+                      })
+                      .finally(() => setLoadingCurated(false));
+                  }}
+                  className="rounded-lg border border-navy-950/15 px-4 py-2 text-sm"
+                >
+                  Phenotype candidates
+                </button>
+              )}
             </div>
+            {loadingCurated && <p className="mt-3 text-sm text-muted">Searching ClinVar catalog…</p>}
+            {curatedNote && !loadingCurated && curated.length === 0 && (
+              <p className="mt-3 text-sm text-muted">{curatedNote}</p>
+            )}
+            {curated.length > 0 && (
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                <select
+                  value={curatedIdx}
+                  onChange={(e) => setCuratedIdx(Number(e.target.value))}
+                  className="min-w-96 rounded-lg border border-navy-950/15 bg-panel2 px-3 py-2 text-sm outline-none"
+                >
+                  {curated.map((v, i) => (
+                    <option key={`${v.gene}-${v.pos}-${i}`} value={i}>
+                      {v.gene} {v.chrom}:{v.pos} {v.ref}&gt;{v.alt} {v.label ? `(${v.label})` : ""}
+                    </option>
+                  ))}
+                </select>
+                <RunButton phase={phase} disabled={phase === "running" || !canRun} onClick={runAnalysis} />
+              </div>
+            )}
           </>
         ) : (
           <>
             <h2 className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-muted">
-              <FileUp className="size-3.5" /> Variants from uploaded VCFs
+              <FileUp className="size-3.5" /> Patient observed variants
             </h2>
 
             {loadingUploads ? (
@@ -381,6 +519,15 @@ function VariantLabInner() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
+            {result.observation_status && (
+              <p className={`mt-6 rounded-lg border px-3 py-2 text-xs font-semibold ${
+                result.source_type === "CURATED_DATASET"
+                  ? "border-warning/30 bg-warning/10 text-warning"
+                  : "border-cyan/30 bg-cyan/10 text-cyan"
+              }`}>
+                {result.observation_status}
+              </p>
+            )}
             <VariantSummary result={result} />
             {uploadMeta && <UploadEvidenceNotice meta={uploadMeta} />}
             <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_320px_1fr]">

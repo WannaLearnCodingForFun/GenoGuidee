@@ -8,6 +8,8 @@
  */
 
 import { createClient } from "@/lib/supabase/client";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { api, uploadClinicalFile } from "@/lib/api";
 import { parseVcf, MAX_FILE_BYTES, type ParsedVariant, type ParseResult } from "@/lib/vcf";
 
 export const BUCKET = "vcf-uploads";
@@ -29,6 +31,8 @@ export interface VcfUpload {
   error_message: string | null;
   uploaded_at: string;
   parsed_at: string | null;
+  sha256?: string;
+  parsing_status?: string;
 }
 
 export interface UploadedVariantRow extends ParsedVariant {
@@ -51,6 +55,14 @@ export interface CurrentAccount {
 
 /** Who am I, and what role do I hold? Drives the upload form's defaults. */
 export async function getCurrentAccount(): Promise<CurrentAccount | null> {
+  if (!isSupabaseConfigured()) {
+    try {
+      const u = await api.me();
+      return { id: String(u.id), email: u.email, full_name: u.full_name, role: u.role as CurrentAccount["role"] };
+    } catch {
+      return null;
+    }
+  }
   const supabase = createClient();
   const {
     data: { user },
@@ -76,6 +88,10 @@ export async function getCurrentAccount(): Promise<CurrentAccount | null> {
  * rows, so this is simply "everything I can see".
  */
 export async function listAssignablePatients(): Promise<PatientOption[]> {
+  if (!isSupabaseConfigured()) {
+    const rows = await api.clinicalPatients();
+    return rows.map((p) => ({ id: String(p.id), mrn: p.identifier, full_name: p.diagnosis || p.identifier }));
+  }
   const supabase = createClient();
   const { data, error } = await supabase
     .from("patients")
@@ -83,7 +99,7 @@ export async function listAssignablePatients(): Promise<PatientOption[]> {
     .order("mrn");
 
   if (error || !data) return [];
-  return data.map((row) => {
+  return data.map((row: { id: string; mrn: string; profiles: unknown }) => {
     const profile = row.profiles as unknown as { full_name: string } | { full_name: string }[] | null;
     const full_name = Array.isArray(profile) ? profile[0]?.full_name : profile?.full_name;
     return { id: row.id as string, mrn: row.mrn as string, full_name: full_name || "—" };
@@ -92,6 +108,27 @@ export async function listAssignablePatients(): Promise<PatientOption[]> {
 
 /** The upload tracker feed, newest first. */
 export async function listUploads(): Promise<VcfUpload[]> {
+  if (!isSupabaseConfigured()) {
+    const rows = await api.clinicalUploads();
+    return rows.map((u) => ({
+      id: String(u.id),
+      uploader_id: "",
+      patient_id: u.patient_id == null ? null : String(u.patient_id),
+      filename: u.filename,
+      storage_path: "",
+      file_size: u.file_size,
+      status: (u.parsing_status === "PARSED" ? "completed" : u.parsing_status === "FAILED" ? "failed" : "parsing") as UploadStatus,
+      variant_count: u.variant_count,
+      annotated_count: 0,
+      skipped_count: 0,
+      reference_genome: "GRCh38",
+      error_message: u.parsing_error,
+      uploaded_at: new Date(u.uploaded_at * 1000).toISOString(),
+      parsed_at: null,
+      sha256: u.sha256,
+      parsing_status: u.parsing_status,
+    }));
+  }
   const supabase = createClient();
   const { data, error } = await supabase
     .from("vcf_uploads")
@@ -103,6 +140,30 @@ export async function listUploads(): Promise<VcfUpload[]> {
 }
 
 export async function listUploadVariants(uploadId: string): Promise<UploadedVariantRow[]> {
+  if (!isSupabaseConfigured()) {
+    const detail = await api.clinicalUpload(Number(uploadId));
+    return detail.variants.map((v) => ({
+      id: v.id,
+      upload_id: uploadId,
+      line_number: v.id,
+      chrom: v.chromosome ?? "?",
+      pos: v.position ?? 0,
+      ref: v.reference ?? "N",
+      alt: v.alternate ?? "N",
+      gene: v.gene,
+      transcript: null,
+      hgvs_c: v.hgvs_c,
+      hgvs_p: v.hgvs_p,
+      consequence: null,
+      gnomad_af: null,
+      cadd: null,
+      revel: null,
+      spliceai: null,
+      phylop: null,
+      qual: null,
+      filter: null,
+    }));
+  }
   const supabase = createClient();
   const { data, error } = await supabase
     .from("uploaded_variants")
@@ -124,6 +185,42 @@ export interface AccessibleVariant extends UploadedVariantRow {
 }
 
 export async function listAllAccessibleVariants(limit = 500): Promise<AccessibleVariant[]> {
+  if (!isSupabaseConfigured()) {
+    const uploads = await api.clinicalUploads();
+    const out: AccessibleVariant[] = [];
+    for (const u of uploads.slice(0, 20)) {
+      const detail = await api.clinicalUpload(u.id);
+      for (const v of detail.variants.slice(0, limit)) {
+        out.push({
+          id: v.id,
+          upload_id: String(u.id),
+          line_number: v.id,
+          chrom: v.chromosome ?? "?",
+          pos: v.position ?? 0,
+          ref: v.reference ?? "N",
+          alt: v.alternate ?? "N",
+          gene: v.gene,
+          transcript: null,
+          hgvs_c: v.hgvs_c,
+          hgvs_p: null,
+          consequence: null,
+          gnomad_af: null,
+          cadd: null,
+          revel: null,
+          spliceai: null,
+          phylop: null,
+          qual: null,
+          filter: null,
+          upload: {
+            filename: u.filename,
+            uploaded_at: new Date(u.uploaded_at * 1000).toISOString(),
+            patient_id: u.patient_id == null ? null : String(u.patient_id),
+          },
+        });
+      }
+    }
+    return out;
+  }
   const supabase = createClient();
   const { data, error } = await supabase
     .from("uploaded_variants")
@@ -133,6 +230,14 @@ export async function listAllAccessibleVariants(limit = 500): Promise<Accessible
 
   if (error) throw new Error(error.message);
   return (data ?? []) as AccessibleVariant[];
+}
+
+export async function assignUploadPatient(uploadId: string, patientId: string | null): Promise<void> {
+  if (!isSupabaseConfigured()) {
+    await api.clinicalAssign(Number(uploadId), patientId ? Number(patientId) : null);
+    return;
+  }
+  throw new Error("Assign via local clinical API when Supabase is not configured.");
 }
 
 export async function deleteUpload(uploadId: string, storagePath: string): Promise<void> {
@@ -172,6 +277,39 @@ export async function ingestVcf(
   patientId: string | null,
   onProgress: (p: UploadProgress) => void,
 ): Promise<UploadOutcome> {
+  if (!isSupabaseConfigured()) {
+    onProgress({ step: "storing", message: "Uploading to GenoGuide API…", percent: 40 });
+    const row = await uploadClinicalFile(file, patientId ? Number(patientId) : null);
+    onProgress({ step: "done", message: "Parsed", percent: 100 });
+    return {
+      upload: {
+        id: String(row.id),
+        uploader_id: "",
+        patient_id: row.patient_id == null ? null : String(row.patient_id),
+        filename: row.filename,
+        storage_path: "",
+        file_size: row.file_size,
+        status: row.parsing_status === "PARSED" ? "completed" : "failed",
+        variant_count: row.variant_count,
+        annotated_count: 0,
+        skipped_count: 0,
+        reference_genome: "GRCh38",
+        error_message: row.parsing_error,
+        uploaded_at: new Date(row.uploaded_at * 1000).toISOString(),
+        parsed_at: null,
+      },
+      parse: {
+        variants: [],
+        totalRecords: row.variant_count,
+        skipped: 0,
+        annotatedCount: 0,
+        referenceGenome: "GRCh38",
+        annotationSource: "none",
+        errors: row.parsing_error ? [row.parsing_error] : [],
+        truncated: false,
+      },
+    };
+  }
   const supabase = createClient();
 
   const {
@@ -227,7 +365,7 @@ export async function ingestVcf(
     .select("role")
     .eq("id", user.id)
     .single()
-    .then(({ data: profile }) =>
+    .then(({ data: profile }: { data: { role?: string } | null }) =>
       supabase.from("audit_log").insert({
         actor_id: user.id,
         actor_role: profile?.role ?? "patient",
@@ -238,7 +376,7 @@ export async function ingestVcf(
         detail: { filename: file.name },
       }),
     )
-    .then((res) => {
+    .then((res: { error?: { message?: string } | null } | null) => {
       if (res && "error" in res && res.error) {
         console.warn("audit_log insert failed (non-fatal):", res.error.message);
       }

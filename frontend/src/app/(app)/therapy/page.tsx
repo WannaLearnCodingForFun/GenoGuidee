@@ -43,17 +43,26 @@ function responseTone(response: string): string {
 
 export default function TherapyPage() {
   const [status, setStatus] = useState<TherapyStatus | null>(null);
-  const [gene, setGene] = useState("EGFR");
-  const [variant, setVariant] = useState("L858R");
-  const [disease, setDisease] = useState("NSCLC");
-  const [hgvs, setHgvs] = useState("p.Leu858Arg");
-  const [mapped, setMapped] = useState<string | null>("L858R");
+  const [gene, setGene] = useState("");
+  const [variant, setVariant] = useState("");
+  const [disease, setDisease] = useState("");
+  const [hgvs, setHgvs] = useState("");
+  const [mapped, setMapped] = useState<string | null>(null);
   const [result, setResult] = useState<SomaticTherapy | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [backendDown, setBackendDown] = useState(false);
 
   useEffect(() => {
-    api.therapyStatus().then(setStatus).catch(() => setStatus(null));
+    api.therapyStatus()
+      .then((s) => {
+        setStatus(s);
+        setBackendDown(false);
+      })
+      .catch(() => {
+        setStatus(null);
+        setBackendDown(true);
+      });
   }, []);
 
   useEffect(() => {
@@ -67,24 +76,44 @@ export default function TherapyPage() {
       .catch(() => undefined);
   }, [hgvs, disease, variant]);
 
-  const offline = !status;
-  const enabled = Boolean(status?.enabled);
+  const enabled = Boolean(status?.enabled || status?.local_engine);
 
-  async function run(next?: { gene: string; variant: string; disease: string }) {
-    const g = next?.gene ?? gene;
-    const v = next?.variant ?? variant;
-    const d = next?.disease ?? disease;
-    setGene(g);
-    setVariant(v);
-    setDisease(d);
+  function applyPreset(p: (typeof PRESETS)[number]) {
+    setGene(p.gene);
+    setVariant(p.variant);
+    setDisease(p.disease);
+    setHgvs(p.hgvs);
+    setMapped(p.variant);
+    setResult(null);
+    setError(null);
+  }
+
+  async function run() {
+    const g = gene.trim().toUpperCase();
+    const protein = mapProteinChange(variant) ?? mapProteinChange(hgvs) ?? variant.trim();
+    const d = disease.trim();
+    if (!g || !protein || !d) {
+      setError("Gene, protein variant, and oncology indication are required.");
+      return;
+    }
+    if (!mapProteinChange(variant) && !mapProteinChange(hgvs) && !/^[A-Z*]\d+[A-Z*]$/.test(protein)) {
+      setError("Unable to safely normalize this variant. Please provide a supported protein HGVS expression.");
+      return;
+    }
     setBusy(true);
     setError(null);
     try {
-      const rec = await api.therapyRecommend(g, mapProteinChange(v) ?? v, d);
-      setResult(rec);
+      const rec = await api.frontendTherapy({
+        mutation: { gene: g, protein_change: protein, hgvs_p: hgvs || undefined },
+        clinical: { indication: d },
+      });
+      setResult(rec.recommendation);
+      setBackendDown(false);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "request failed");
+      const message = e instanceof Error ? e.message : "request failed";
+      setError(message);
       setResult(null);
+      if (message.includes("BACKEND UNAVAILABLE")) setBackendDown(true);
     } finally {
       setBusy(false);
     }
@@ -92,16 +121,20 @@ export default function TherapyPage() {
 
   const recs = result?.recommendations ?? [];
   const maxScore = recs[0]?.score ?? 1;
+  const abstained = Boolean(result?.abstained) || (result != null && recs.length === 0 && result.availability !== "AVAILABLE");
 
   const availabilityNote = useMemo(() => {
     if (!result) return null;
+    if (result.abstained) {
+      return { tone: "text-warning", text: "No validated therapy ranking for this combination." };
+    }
     switch (result.availability) {
       case "AVAILABLE":
         return { tone: "text-success", text: "Ranking attached — specialist review required" };
       case "SOURCE_NOT_CONFIGURED":
         return {
           tone: "text-warning",
-          text: "In-repo ranker unavailable. Restart the FastAPI process from the repo root so Medical_DrugRecommendation can load.",
+          text: "Therapy ranker is not configured. Restart with GENOGUIDE_DRUG_LOCAL=true, or set a remote engine URL.",
         };
       case "SOURCE_UNAVAILABLE":
         return { tone: "text-error", text: result.reason ?? "Remote engine unavailable" };
@@ -117,20 +150,23 @@ export default function TherapyPage() {
       <header className="mb-6">
         <h1 className="flex items-center gap-3 text-2xl font-bold tracking-tight">
           <Pill className="size-6 text-cyan" />
-          Oncology therapy ranking
+          Therapy ranking
         </h1>
         <p className="mt-1 max-w-3xl text-sm text-muted">
-          External somatic ranker (CIViC / DGIdb / ML hybrid). This panel does not replace
-          ACMG classification, Variant Lab, or Patient Context PGx. Rankings are not
-          prescriptions.
+          Enter your genomic alteration. This is downstream research / decision-support
+          only — not a prescription, not ACMG, and not CPIC pharmacogenomics.
         </p>
       </header>
 
       <div className="mb-6 flex flex-wrap items-center gap-3">
         <span className={`rounded-lg border px-3 py-1.5 text-[11px] uppercase tracking-widest ${
-          enabled ? "border-success/40 bg-success/10 text-success" : "border-warning/40 bg-warning/10 text-warning"
+          backendDown
+            ? "border-error/40 bg-error/10 text-error"
+            : enabled
+              ? "border-success/40 bg-success/10 text-success"
+              : "border-warning/40 bg-warning/10 text-warning"
         }`}>
-          {offline ? "backend unreachable" : enabled ? "connector enabled" : "connector offline"}
+          {backendDown ? "backend offline" : enabled ? "local ranker ready" : "ranker not configured"}
         </span>
         <span className="text-[11px] text-muted">
           Distinct from CPIC pharmacogenomics (CYP2D6 / Tamoxifen).
@@ -148,29 +184,13 @@ export default function TherapyPage() {
         </p>
       </div>
 
-      <div className="mb-4 flex flex-wrap gap-2">
-        {PRESETS.map((p) => (
-          <button
-            key={p.label}
-            onClick={() => {
-              setHgvs(p.hgvs);
-              void run(p);
-            }}
-            className={`rounded-xl border px-3 py-2 text-left text-sm transition-all ${
-              gene === p.gene && variant === p.variant
-                ? "border-cyan/50 bg-cyan/10 shadow-[0_0_18px_-8px_#b4182d]"
-                : "border-navy-950/10 bg-panel2/60 hover:border-navy-950/25"
-            }`}
-          >
-            {p.label}
-          </button>
-        ))}
-      </div>
-
       <div className="mb-8 grid gap-4 lg:grid-cols-[1fr_1.4fr]">
         <div className="card card-glow-cyan p-5">
+          <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-cyan">
+            Enter your own variant
+          </p>
           <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-muted">
-            Query (protein change, not genomic ID)
+            Gene · protein change · indication
           </p>
           <label className="mb-3 block text-xs text-muted">
             Gene
@@ -178,6 +198,7 @@ export default function TherapyPage() {
               value={gene}
               onChange={(e) => setGene(e.target.value.toUpperCase())}
               className="mt-1 w-full rounded-lg border border-navy-950/10 bg-bg px-3 py-2 font-mono text-sm text-fg"
+              placeholder="EGFR"
             />
           </label>
           <label className="mb-3 block text-xs text-muted">
@@ -190,17 +211,13 @@ export default function TherapyPage() {
             />
           </label>
           <label className="mb-3 block text-xs text-muted">
-            HGVS.p mapper
+            HGVS protein
             <input
               value={hgvs}
               onChange={(e) => {
                 setHgvs(e.target.value);
-                const next = e.target.value;
-                const mappedLocal = mapProteinChange(next);
+                const mappedLocal = mapProteinChange(e.target.value);
                 if (mappedLocal) setVariant(mappedLocal);
-                void api.therapyMap(next).then((m) => {
-                  if (m.protein_shorthand) setVariant(m.protein_shorthand);
-                }).catch(() => undefined);
               }}
               className="mt-1 w-full rounded-lg border border-navy-950/10 bg-bg px-3 py-2 font-mono text-sm text-fg"
               placeholder="p.Leu858Arg"
@@ -227,6 +244,26 @@ export default function TherapyPage() {
             Rank therapies
           </button>
           {error && <p className="mt-3 text-xs text-error">{error}</p>}
+
+          <p className="mb-2 mt-6 text-[10px] font-semibold uppercase tracking-widest text-muted">
+            Quick demo cases
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {PRESETS.map((p) => (
+              <button
+                key={p.label}
+                type="button"
+                onClick={() => applyPreset(p)}
+                className={`rounded-xl border px-3 py-2 text-left text-sm transition-all ${
+                  gene === p.gene && variant === p.variant
+                    ? "border-cyan/50 bg-cyan/10 shadow-[0_0_18px_-8px_#b4182d]"
+                    : "border-navy-950/10 bg-panel2/60 hover:border-navy-950/25"
+                }`}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="card p-5">
@@ -235,61 +272,77 @@ export default function TherapyPage() {
           </p>
           {!result && !busy && (
             <p className="flex items-center gap-2 text-sm text-muted">
-              {offline ? <WifiOff className="size-4" /> : <ArrowRight className="size-4" />}
-              {offline
-                ? "Start the FastAPI server, then rank a preset."
-                : "Pick a preset or submit a protein change."}
+              {backendDown ? <WifiOff className="size-4" /> : <ArrowRight className="size-4" />}
+              {backendDown
+                ? "BACKEND UNAVAILABLE — start the FastAPI server on port 8000."
+                : "Enter a gene, protein variant, and indication, then rank."}
             </p>
           )}
-          {availabilityNote && (
+          {abstained && result && (
+            <div className="mb-4 rounded-xl border border-warning/30 bg-warning/5 p-4">
+              <p className="text-sm font-semibold text-warning">No validated therapy ranking</p>
+              <p className="mt-1 text-sm text-muted">
+                This variant/indication combination is outside the currently validated
+                evidence/model coverage.
+              </p>
+              {result.reason && <p className="mt-2 font-mono text-xs text-muted">{result.reason}</p>}
+            </div>
+          )}
+          {availabilityNote && !abstained && (
             <p className={`mb-4 text-sm ${availabilityNote.tone}`}>{availabilityNote.text}</p>
           )}
           {recs.length > 0 && (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead className="text-[10px] uppercase tracking-widest text-muted">
-                  <tr>
-                    <th className="pb-2">Rank</th>
-                    <th className="pb-2">Agent</th>
-                    <th className="pb-2">Score</th>
-                    <th className="pb-2">Response</th>
-                    <th className="pb-2">Evidence</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recs.map((r) => (
-                    <motion.tr
-                      key={`${r.rank}-${r.drug}`}
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="border-t border-navy-950/8"
-                    >
-                      <td className="py-2.5 font-mono text-muted">{r.rank}</td>
-                      <td className="py-2.5 font-medium">{r.drug}</td>
-                      <td className="py-2.5">
-                        <div className="flex items-center gap-2">
-                          <span className="w-12 font-mono text-xs">{r.score.toFixed(3)}</span>
-                          <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-navy-950/10">
-                            <span
-                              className="block h-full rounded-full bg-cyan"
-                              style={{ width: `${Math.max(8, (r.score / maxScore) * 100)}%` }}
-                            />
-                          </span>
-                        </div>
-                      </td>
-                      <td className={`py-2.5 text-xs ${responseTone(r.response)}`}>{r.response}</td>
-                      <td className="py-2.5">
-                        <span className={`rounded border px-2 py-0.5 text-[10px] ${evidenceTone(r.evidence_level)}`}>
-                          {r.evidence_level} · n={r.evidence_count}
+            <div className="space-y-3">
+              {recs.map((r) => (
+                <motion.article
+                  key={`${r.rank}-${r.drug}`}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="rounded-xl border border-navy-950/8 p-4"
+                >
+                  <p className="text-[10px] uppercase tracking-widest text-muted">Rank #{r.rank}</p>
+                  <h3 className="mt-1 text-base font-semibold">{r.drug}</h3>
+                  <dl className="mt-3 grid gap-2 text-xs">
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-muted">Evidence</dt>
+                      <dd className={`rounded border px-2 py-0.5 ${evidenceTone(r.evidence_level)}`}>
+                        {r.evidence_level || "Evidence unavailable"} · n={r.evidence_count}
+                      </dd>
+                    </div>
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-muted">Variant association</dt>
+                      <dd className={responseTone(r.response)}>{r.response || "Evidence unavailable"}</dd>
+                    </div>
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-muted">Indication match</dt>
+                      <dd>{result?.request?.disease || "Evidence unavailable"}</dd>
+                    </div>
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-muted">Why ranked</dt>
+                      <dd className="text-right">{result?.reason || "Score from the in-repo evidence/ML ranker"}</dd>
+                    </div>
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-muted">Source</dt>
+                      <dd className="font-mono">{result?.endpoint || "Evidence unavailable"}</dd>
+                    </div>
+                    <div className="flex items-center justify-between gap-4">
+                      <dt className="text-muted">Score</dt>
+                      <dd className="flex w-40 items-center gap-2">
+                        <span className="font-mono">{r.score.toFixed(3)}</span>
+                        <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-navy-950/10">
+                          <span
+                            className="block h-full rounded-full bg-cyan"
+                            style={{ width: `${Math.max(8, (r.score / maxScore) * 100)}%` }}
+                          />
                         </span>
-                      </td>
-                    </motion.tr>
-                  ))}
-                </tbody>
-              </table>
+                      </dd>
+                    </div>
+                  </dl>
+                </motion.article>
+              ))}
             </div>
           )}
-          {result?.availability === "AVAILABLE" && (
+          {result?.availability === "AVAILABLE" && recs.length > 0 && (
             <p className="mt-4 flex items-center gap-2 text-[11px] text-muted">
               <CheckCircle2 className="size-3.5 text-success" />
               Human review required · {result.latency_ms ?? "—"} ms
@@ -301,8 +354,8 @@ export default function TherapyPage() {
 
       <p className="flex items-start gap-2 text-xs text-muted">
         <AlertTriangle className="mt-0.5 size-3.5 shrink-0 text-warning" />
-        Ngrok-free hosts change every session. If this page shows SOURCE_NOT_CONFIGURED, the rest of
-        GenoGuide (ACMG, Variant Lab, provenance) is still fully usable offline.
+        Ngrok is optional. If the remote tunnel is offline, local ACMG, research, and
+        in-repo therapy ranking still work on localhost.
       </p>
     </div>
   );

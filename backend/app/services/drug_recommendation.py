@@ -315,6 +315,17 @@ def _empty(availability: TherapyAvailability, reason: str, **extra: Any) -> Soma
     )
 
 
+def _abstain(reason: str, **extra: Any) -> SomaticTherapy:
+    return SomaticTherapy(
+        availability=TherapyAvailability.SKIPPED,
+        abstained=True,
+        recommendations=[],
+        reason=reason,
+        disclaimer=DISCLAIMER,
+        **extra,
+    )
+
+
 def _remote_auth_headers() -> dict[str, str]:
     """Phase B9: shared-secret required on both ends of the ngrok hop. The
     frontend bridge already requires this inbound (frontend_bridge.py's
@@ -471,10 +482,20 @@ def recommend(gene: str, variant: str, disease: str,
     if not base_url:
         raw_local = _inprocess_recommend(payload)
         if raw_local is not None:
-            result = _somatic_from_raw(
-                raw_local, payload,
-                "in-process:Medical_DrugRecommendation",
-                (time.perf_counter() - t0) * 1000)
+            recs = raw_local.get("recommendations") or []
+            if not recs:
+                result = _abstain(
+                    "Outside validated coverage",
+                    request=payload,
+                    request_hash=_sha(payload),
+                    endpoint="in-process:Medical_DrugRecommendation",
+                    latency_ms=round((time.perf_counter() - t0) * 1000, 1),
+                )
+            else:
+                result = _somatic_from_raw(
+                    raw_local, payload,
+                    "in-process:Medical_DrugRecommendation",
+                    (time.perf_counter() - t0) * 1000)
             with _lock:
                 _cache[key] = (time.monotonic(), result)
             return result
@@ -506,6 +527,18 @@ def recommend(gene: str, variant: str, disease: str,
                     evidence_count=int(item.get("evidence_count", 0)),
                 ))
             recs.sort(key=lambda r: r.rank)
+            if not recs:
+                result = _abstain(
+                    "Outside validated coverage",
+                    request=payload,
+                    request_hash=_sha(payload),
+                    endpoint=url,
+                    latency_ms=round((time.perf_counter() - t0) * 1000, 1),
+                )
+                _record_success()
+                with _lock:
+                    _cache[key] = (time.monotonic(), result)
+                return result
             result = SomaticTherapy(
                 availability=TherapyAvailability.AVAILABLE,
                 reason="remote ranking attached; human review required",

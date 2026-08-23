@@ -82,30 +82,29 @@ function layout(nodes: GraphNode[], edges: GraphEdge[]): PositionedNode[] {
 
 // Demo fallback only — used when no authenticated patient context exists
 // (logged-out/demo browsing of the showcase dataset).
-const DEMO_PATIENT_ID = "G-1027";
-
 export default function KnowledgeGraph() {
-  const { account } = useAccount();
-  const [patientIds, setPatientIds] = useState<string[]>([]);
-  const [selectedPatient, setSelectedPatient] = useState(DEMO_PATIENT_ID);
+  const { account, loading } = useAccount();
+  const [patientIds, setPatientIds] = useState<{ id: number; identifier: string }[]>([]);
+  const [selectedPatient, setSelectedPatient] = useState<number | null>(null);
   const [graph, setGraph] = useState<{ nodes: GraphNode[]; edges: GraphEdge[] } | null>(null);
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    api.patients().then((ps) => setPatientIds(ps.map((p) => p.id))).catch(() => setError(true));
-  }, []);
+    if (loading || !account) return;
+    api.clinicalPatients()
+      .then((ps) => {
+        setPatientIds(ps.map((p) => ({ id: p.id, identifier: p.identifier })));
+        setSelectedPatient((prev) => prev ?? ps[0]?.id ?? null);
+      })
+      .catch(() => setError(true));
+  }, [account, loading]);
 
-  // Real identity, once available, takes over as the selected patient —
-  // still overridable via the picker below.
   useEffect(() => {
-    if (account?.role === "patient" && account.id) setSelectedPatient(account.id);
-  }, [account]);
-
-  useEffect(() => {
+    if (selectedPatient == null) return;
     setGraph(null);
     setSelectedNode(null);
-    api.graph(selectedPatient).then(setGraph).catch(() => setError(true));
+    api.clinicalGraph(selectedPatient).then(setGraph).catch(() => setError(true));
   }, [selectedPatient]);
 
   const positioned = useMemo(
@@ -142,23 +141,26 @@ export default function KnowledgeGraph() {
           </p>
         </div>
         <div className="flex gap-2">
-          {patientIds.map((id) => (
+          {patientIds.map((pt) => (
             <button
-              key={id}
-              onClick={() => setSelectedPatient(id)}
+              key={pt.id}
+              onClick={() => setSelectedPatient(pt.id)}
               className={`rounded-lg border px-4 py-2 text-sm font-semibold transition-all ${
-                id === selectedPatient
+                pt.id === selectedPatient
                   ? "border-cyan/50 bg-cyan/10 text-cyan"
                   : "border-navy-950/10 text-muted hover:border-navy-950/25"
               }`}
             >
-              {id}
+              {pt.identifier}
             </button>
           ))}
         </div>
       </header>
 
-      {error && <p className="text-sm text-error">Backend not reachable.</p>}
+      {error && <p className="text-sm text-error">Unable to load knowledge graph. Check that you are signed in and the backend is running.</p>}
+      {!error && patientIds.length === 0 && (
+        <p className="text-sm text-muted">No persisted patients yet. Complete Clinical Workup to generate a graph.</p>
+      )}
 
       <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
         <section className="card card-glow-cyan relative overflow-hidden">

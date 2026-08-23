@@ -15,8 +15,11 @@ import {
   UserRound,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { setLocalToken } from "@/lib/api";
 import { useAccount, type Role } from "@/lib/useAccount";
 import { NAV_BY_ROLE } from "@/lib/nav";
+import SystemStatus from "@/components/SystemStatus";
 
 const ROLE_LABEL: Record<string, string> = {
   doctor: "Doctor",
@@ -39,9 +42,15 @@ export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { account } = useAccount();
-  const nav = NAV_BY_ROLE[(account?.role as Role) || "doctor"] ?? NAV_BY_ROLE.doctor;
+  const nav = account?.role ? (NAV_BY_ROLE[account.role as Role] ?? []) : [];
 
   async function signOut() {
+    if (!isSupabaseConfigured()) {
+      setLocalToken(null);
+      router.push("/login");
+      router.refresh();
+      return;
+    }
     const supabase = createClient();
     await supabase.auth.signOut();
     router.push("/login");
@@ -84,12 +93,14 @@ export default function Sidebar() {
       </nav>
 
       <div className="mt-auto space-y-3 px-4 pb-5">
+        <SystemStatus />
         {account && (
           <div className="card flex items-center justify-between gap-2 p-3">
             <div className="min-w-0">
               <p className="truncate text-xs font-semibold">{account.name}</p>
               <p className="truncate text-[10px] uppercase tracking-widest text-cyan">
                 {ROLE_LABEL[account.role] ?? account.role}
+                {!isSupabaseConfigured() ? " · local" : ""}
               </p>
             </div>
             <button

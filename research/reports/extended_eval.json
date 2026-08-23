@@ -1,0 +1,304 @@
+{
+  "split": "gene_disjoint",
+  "leakage": {
+    "strategy": "gene_disjoint",
+    "n_train": 2922114,
+    "n_test": 587332,
+    "exact_coordinate_overlap": 0,
+    "variation_id_overlap": 0,
+    "gene_protein_change_overlap": 0,
+    "gene_protein_change_overlap_fraction": 0.0,
+    "severity": "OK",
+    "note": "gene+protein-change overlap across DIFFERENT genomic variants is expected in random/temporal splits and is exactly why gene-disjoint evaluation is the headline benchmark"
+  },
+  "caps": {
+    "train": 40000,
+    "val": 15000,
+    "test": 15000
+  },
+  "note": "Ablation/extra-model caps are smaller than the 300k/120k production run. Do not treat these as a production replacement unless AUPRC improves.",
+  "forbidden_features_in_model": [],
+  "ablations": [
+    {
+      "ablation": "tabular_only",
+      "n_features": 15,
+      "features": "csq_missense_variant,csq_synonymous_variant,csq_stop_gained,csq_frameshift_variant,csq_splice_donor_or_acceptor,csq_start_lost,csq_coding_indel_unspecified,csq_unknown,vt_SNV,vt_MNV,vt_insertion,vt_deletion,ref_len,alt_len,len_delta",
+      "n_train": 40000,
+      "n_test": 15000,
+      "macro_auprc": 0.5450785511218684,
+      "macro_auroc": 0.8889093229113516,
+      "mcc": 0.6251375135546051,
+      "ece": 0.21175954595406846,
+      "balanced_accuracy": 0.6249925975208994,
+      "macro_f1": 0.577975033067903,
+      "brier": 0.36661282181739807,
+      "status": "RAN"
+    },
+    {
+      "ablation": "without_alphamissense",
+      "n_features": 22,
+      "features": "csq_missense_variant,csq_synonymous_variant,csq_stop_gained,csq_frameshift_variant,csq_splice_donor_or_acceptor,csq_start_lost,csq_coding_indel_unspecified,csq_unknown,vt_SNV,vt_MNV,vt_insertion,vt_deletion,ref_len,alt_len,len_delta,loeuf,pli,mis_z,syn_z,gene_feat_missing,clingen_validity,clingen_n_diseases",
+      "n_train": 40000,
+      "n_test": 15000,
+      "macro_auprc": 0.5711789527962146,
+      "macro_auroc": 0.8960413228113804,
+      "mcc": 0.6055518897397059,
+      "ece": 0.10142761744658153,
+      "balanced_accuracy": 0.6207304987772796,
+      "macro_f1": 0.5648672160370933,
+      "brier": 0.3848881125450134,
+      "status": "RAN"
+    },
+    {
+      "ablation": "without_population",
+      "n_features": 24,
+      "features": "csq_missense_variant,csq_synonymous_variant,csq_stop_gained,csq_frameshift_variant,csq_splice_donor_or_acceptor,csq_start_lost,csq_coding_indel_unspecified,csq_unknown,vt_SNV,vt_MNV,vt_insertion,vt_deletion,ref_len,alt_len,len_delta,loeuf,pli,mis_z,syn_z,gene_feat_missing,clingen_validity,clingen_n_diseases,am_pathogenicity,am_missing",
+      "n_train": 40000,
+      "n_test": 15000,
+      "macro_auprc": 0.5711779307208087,
+      "macro_auroc": 0.8960415184719857,
+      "mcc": 0.6055518897397059,
+      "ece": 0.10142654321193693,
+      "balanced_accuracy": 0.6207304987772796,
+      "macro_f1": 0.5648672160370933,
+      "brier": 0.38488757610321045,
+      "status": "RAN"
+    },
+    {
+      "ablation": "without_gene_features",
+      "n_features": 17,
+      "features": "csq_missense_variant,csq_synonymous_variant,csq_stop_gained,csq_frameshift_variant,csq_splice_donor_or_acceptor,csq_start_lost,csq_coding_indel_unspecified,csq_unknown,vt_SNV,vt_MNV,vt_insertion,vt_deletion,ref_len,alt_len,len_delta,am_pathogenicity,am_missing",
+      "n_train": 40000,
+      "n_test": 15000,
+      "macro_auprc": 0.5451761893482926,
+      "macro_auroc": 0.8889327001043416,
+      "mcc": 0.6251375135546051,
+      "ece": 0.21143820422291756,
+      "balanced_accuracy": 0.6249925975208994,
+      "macro_f1": 0.577975033067903,
+      "brier": 0.3665178716182709,
+      "status": "RAN"
+    },
+    {
+      "ablation": "all_available",
+      "n_features": 24,
+      "features": "csq_missense_variant,csq_synonymous_variant,csq_stop_gained,csq_frameshift_variant,csq_splice_donor_or_acceptor,csq_start_lost,csq_coding_indel_unspecified,csq_unknown,vt_SNV,vt_MNV,vt_insertion,vt_deletion,ref_len,alt_len,len_delta,loeuf,pli,mis_z,syn_z,gene_feat_missing,clingen_validity,clingen_n_diseases,am_pathogenicity,am_missing",
+      "n_train": 40000,
+      "n_test": 15000,
+      "macro_auprc": 0.5711779307208087,
+      "macro_auroc": 0.8960415184719857,
+      "mcc": 0.6055518897397059,
+      "ece": 0.10142654321193693,
+      "balanced_accuracy": 0.6207304987772796,
+      "macro_f1": 0.5648672160370933,
+      "brier": 0.38488757610321045,
+      "status": "RAN"
+    }
+  ],
+  "models": {
+    "logreg": {
+      "status": "RAN",
+      "temperature": 0.8139812899175003,
+      "macro_auprc": 0.5711779307208087,
+      "macro_auroc": 0.8960415184719857,
+      "mcc": 0.6055518897397059,
+      "ece": 0.10142654321193693,
+      "balanced_accuracy": 0.6207304987772796,
+      "macro_f1": 0.5648672160370933,
+      "brier": 0.38488757610321045,
+      "uncalibrated_ece": 0.15441914588014286,
+      "binary_auprc": 0.9461970427930745,
+      "binary_auroc": 0.982022333157111,
+      "binary_calibration": {
+        "uncalibrated_brier": 0.036467995066296756,
+        "platt": {
+          "brier": 0.03888319368463964,
+          "auprc": 0.9461376201994319
+        },
+        "isotonic": {
+          "brier": 0.035769633200489,
+          "auprc": 0.9396722373576765
+        }
+      }
+    },
+    "random_forest": {
+      "status": "RAN",
+      "temperature": 0.7905619985991217,
+      "macro_auprc": 0.5659658589918106,
+      "macro_auroc": 0.8990578459221776,
+      "mcc": 0.6126327489890399,
+      "ece": 0.09321887572077889,
+      "balanced_accuracy": 0.6234967713049272,
+      "macro_f1": 0.5741326720656124,
+      "brier": 0.36035735439739536,
+      "uncalibrated_ece": 0.10385043814474865,
+      "binary_auprc": 0.9519871802624502,
+      "binary_auroc": 0.9825999927358722,
+      "binary_calibration": {
+        "uncalibrated_brier": 0.03502186052392644,
+        "platt": {
+          "brier": 0.035523847322550456,
+          "auprc": 0.9525165716954378
+        },
+        "isotonic": {
+          "brier": 0.034129367007991025,
+          "auprc": 0.9415338226846868
+        }
+      }
+    },
+    "xgboost": {
+      "status": "RAN",
+      "temperature": 0.8239705317362187,
+      "macro_auprc": 0.5662270691908049,
+      "macro_auroc": 0.898586233269991,
+      "mcc": 0.5913210240445841,
+      "ece": 0.0641951401432355,
+      "balanced_accuracy": 0.6164516603086239,
+      "macro_f1": 0.557905052491306,
+      "brier": 0.38187193870544434,
+      "uncalibrated_ece": 0.09614903979301456,
+      "binary_auprc": 0.9488964524522014,
+      "binary_auroc": 0.9816430649776224,
+      "binary_calibration": {
+        "uncalibrated_brier": 0.03569297764749399,
+        "platt": {
+          "brier": 0.037472476814214895,
+          "auprc": 0.9492720506029658
+        },
+        "isotonic": {
+          "brier": 0.035177103032379566,
+          "auprc": 0.9429920369802581
+        }
+      }
+    },
+    "lightgbm": {
+      "status": "RAN",
+      "temperature": 0.9063086163551552,
+      "macro_auprc": 0.563418937527295,
+      "macro_auroc": 0.8970662728533313,
+      "mcc": 0.5942887727190848,
+      "ece": 0.08072924579258116,
+      "balanced_accuracy": 0.6151574332277953,
+      "macro_f1": 0.5595950888985965,
+      "brier": 0.38034778733389024,
+      "uncalibrated_ece": 0.09420777637331668,
+      "binary_auprc": 0.9436974808499999,
+      "binary_auroc": 0.9797247702719609,
+      "binary_calibration": {
+        "uncalibrated_brier": 0.037479940799917934,
+        "platt": {
+          "brier": 0.04095244772573725,
+          "auprc": 0.9440008912757858
+        },
+        "isotonic": {
+          "brier": 0.03664196223429785,
+          "auprc": 0.930168339860737
+        }
+      }
+    },
+    "mlp": {
+      "status": "RAN",
+      "temperature": 1.0557867686906595,
+      "macro_auprc": 0.591748692013214,
+      "macro_auroc": 0.9102412732908762,
+      "mcc": 0.6979246242746353,
+      "ece": 0.009898458127180744,
+      "balanced_accuracy": 0.5538990227146849,
+      "macro_f1": 0.544501314944891,
+      "brier": 0.26379844546318054,
+      "uncalibrated_ece": 0.018863446251551324,
+      "binary_auprc": 0.9280040116214652,
+      "binary_auroc": 0.9725599189646197,
+      "binary_calibration": {
+        "uncalibrated_brier": 0.0502485399119877,
+        "platt": {
+          "brier": 0.04704680699247492,
+          "auprc": 0.9276389281964348
+        },
+        "isotonic": {
+          "brier": 0.03837990231858424,
+          "auprc": 0.9203969239721395
+        }
+      }
+    }
+  },
+  "calibration_binary": {
+    "uncalibrated_brier": 0.036467995066296756,
+    "platt": {
+      "brier": 0.03888319368463964,
+      "auprc": 0.9461376201994319
+    },
+    "isotonic": {
+      "brier": 0.035769633200489,
+      "auprc": 0.9396722373576765
+    }
+  },
+  "shap": {
+    "status": "RAN",
+    "n": 400,
+    "top_mean_abs_shap": [
+      [
+        "csq_synonymous_variant",
+        0.56983882188797
+      ],
+      [
+        "csq_missense_variant",
+        0.5153796076774597
+      ],
+      [
+        "csq_unknown",
+        0.35822659730911255
+      ],
+      [
+        "clingen_validity",
+        0.2599213421344757
+      ],
+      [
+        "mis_z",
+        0.21377494931221008
+      ],
+      [
+        "csq_frameshift_variant",
+        0.1775132715702057
+      ],
+      [
+        "loeuf",
+        0.14381690323352814
+      ],
+      [
+        "pli",
+        0.12291616201400757
+      ],
+      [
+        "syn_z",
+        0.1198577731847763
+      ],
+      [
+        "csq_stop_gained",
+        0.11500173807144165
+      ],
+      [
+        "clingen_n_diseases",
+        0.06417082250118256
+      ],
+      [
+        "csq_splice_donor_or_acceptor",
+        0.062114279717206955
+      ],
+      [
+        "csq_coding_indel_unspecified",
+        0.05270626023411751
+      ],
+      [
+        "ref_len",
+        0.025762688368558884
+      ],
+      [
+        "vt_SNV",
+        0.023115010932087898
+      ]
+    ]
+  },
+  "esm2": "NOT IMPLEMENTED \u2014 no protein sequence column in training_dataset.parquet",
+  "stacked_ensemble": "NOT IMPLEMENTED \u2014 no out-of-fold predictions generated"
+}

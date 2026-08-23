@@ -26,7 +26,8 @@ export function shortHash(h: string, n = 10): string {
   return `${h.slice(0, n)}…${h.slice(-6)}`;
 }
 
-export function formatAf(af: number): string {
+export function formatAf(af: number | null | undefined): string {
+  if (af == null || Number.isNaN(af)) return "—";
   if (af === 0) return "Absent";
   if (af < 0.0001) return af.toExponential(1);
   return af.toFixed(4);

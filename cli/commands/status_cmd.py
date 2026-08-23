@@ -63,9 +63,11 @@ def run() -> int:
     def _drug():
         from app.services.drug_recommendation import connector_status
         st = connector_status()
+        if st.get("local_engine"):
+            return "READY local Medical_DrugRecommendation (does not override ACMG)"
         if st["enabled"]:
-            return "ENABLED (somatic ranking; does not override ACMG)"
-        return "OFF (offline default — set GENOGUIDE_DRUG_API_ENABLED=true)"
+            return "ENABLED remote connector (does not override ACMG)"
+        return "NOT_CONFIGURED (set GENOGUIDE_DRUG_LOCAL=true or GENOGUIDE_DRUG_API_URL)"
 
     probe("ACMG v2 engine", _acmg)
     probe("VCF processing", _vcf)

@@ -16,6 +16,79 @@ are unchanged.
 
 This is **not** a medical device. Output is research / decision-support phrasing only.
 
+## Install and run
+
+```bash
+# 1. Python environment
+cd backend
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+cd ..
+
+# 2. Environment
+cp .env.example .env
+# set GENOGUIDE_SECRET_KEY; leave Supabase blank for local password accounts
+
+# 3. Clinical SQLite (created automatically on backend start)
+# Optional override: GENOGUIDE_CLINICAL_DB=/path/to/clinical.db
+# Postgres can replace this later via DATABASE_URL — schema lives in
+# backend/app/clinical_db.py (init() is the migration entrypoint).
+
+# 4. Download legitimate datasets (never committed)
+export PYTHONPATH=.
+backend/.venv/bin/python -m cli.genoguide data list
+backend/.venv/bin/python -m cli.genoguide data download clinvar_variant_summary
+backend/.venv/bin/python -m cli.genoguide data verify
+
+# 5. Build processed variant / training tables
+backend/.venv/bin/python scripts/build_variant_database.py
+
+# 6. Train / evaluate ML (ClinVar gene-disjoint logreg)
+backend/.venv/bin/python -m cli.genoguide train --config configs/model.yaml
+backend/.venv/bin/python -m cli.genoguide benchmark --all
+
+# 7. Start backend
+GENOGUIDE_DRUG_LOCAL=true backend/.venv/bin/python -m uvicorn app.main:app \
+  --app-dir backend --host 127.0.0.1 --port 8000
+
+# 8. Start frontend
+cd frontend && npm install && npm run dev
+# http://localhost:3000
+
+# 9. Therapy: local ranker is default when GENOGUIDE_DRUG_LOCAL=true
+# Optional ngrok in front of THIS backend (never commit the hostname):
+#   GENOGUIDE_NGROK=1 GENOGUIDE_NGROK_URL=https://YOUR-HOST.ngrok-free.dev ./start-demo.sh
+# Remote therapy engine (separate service):
+#   GENOGUIDE_DRUG_API_ENABLED=true
+#   GENOGUIDE_DRUG_API_URL=https://YOUR-THERAPY-HOST.ngrok-free.dev
+
+# 10. Tests
+export PYTHONPATH=.
+backend/.venv/bin/python -m pytest -q
+```
+
+Or one-shot:
+
+```bash
+./start-demo.sh
+# frontend  http://localhost:3000
+# backend   http://localhost:8000
+# API docs  http://localhost:8000/docs
+./diagnose.sh
+```
+
+Sign up a **doctor / patient / lab technician** at `/signup`. Patient signup
+issues the only `PAT-YYYY-NNNNNN` ID. Doctors enter that ID on clinical workup
+— they cannot mint a new one.
+
+Local mode does **not** require ngrok or Supabase. Optional tunnel:
+
+```bash
+GENOGUIDE_NGROK=1 GENOGUIDE_NGROK_URL=https://YOUR-RESERVED-HOST.ngrok-free.dev ./start-demo.sh
+```
+
+Never hardcode a session ngrok hostname in committed files.
+
 ---
 
 ## Optional somatic therapy ranking
@@ -102,4 +175,3 @@ Honest highlights:
 
 Raw datasets are git-ignored. Licenses: `docs/DATA_LICENSES.md`.
 AlphaMissense is **CC BY-NC-SA 4.0** (non-commercial).
-=======
