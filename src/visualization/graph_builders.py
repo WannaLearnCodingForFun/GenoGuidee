@@ -1,6 +1,6 @@
 """
-graph_builders.py — transforms pipeline results into frontend-ready JSON
-structures for visualization. This module does NOT render anything — it
+graph_builders.py -- transforms pipeline results into frontend-ready JSON
+structures for visualization. This module does NOT render anything -- it
 outputs plain dicts (JSON-serializable) shaped for common chart libraries
 (D3, Recharts, vis.js, etc.) so the frontend can pick whatever renderer fits.
 
@@ -9,24 +9,43 @@ Four visualizations, each mapped to a natural chart type:
 1. Evidence flow  -> waterfall / Sankey diagram
    Shows each ACMG criterion as a step that adds or subtracts points,
    flowing from a zero baseline to the final tier. Visually this is the
-   "how did we get here" story — genuinely useful for judges since it
+   "how did we get here" story -- genuinely useful for judges since it
    makes an opaque rule-engine score explainable at a glance.
 
 2. Dual-path reconciliation -> convergence/divergence diagram
    Two independent paths (rule engine, ML) starting from the same variant,
    flowing toward either a shared endpoint (agreement) or splitting into
    two endpoints (disagreement, flagged red). This is your "never cut"
-   differentiator — worth making this the most polished visual.
+   differentiator -- worth making this the most polished visual.
 
 3. Carrier network -> force-directed graph
    Partner A / Partner B as root nodes, connected through shared genes to
-   flagged variants. Visually striking as a network graph — shared-gene
+   flagged variants. Visually striking as a network graph -- shared-gene
    connections between the two partners are the "aha" moment for judges.
 
 4. Trio pedigree -> family tree with inheritance edges
    Standard mother/father/child pedigree layout, edges colored/labeled by
    inheritance origin (maternal/paternal/de novo), de novo+pathogenic nodes
    highlighted.
+
+CHANGES THIS PASS (graph visual improvements, done where data already
+available -- near-miss/single-carrier dimming NOT included here, since
+that needs CarrierScreenResult's full screened-gene data, not just
+flagged_genes, and that model wasn't available when this pass was made):
+
+  - LEGEND: a single shared kind->color dict, exported so all 4 chart
+    types (and the frontend) use one consistent palette instead of each
+    function/consumer inventing its own.
+  - Severity weighting on carrier-network variant nodes: classification
+    string ("Pathogenic" vs "Likely Pathogenic") now also carries a
+    numeric severity_weight (1.0 / 0.7) so the frontend can size/opacity
+    nodes by confidence without re-parsing the label string itself.
+  - Same-variant convergence edges: when partner A and partner B carry
+    the EXACT SAME variant_id in a flagged gene (compound_het=False case),
+    an explicit edge now connects their two variant nodes directly. This
+    makes "same variant, both carriers" visually distinct from compound
+    heterozygous (two different variants converging only via the gene
+    node) -- previously both cases looked structurally identical.
 """
 
 from __future__ import annotations
@@ -37,6 +56,54 @@ from src.decision.decision_mapping import EvidenceTrace
 from src.family.carrier_screen import CarrierScreenResult
 from src.family.trio_phasing import Origin, TrioPhasingResult
 from src.reconciliation.reconcile import ReconciliationResult
+
+
+# ---------------------------------------------------------------------------
+# Shared color legend -- one palette across all 4 chart types, so a
+# frontend rendering multiple tabs looks like one coherent product instead
+# of four separately-invented color schemes.
+# ---------------------------------------------------------------------------
+
+LEGEND: dict[str, str] = {
+    # generic structural roles
+    "start": "#4C72B0",
+    "end": "#55A868",
+    "root": "#333333",
+    "partner": "#4C72B0",
+    "parent": "#4C72B0",
+    "child": "#55A868",
+    # evidence flow
+    "pathogenic_evidence": "#C44E52",
+    "benign_evidence": "#55A868",
+    "neutral": "#AAAAAA",
+    # dual-path reconciliation
+    "rule_path": "#DD8452",
+    "ml_path": "#8172B2",
+    "convergence": "#55A868",
+    "divergence": "#C44E52",
+    "incomplete": "#999999",
+    # carrier network
+    "flagged_gene": "#C44E52",
+    "near_miss_gene": "#AAAAAA",
+    "variant": "#8172B2",
+    # trio pedigree -- inheritance origin
+    "maternal": "#4C72B0",
+    "paternal": "#DD8452",
+    "inherited_both": "#8172B2",
+    "de_novo": "#C44E52",
+}
+
+# Numeric weight for variant severity/confidence -- used for node
+# size/opacity on the frontend. Not a clinical scoring system, just a
+# visual-weight heuristic derived from ClinVar's own classification label.
+_SEVERITY_WEIGHT = {
+    "Pathogenic": 1.0,
+    "Likely Pathogenic": 0.7,
+}
+
+
+def _severity_weight(classification: str) -> float:
+    return _SEVERITY_WEIGHT.get(classification, 0.5)  # unrecognized label -> mid weight, not silently 0
 
 
 # ---------------------------------------------------------------------------
@@ -147,7 +214,7 @@ def dual_path_graph(result: ReconciliationResult) -> dict[str, Any]:
     elif result.agreement is False:
         nodes.append({
             "id": "disagreement",
-            "label": "DISAGREEMENT — FLAGGED FOR REVIEW",
+            "label": "DISAGREEMENT -- FLAGGED FOR REVIEW",
             "kind": "divergence",
             "status": "disagree",
         })
@@ -156,7 +223,7 @@ def dual_path_graph(result: ReconciliationResult) -> dict[str, Any]:
     else:
         nodes.append({
             "id": "no_comparison",
-            "label": "ML path unavailable — no comparison possible",
+            "label": "ML path unavailable -- no comparison possible",
             "kind": "incomplete",
             "status": "n/a",
         })
@@ -184,6 +251,16 @@ def carrier_network_graph(
     in the middle, variant nodes as leaves. Shared-gene paths between the
     two partners (both flagged) are visually distinct from single-partner
     carrier hits.
+
+    Near-miss genes (screen_result.near_miss_genes -- exactly one partner
+    carries a pathogenic variant, not both) are now included as dimmed
+    nodes, distinct from flagged genes: kind="near_miss_gene" on the gene
+    node, and "dimmed": true on both the near-miss gene node and its
+    variant/link, so the frontend can render them lower-opacity/gray
+    rather than omitting them entirely. This was previously not possible
+    because CarrierScreenResult didn't track single-carrier genes at all --
+    now that carrier_screen.py's screen_couple() populates near_miss_genes,
+    this function can use it directly.
     """
     nodes: list[dict[str, Any]] = [
         {"id": "partner_a", "label": partner_a_label, "kind": "partner"},
@@ -204,23 +281,74 @@ def carrier_network_graph(
             })
             seen_genes.add(gene_id)
 
+        a_variant_ids: dict[str, str] = {}  # variant_id -> node id, for same-variant edge lookup
         for v in flag.partner_a_variants:
             v_id = f"var_a_{flag.gene}_{v.variant_id}"
-            nodes.append({"id": v_id, "label": v.variant_id, "kind": "variant", "classification": v.classification})
+            nodes.append({
+                "id": v_id,
+                "label": v.variant_id,
+                "kind": "variant",
+                "classification": v.classification,
+                "severity_weight": _severity_weight(v.classification),
+            })
             links.append({"source": "partner_a", "target": v_id, "kind": "carries"})
             links.append({"source": v_id, "target": gene_id, "kind": "in_gene"})
+            a_variant_ids[v.variant_id] = v_id
 
         for v in flag.partner_b_variants:
             v_id = f"var_b_{flag.gene}_{v.variant_id}"
-            nodes.append({"id": v_id, "label": v.variant_id, "kind": "variant", "classification": v.classification})
+            nodes.append({
+                "id": v_id,
+                "label": v.variant_id,
+                "kind": "variant",
+                "classification": v.classification,
+                "severity_weight": _severity_weight(v.classification),
+            })
             links.append({"source": "partner_b", "target": v_id, "kind": "carries"})
             links.append({"source": v_id, "target": gene_id, "kind": "in_gene"})
+
+            # Same-variant convergence edge: if both partners carry the
+            # exact same variant_id (the compound_het=False case), link
+            # their two variant nodes directly. This makes "same variant"
+            # visually distinct from compound-het (two different variants
+            # that only meet at the gene node, no direct edge between them).
+            if v.variant_id in a_variant_ids:
+                links.append({
+                    "source": a_variant_ids[v.variant_id],
+                    "target": v_id,
+                    "kind": "same_variant",
+                })
+
+    for near in screen_result.near_miss_genes:
+        gene_id = f"gene_{near.gene}"
+        nodes.append({
+            "id": gene_id,
+            "label": f"{near.gene} ({near.disease})",
+            "kind": "near_miss_gene",
+            "single_carrier_partner": near.carrier_partner,
+            "dimmed": True,
+        })
+
+        source_partner = "partner_a" if near.carrier_partner == "A" else "partner_b"
+        for v in near.variants:
+            v_id = f"var_{near.carrier_partner.lower()}_{near.gene}_{v.variant_id}"
+            nodes.append({
+                "id": v_id,
+                "label": v.variant_id,
+                "kind": "variant",
+                "classification": v.classification,
+                "severity_weight": _severity_weight(v.classification),
+                "dimmed": True,
+            })
+            links.append({"source": source_partner, "target": v_id, "kind": "carries", "dimmed": True})
+            links.append({"source": v_id, "target": gene_id, "kind": "in_gene", "dimmed": True})
 
     return {
         "chart_type": "force_directed_network",
         "nodes": nodes,
         "links": links,
         "flagged_gene_count": len(screen_result.flagged_genes),
+        "near_miss_gene_count": len(screen_result.near_miss_genes),
         "screened_gene_count": len(screen_result.screened_genes),
     }
 
@@ -248,6 +376,14 @@ def trio_pedigree_graph(
     below, one edge per phased variant labeled by inheritance origin.
     De novo + pathogenic variants get a distinct 'high_priority' flag so
     the frontend can render them as a highlighted/pulsing node.
+
+    NOTE on BOTH_PARENTS labeling: this pipeline detects "both parents
+    carry the exact same variant" via genomic-position match, not true
+    read-based phasing, so it cannot distinguish a homozygous-same-allele
+    case from a compound-het-inherited-from-both case with full certainty.
+    Kept as "inherited_both" rather than asserting "homozygous" outright --
+    changing that label to claim more certainty than the underlying
+    detection method actually has would overstate what's known.
     """
     nodes: list[dict[str, Any]] = [
         {"id": "mother", "label": mother_label, "kind": "parent", "generation": 0},
@@ -279,7 +415,7 @@ def trio_pedigree_graph(
         elif pv.origin == Origin.BOTH_PARENTS:
             links.append({"source": "mother", "target": v_id, "kind": edge_style})
             links.append({"source": "father", "target": v_id, "kind": edge_style})
-        else:  # de novo — no parent edge, attaches directly to child
+        else:  # de novo -- no parent edge, attaches directly to child
             pass
         links.append({"source": "child", "target": v_id, "kind": "has_variant"})
 
@@ -302,6 +438,9 @@ if __name__ == "__main__":
     from src.family.trio_phasing import Variant, phase_trio
     from src.scoring.acmg_rules import ACMGInput, evaluate
 
+    print("=== LEGEND ===")
+    print(json.dumps(LEGEND, indent=2), "\n")
+
     print("=== 1. Evidence flow graph ===")
     acmg_result = evaluate(ACMGInput(
         gene_symbol="CFTR", consequence="frameshift_variant",
@@ -320,11 +459,25 @@ if __name__ == "__main__":
     )
     print(json.dumps(dual_path_graph(fake_result), indent=2)[:800], "...\n")
 
-    print("=== 3. Carrier network graph ===")
-    a_vars = [CarrierVariant("CFTR", "c.1521_1523delCTT", "Pathogenic")]
-    b_vars = [CarrierVariant("CFTR", "c.1652G>A", "Pathogenic")]
+    print("=== 3. Carrier network graph (same-variant + near-miss test) ===")
+    # Deliberately test THREE cases in one couple: same variant (should get
+    # a same_variant edge), compound-het (should NOT), and a single-carrier
+    # near-miss gene (should show up dimmed, not silently dropped).
+    a_vars = [
+        CarrierVariant("HBB", "c.20A>T", "Pathogenic"),
+        CarrierVariant("PAH", "c.1222C>T", "Likely Pathogenic"),  # near-miss: A only
+    ]
+    b_vars = [
+        CarrierVariant("HBB", "c.20A>T", "Pathogenic"),  # same variant as A
+        CarrierVariant("GJB2", "c.35delG", "Pathogenic"),  # near-miss: B only
+    ]
     screen_result = screen_couple(a_vars, b_vars)
-    print(json.dumps(carrier_network_graph("Partner A", "Partner B", screen_result), indent=2)[:800], "...\n")
+    graph = carrier_network_graph("Partner A", "Partner B", screen_result)
+    same_variant_edges = [l for l in graph["links"] if l["kind"] == "same_variant"]
+    near_miss_nodes = [n for n in graph["nodes"] if n["kind"] == "near_miss_gene"]
+    print(f"same_variant edges found: {len(same_variant_edges)} (expected: 1)")
+    print(f"near_miss_gene nodes found: {len(near_miss_nodes)} (expected: 2 -- PAH, GJB2)")
+    print(json.dumps(graph, indent=2)[:800], "...\n")
 
     print("=== 4. Trio pedigree graph ===")
     mother_vars = [Variant("chr7", 117559590, "C", "T", gene="CFTR")]

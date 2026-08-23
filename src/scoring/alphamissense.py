@@ -20,6 +20,19 @@ or use `zgrep '^chr7\t'` on the command line before ever loading it in Python.
 This module builds a local DuckDB table from whatever TSV subset you have on
 disk, indexed by (chrom, pos, ref, alt), and queries it directly — no need to
 load the whole thing into a pandas DataFrame in memory.
+
+BUG FIX (confirmed via real run): AlphaMissense's raw file has one or more
+metadata/description comment lines starting with "#" BEFORE the real column
+header line (which also starts with "#CHROM..."). The previous version of
+filter_to_chromosome() treated the FIRST "#"-prefixed line it saw as the
+header -- if that first line was a metadata comment rather than the real
+header, the real header got silently dropped, and the first actual DATA row
+was written as if it were the header instead. This surfaced downstream as
+DuckDB creating a column literally named after a chromosome value (e.g.
+"chr1") instead of "CHROM", causing build_index() to fail with a
+BinderException. Fixed: only a "#"-line whose stripped content starts with
+"CHROM" (case-insensitive) is treated as the header; any other comment line
+is skipped entirely, not mistaken for the header.
 """
 
 from __future__ import annotations
@@ -60,6 +73,12 @@ def filter_to_chromosome(raw_tsv_gz: str, chrom: str, out_tsv: str) -> str:
     loading it all into memory. `chrom` should match the file's own format,
     e.g. 'chr7' (check the first few data rows if unsure).
     Returns the output path.
+
+    Only the real column-header line (starts with "#CHROM", case-insensitive
+    after stripping "#") is captured as the header. Any other "#"-prefixed
+    metadata/description line is skipped -- see module docstring for why
+    this matters (a previous version mistook the first comment line for the
+    header and silently dropped the real one).
     """
     raw_path = Path(raw_tsv_gz)
     out_path = Path(out_tsv)
@@ -68,11 +87,12 @@ def filter_to_chromosome(raw_tsv_gz: str, chrom: str, out_tsv: str) -> str:
     with gzip.open(raw_path, "rt") as fin, open(out_path, "w") as fout:
         header_written = False
         for line in fin:
-            if line.startswith("#") or line.startswith("CHROM"):
-                if not header_written:
-                    fout.write(line.lstrip("#"))
+            if line.startswith("#"):
+                stripped = line.lstrip("#")
+                if not header_written and stripped.upper().startswith("CHROM"):
+                    fout.write(stripped)
                     header_written = True
-                continue
+                continue  # any other '#' line (metadata/description) is skipped, not written
             if line.startswith(f"{chrom}\t"):
                 fout.write(line)
 

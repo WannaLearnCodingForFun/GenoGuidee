@@ -1,551 +1,539 @@
-gene,variant_id,classification,raw_clinsig,review_status,title
-CFTR,GRCh38/hg38 7q31.2(chr7:117642438-117642593)x3,Likely Pathogenic,,,GRCh38/hg38 7q31.2(chr7:117642438-117642593)x3
-CFTR,c.2620-10_2621del,Likely Pathogenic,,,NM_000492.4(CFTR):c.2620-10_2621del
-CFTR,c.3123dup,Likely Pathogenic,,,NM_000492.4(CFTR):c.3123dup (p.Gln1042fs)
-CFTR,c.44T>G,Likely Pathogenic,,,NM_000492.4(CFTR):c.44T>G (p.Leu15Arg)
-CFTR,GRCh37/hg19 7q31.2(chr7:117141950-117159386)x1,Likely Pathogenic,,,GRCh37/hg19 7q31.2(chr7:117141950-117159386)x1
-CFTR,NC_000007.13:g.(117254768_117267575)_(117292986_117304741)del,Likely Pathogenic,,,NC_000007.13:g.(117254768_117267575)_(117292986_117304741)del
-CFTR,c.3384del,Likely Pathogenic,,,NM_000492.4(CFTR):c.3384del (p.Val1129fs)
-CFTR,c.989_990insTA,Likely Pathogenic,,,NM_000492.4(CFTR):c.989_990insTA (p.Ile331fs)
-CFTR,c.962_968del,Likely Pathogenic,,,NM_000492.4(CFTR):c.962_968del (p.Ser321fs)
-CFTR,c.954delinsTT,Likely Pathogenic,,,NM_000492.4(CFTR):c.954delinsTT (p.Leu320fs)
-CFTR,c.751_767del,Likely Pathogenic,,,NM_000492.4(CFTR):c.751_767del (p.Gln250_Arg251insTer)
-CFTR,c.742del,Likely Pathogenic,,,NM_000492.4(CFTR):c.742del (p.Arg248fs)
-CFTR,c.71_72delinsA,Likely Pathogenic,,,NM_000492.4(CFTR):c.71_72delinsA (p.Ile23_Leu24insTer)
-CFTR,c.708dup,Likely Pathogenic,,,NM_000492.4(CFTR):c.708dup (p.Gln237fs)
-CFTR,c.605G>A,Likely Pathogenic,,,NM_000492.4(CFTR):c.605G>A (p.Trp202Ter)
-CFTR,c.53+1G>A,Likely Pathogenic,,,NM_000492.4(CFTR):c.53+1G>A
-CFTR,c.526del,Likely Pathogenic,,,NM_000492.4(CFTR):c.526del (p.Ser176fs)
-CFTR,c.490-2A>C,Likely Pathogenic,,,NM_000492.4(CFTR):c.490-2A>C
-CFTR,c.481del,Likely Pathogenic,,,NM_000492.4(CFTR):c.481del (p.Tyr161fs)
-CFTR,c.463_466del,Likely Pathogenic,,,NM_000492.4(CFTR):c.463_466del (p.Ala155fs)
-CFTR,c.461dup,Likely Pathogenic,,,NM_000492.4(CFTR):c.461dup (p.Ala155fs)
-CFTR,c.461del,Likely Pathogenic,,,NM_000492.4(CFTR):c.461del (p.Ile154fs)
-CFTR,c.4378_4429del,Likely Pathogenic,,,NM_000492.4(CFTR):c.4378_4429del (p.Ser1460fs)
-CFTR,c.43_44delinsG,Likely Pathogenic,,,NM_000492.4(CFTR):c.43_44delinsG (p.Leu15fs)
-CFTR,c.4267C>T,Likely Pathogenic,,,NM_000492.4(CFTR):c.4267C>T (p.Gln1423Ter)
-CFTR,c.4252dup,Likely Pathogenic,,,NM_000492.4(CFTR):c.4252dup (p.Glu1418fs)
-CFTR,c.424_427del,Likely Pathogenic,,,NM_000492.4(CFTR):c.424_427del (p.Ile142fs)
-CFTR,c.4231del,Likely Pathogenic,,,NM_000492.4(CFTR):c.4231del (p.Gln1411fs)
-CFTR,c.4223_4230del,Likely Pathogenic,,,NM_000492.4(CFTR):c.4223_4230del (p.Leu1408fs)
-CFTR,c.4137-2del,Likely Pathogenic,,,NM_000492.4(CFTR):c.4137-2del
-CFTR,c.4137-1G>C,Likely Pathogenic,,,NM_000492.4(CFTR):c.4137-1G>C
-CFTR,c.4137-1G>A,Likely Pathogenic,,,NM_000492.4(CFTR):c.4137-1G>A
-CFTR,c.4136+1G>T,Likely Pathogenic,,,NM_000492.4(CFTR):c.4136+1G>T
-CFTR,c.3909C>A,Likely Pathogenic,,,NM_000492.4(CFTR):c.3909C>A (p.Asn1303Lys)
-CFTR,c.3895del,Likely Pathogenic,,,NM_000492.4(CFTR):c.3895del (p.Thr1299fs)
-CFTR,c.3827C>G,Likely Pathogenic,,,NM_000492.4(CFTR):c.3827C>G (p.Ser1276Ter)
-CFTR,c.3739G>C,Likely Pathogenic,,,NM_000492.4(CFTR):c.3739G>C (p.Gly1247Arg)
-CFTR,c.3733_3824del,Likely Pathogenic,,,NM_000492.4(CFTR):c.3733_3824del (p.Arg1245fs)
-CFTR,c.3717G>C,Likely Pathogenic,,,NM_000492.4(CFTR):c.3717G>C (p.Arg1239Ser)
-CFTR,c.3632_3635delinsTCTCACAG,Likely Pathogenic,,,NM_000492.4(CFTR):c.3632_3635delinsTCTCACAG (p.Thr1211fs)
-CFTR,c.3630dup,Likely Pathogenic,,,NM_000492.4(CFTR):c.3630dup (p.Thr1211fs)
-CFTR,c.3622_3623dup,Likely Pathogenic,,,NM_000492.4(CFTR):c.3622_3623dup (p.Gln1209fs)
-CFTR,c.3552del,Likely Pathogenic,,,NM_000492.4(CFTR):c.3552del (p.Asn1184fs)
-CFTR,c.350_351delinsTT,Likely Pathogenic,,,NM_000492.4(CFTR):c.350_351delinsTT (p.Arg117Leu)
-CFTR,c.3479_3482del,Likely Pathogenic,,,NM_000492.4(CFTR):c.3479_3482del (p.Val1160fs)
-CFTR,c.3454_3455del,Likely Pathogenic,,,NM_000492.4(CFTR):c.3454_3455del (p.Asp1152fs)
-CFTR,c.3441_3442insG,Likely Pathogenic,,,NM_000492.4(CFTR):c.3441_3442insG (p.Asn1148fs)
-CFTR,c.3403_3404dup,Likely Pathogenic,,,NM_000492.4(CFTR):c.3403_3404dup (p.Leu1135fs)
-CFTR,c.3367+2T>C,Likely Pathogenic,,,NM_000492.4(CFTR):c.3367+2T>C
-CFTR,c.3310G>A,Likely Pathogenic,,,NM_000492.4(CFTR):c.3310G>A (p.Glu1104Lys)
-HBB,GRCh37/hg19 11p15.4(chr11:5187270-5268465)x1,Likely Pathogenic,,,GRCh37/hg19 11p15.4(chr11:5187270-5268465)x1
-HBB,c.316-12_316-7delinsCTCCTA,Likely Pathogenic,,,NM_000518.5(HBB):c.316-12_316-7delinsCTCCTA
-HBB,c.327C>A,Likely Pathogenic,,,NM_000518.5(HBB):c.327C>A (p.Asn109Lys)
-HBB,c.206_216del,Likely Pathogenic,,,NM_000518.5(HBB):c.206_216del (p.Leu69fs)
-HBB,c.9_83del,Likely Pathogenic,,,NM_000518.5(HBB):c.9_83del (p.Thr5_Leu29del)
-HBB,c.55del,Likely Pathogenic,,,NM_000518.5(HBB):c.55del (p.Lys18_Val19insTer)
-HBB,c.36dup,Likely Pathogenic,,,NM_000518.5(HBB):c.36dup (p.Thr13fs)
-HBB,c.327del,Likely Pathogenic,,,NM_000518.5(HBB):c.327del (p.Asn109fs)
-HBB,c.275del,Likely Pathogenic,,,NM_000518.5(HBB):c.275del (p.Leu92fs)
-HBB,c.127T>A,Likely Pathogenic,,,NM_000518.5(HBB):c.127T>A (p.Phe43Ile)
-HBB,c.331del,Likely Pathogenic,,,NM_000518.5(HBB):c.331del (p.Leu111fs)
-HBB,c.84_90del,Likely Pathogenic,,,NM_000518.5(HBB):c.84_90del (p.Leu29fs)
-HBB,c.199_202del,Likely Pathogenic,,,NM_000518.5(HBB):c.199_202del (p.Lys67fs)
-HBB,c.346del,Likely Pathogenic,,,NM_000518.5(HBB):c.346del (p.Ala116fs)
-HBB,c.268_281del,Likely Pathogenic,,,NM_000518.5(HBB):c.268_281del (p.Leu89_Ser90insTer)
-HBB,c.219_220delinsAT,Likely Pathogenic,,,NM_000518.5(HBB):c.219_220delinsAT (p.Ser73_Asp74delinsArgTyr)
-HBB,c.290T>G,Likely Pathogenic,,,NM_000518.5(HBB):c.290T>G (p.Leu97Arg)
-HBB,GRCh37/hg19 11p15.4(chr11:5187270-5268464)x1,Likely Pathogenic,,,GRCh37/hg19 11p15.4(chr11:5187270-5268464)x1
-HBB,GRCh37/hg19 11p15.4(chr11:5244009-5253899)x1,Likely Pathogenic,,,GRCh37/hg19 11p15.4(chr11:5244009-5253899)x1
-HBB,c.43del,Likely Pathogenic,,,NM_000518.5(HBB):c.43del (p.Leu15fs)
-HBB,c.155_167del,Likely Pathogenic,,,NM_000518.5(HBB):c.155_167del (p.Pro52fs)
-HBB,c.82G>A,Likely Pathogenic,,,NM_000518.5(HBB):c.82G>A (p.Ala28Thr)
-HBB,c.299_315dup,Likely Pathogenic,,,NM_000518.5(HBB):c.299_315dup (p.Leu106fs)
-HBB,c.105_106insCTAC,Likely Pathogenic,,,NM_000518.5(HBB):c.105_106insCTAC (p.Tyr36fs)
-HBB,c.[70G>T;79G>A],Likely Pathogenic,,,NM_000518.5(HBB):c.[70G>T;79G>A]
-HBB,NC_000011.9:g.(?_5246693)_(5248302_?)del,Likely Pathogenic,,,NC_000011.9:g.(?_5246693)_(5248302_?)del
-HBB,c.348_349delinsG,Likely Pathogenic,,,NM_000518.5(HBB):c.348_349delinsG (p.His117fs)
-HBB,NC_000011.10:g.5225255_5225875del,Likely Pathogenic,,,NC_000011.10:g.5225255_5225875del
-HBB,c.92G>T,Likely Pathogenic,,,NM_000518.5(HBB):c.92G>T (p.Arg31Met)
-HBB,c.20_21del,Likely Pathogenic,,,NM_000518.5(HBB):c.20_21del (p.Glu7fs)
-HBB,c.315+1_315+2insACGTTCTC,Likely Pathogenic,,,NM_000518.5(HBB):c.315+1_315+2insACGTTCTC
-HBB,c.294C>A,Likely Pathogenic,,,NM_000518.5(HBB):c.294C>A (p.His98Gln)
-HBB,NC_000011.10:g.5226995_5227540delinsTGAAAACTCTACCTCA,Likely Pathogenic,,,NC_000011.10:g.5226995_5227540delinsTGAAAACTCTACCTCA
-HBB,NC_000011.10:g.5168748_5240702del,Likely Pathogenic,,,NC_000011.10:g.5168748_5240702del
-HBB,c.160G>A,Likely Pathogenic,,,NM_000518.5(HBB):c.160G>A (p.Ala54Thr)
-HBB,c.363dup,Likely Pathogenic,,,NM_000518.5(HBB):c.363dup (p.Glu122fs)
-HBB,c.126_129dup,Likely Pathogenic,,,NM_000518.5(HBB):c.126_129dup (p.Glu44delinsLeuTer)
-HBB,c.327C>G,Likely Pathogenic,,,NM_000518.5(HBB):c.327C>G (p.Asn109Lys)
-HBB,Single allele,Likely Pathogenic,,,Single allele
-HBB,Single allele,Likely Pathogenic,,,Single allele
-HBB,Single allele,Likely Pathogenic,,,Single allele
-HBB,Single allele,Likely Pathogenic,,,Single allele
-HBB,NC_000011.9:g.(?_5246486)_(5247105_?)del,Likely Pathogenic,,,NC_000011.9:g.(?_5246486)_(5247105_?)del
-HBB,NC_000011.9:g.(?_5247800)_(5255213_?)del,Likely Pathogenic,,,NC_000011.9:g.(?_5247800)_(5255213_?)del
-HBB,NC_000011.9:g.(?_5246696)_(5248301_?)del,Likely Pathogenic,,,NC_000011.9:g.(?_5246696)_(5248301_?)del
-HBB,NC_000011.9:g.(?_5246693)_(5246957_5247806)del,Likely Pathogenic,,,NC_000011.9:g.(?_5246693)_(5246957_5247806)del
-HBB,c.19del,Likely Pathogenic,,,NM_000518.5(HBB):c.19del (p.Glu7fs)
-HBB,NC_000011.10:g.5226995_5227524del,Likely Pathogenic,,,NC_000011.10:g.5226995_5227524del
-HBB,c.323G>A,Likely Pathogenic,,,NM_000518.5(HBB):c.323G>A (p.Gly108Asp)
-HBB,c.345_348dup,Likely Pathogenic,,,NM_000518.5(HBB):c.345_348dup (p.His117fs)
-GJB2,c.76_79delinsCCA,Likely Pathogenic,,,NM_004004.6(GJB2):c.76_79delinsCCA (p.Thr26fs)
-GJB2,c.171dup,Likely Pathogenic,,,NM_004004.6(GJB2):c.171dup (p.Pro58fs)
-GJB2,c.495dup,Likely Pathogenic,,,NM_004004.6(GJB2):c.495dup (p.Leu166fs)
-GJB2,c.444del,Likely Pathogenic,,,NM_004004.6(GJB2):c.444del (p.Ala149fs)
-GJB2,GRCh37/hg19 13q11-14.3(chr13:19436286-53157340)x3,Likely Pathogenic,,,GRCh37/hg19 13q11-14.3(chr13:19436286-53157340)x3
-GJB2,c.521G>A,Likely Pathogenic,,,NM_004004.6(GJB2):c.521G>A (p.Cys174Tyr)
-GJB2,c.240G>T,Likely Pathogenic,,,NM_004004.6(GJB2):c.240G>T (p.Gln80His)
-GJB2,c.128T>G,Likely Pathogenic,,,NM_004004.6(GJB2):c.128T>G (p.Val43Gly)
-GJB2,c.556A>G,Likely Pathogenic,,,NM_004004.6(GJB2):c.556A>G (p.Thr186Ala)
-GJB2,c.42C>G,Likely Pathogenic,,,NM_004004.6(GJB2):c.42C>G (p.Asn14Lys)
-GJB2,c.40A>T,Likely Pathogenic,,,NM_004004.6(GJB2):c.40A>T (p.Asn14Tyr)
-GJB2,c.401G>A,Likely Pathogenic,,,NM_004004.6(GJB2):c.401G>A (p.Trp134Ter)
-GJB2,c.363del,Likely Pathogenic,,,NM_004004.6(GJB2):c.363del (p.Thr123fs)
-GJB2,c.32G>A,Likely Pathogenic,,,NM_004004.6(GJB2):c.32G>A (p.Gly11Glu)
-GJB2,c.41A>T,Likely Pathogenic,,,NM_004004.6(GJB2):c.41A>T (p.Asn14Ile)
-GJB2,c.160A>G,Likely Pathogenic,,,NM_004004.6(GJB2):c.160A>G (p.Asn54Asp)
-GJB2,c.580T>C,Likely Pathogenic,,,NM_004004.6(GJB2):c.580T>C (p.Phe194Leu)
-GJB2,c.217C>T,Likely Pathogenic,,,NM_004004.6(GJB2):c.217C>T (p.His73Tyr)
-GJB2,c.53C>T,Likely Pathogenic,,,NM_004004.6(GJB2):c.53C>T (p.Thr18Ile)
-GJB2,c.279G>C,Likely Pathogenic,,,NM_004004.6(GJB2):c.279G>C (p.Met93Ile)
-GJB2,c.550C>G,Likely Pathogenic,,,NM_004004.6(GJB2):c.550C>G (p.Arg184Gly)
-GJB2,GRCh37/hg19 13q12.11(chr13:19748003-22275574)x1,Likely Pathogenic,,,GRCh37/hg19 13q12.11(chr13:19748003-22275574)x1
-GJB2,c.192C>A,Likely Pathogenic,,,NM_004004.6(GJB2):c.192C>A (p.Cys64Ter)
-GJB2,c.627_628del,Likely Pathogenic,,,NM_004004.6(GJB2):c.627_628del (p.Glu209fs)
-GJB2,c.428G>T,Likely Pathogenic,,,NM_004004.6(GJB2):c.428G>T (p.Arg143Leu)
-GJB2,c.346A>T,Likely Pathogenic,,,NM_004004.6(GJB2):c.346A>T (p.Lys116Ter)
-GJB2,c.113T>A,Likely Pathogenic,,,NM_004004.6(GJB2):c.113T>A (p.Val38Glu)
-GJB2,c.601del,Likely Pathogenic,,,NM_004004.6(GJB2):c.601del (p.Ile201fs)
-GJB2,c.389G>T,Likely Pathogenic,,,NM_004004.6(GJB2):c.389G>T (p.Gly130Val)
-GJB2,c.8G>A,Likely Pathogenic,,,NM_004004.6(GJB2):c.8G>A (p.Trp3Ter)
-GJB2,c.72G>C,Likely Pathogenic,,,NM_004004.6(GJB2):c.72G>C (p.Trp24Cys)
-GJB2,c.626A>C,Likely Pathogenic,,,NM_004004.6(GJB2):c.626A>C (p.Glu209Ala)
-GJB2,c.610del,Likely Pathogenic,,,NM_004004.6(GJB2):c.610del (p.Leu204fs)
-GJB2,c.468_472del,Likely Pathogenic,,,NM_004004.6(GJB2):c.468_472del (p.Met157fs)
-GJB2,c.420C>G,Likely Pathogenic,,,NM_004004.6(GJB2):c.420C>G (p.Ile140Met)
-GJB2,c.236T>A,Likely Pathogenic,,,NM_004004.6(GJB2):c.236T>A (p.Leu79Gln)
-GJB2,c.161del,Likely Pathogenic,,,NM_004004.6(GJB2):c.161del (p.Asn54fs)
-GJB2,c.108del,Likely Pathogenic,,,NM_004004.6(GJB2):c.108del (p.Val37fs)
-GJB2,c.-23+2T>G,Likely Pathogenic,,,NM_004004.6(GJB2):c.-23+2T>G
-GJB2,c.253T>C,Likely Pathogenic,,,NM_004004.6(GJB2):c.253T>C (p.Ser85Pro)
-GJB2,c.486_493dup,Likely Pathogenic,,,NM_004004.6(GJB2):c.486_493dup (p.Arg165fs)
-GJB2,c.498_499dup,Likely Pathogenic,,,NM_004004.6(GJB2):c.498_499dup (p.Val167fs)
-GJB2,c.614T>C,Likely Pathogenic,,,NM_004004.6(GJB2):c.614T>C (p.Leu205Pro)
-GJB2,GRCh37/hg19 13q11-31.3(chr13:19436287-92292639)x3,Likely Pathogenic,,,GRCh37/hg19 13q11-31.3(chr13:19436287-92292639)x3
-GJB2,c.428G>C,Likely Pathogenic,,,NM_004004.6(GJB2):c.428G>C (p.Arg143Pro)
-GJB2,c.388G>C,Likely Pathogenic,,,NM_004004.6(GJB2):c.388G>C (p.Gly130Arg)
-GJB2,c.[101T>C;550C>T],Likely Pathogenic,,,NM_004004.6(GJB2):c.[101T>C;550C>T]
-GJB2,NC_000013.10:g.(?_20762215)_(20763473_?)del,Likely Pathogenic,,,NC_000013.10:g.(?_20762215)_(20763473_?)del
-GJB2,NC_000013.10:g.(?_20763040)_(21099933_?)del,Likely Pathogenic,,,NC_000013.10:g.(?_20763040)_(21099933_?)del
-GJB2,NC_000013.10:g.(?_20472281)_(24052335_?)del,Likely Pathogenic,,,NC_000013.10:g.(?_20472281)_(24052335_?)del
-HEXA,c.1559del,Likely Pathogenic,,,NM_000520.6(HEXA):c.1559del (p.Gly520fs)
-HEXA,c.1526_1526+3del,Likely Pathogenic,,,NM_000520.6(HEXA):c.1526_1526+3del
-HEXA,c.1451T>C,Likely Pathogenic,,,NM_000520.6(HEXA):c.1451T>C (p.Leu484Pro)
-HEXA,c.1422-1G>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.1422-1G>A
-HEXA,c.1421+1G>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.1421+1G>A
-HEXA,c.1374T>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.1374T>A (p.Cys458Ter)
-HEXA,c.1345_1346dup,Likely Pathogenic,,,NM_000520.6(HEXA):c.1345_1346dup (p.Ala450fs)
-HEXA,c.1331-2A>G,Likely Pathogenic,,,NM_000520.6(HEXA):c.1331-2A>G
-HEXA,c.1292G>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.1292G>A (p.Trp431Ter)
-HEXA,c.1260G>T,Likely Pathogenic,,,NM_000520.6(HEXA):c.1260G>T (p.Trp420Cys)
-HEXA,c.1257del,Likely Pathogenic,,,NM_000520.6(HEXA):c.1257del (p.Trp420fs)
-HEXA,c.1235_1247del,Likely Pathogenic,,,NM_000520.6(HEXA):c.1235_1247del (p.Phe412fs)
-HEXA,c.1228del,Likely Pathogenic,,,NM_000520.6(HEXA):c.1228del (p.Ala410fs)
-HEXA,c.1226del,Likely Pathogenic,,,NM_000520.6(HEXA):c.1226del (p.Lys409fs)
-HEXA,c.1147-2A>G,Likely Pathogenic,,,NM_000520.6(HEXA):c.1147-2A>G
-HEXA,c.1061_1063del,Likely Pathogenic,,,NM_000520.6(HEXA):c.1061_1063del (p.Phe354del)
-HEXA,c.1026del,Likely Pathogenic,,,NM_000520.6(HEXA):c.1026del (p.Gly343fs)
-HEXA,c.970del,Likely Pathogenic,,,NM_000520.6(HEXA):c.970del (p.Val324fs)
-HEXA,c.894T>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.894T>A (p.Tyr298Ter)
-HEXA,c.803del,Likely Pathogenic,,,NM_000520.6(HEXA):c.803del (p.Pro268fs)
-HEXA,c.798G>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.798G>A (p.Trp266Ter)
-HEXA,c.722_732dup,Likely Pathogenic,,,NM_000520.6(HEXA):c.722_732dup (p.Tyr245fs)
-HEXA,c.681C>G,Likely Pathogenic,,,NM_000520.6(HEXA):c.681C>G (p.Tyr227Ter)
-HEXA,c.672+1G>C,Likely Pathogenic,,,NM_000520.6(HEXA):c.672+1G>C
-HEXA,c.639T>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.639T>A (p.Tyr213Ter)
-HEXA,c.623A>T,Likely Pathogenic,,,NM_000520.6(HEXA):c.623A>T (p.Asp208Val)
-HEXA,c.613del,Likely Pathogenic,,,NM_000520.6(HEXA):c.613del (p.Leu205fs)
-HEXA,c.609del,Likely Pathogenic,,,NM_000520.6(HEXA):c.609del (p.Trp203fs)
-HEXA,c.602del,Likely Pathogenic,,,NM_000520.6(HEXA):c.602del (p.Phe201fs)
-HEXA,c.571-8A>G,Likely Pathogenic,,,NM_000520.6(HEXA):c.571-8A>G
-HEXA,c.571-2A>G,Likely Pathogenic,,,NM_000520.6(HEXA):c.571-2A>G
-HEXA,c.511_515delinsAAA,Likely Pathogenic,,,NM_000520.6(HEXA):c.511_515delinsAAA (p.Gly171fs)
-HEXA,c.488A>G,Likely Pathogenic,,,NM_000520.6(HEXA):c.488A>G (p.Asp163Gly)
-HEXA,c.412G>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.412G>A (p.Gly138Ser)
-HEXA,c.272del,Likely Pathogenic,,,NM_000520.6(HEXA):c.272del (p.Glu91fs)
-HEXA,c.271G>T,Likely Pathogenic,,,NM_000520.6(HEXA):c.271G>T (p.Glu91Ter)
-HEXA,c.258del,Likely Pathogenic,,,NM_000520.6(HEXA):c.258del (p.Lys86fs)
-HEXA,c.231_235del,Likely Pathogenic,,,NM_000520.6(HEXA):c.231_235del (p.Trp78fs)
-HEXA,c.194dup,Likely Pathogenic,,,NM_000520.6(HEXA):c.194dup (p.Gln66fs)
-HEXA,c.175_176dup,Likely Pathogenic,,,NM_000520.6(HEXA):c.175_176dup (p.Val60fs)
-HEXA,c.440G>A,Likely Pathogenic,,,NM_000520.6(HEXA):c.440G>A (p.Trp147Ter)
-HEXA,c.755G>T,Likely Pathogenic,,,NM_000520.6(HEXA):c.755G>T (p.Arg252Leu)
-HEXA,c.805+2T>C,Likely Pathogenic,,,NM_000520.6(HEXA):c.805+2T>C
-HEXA,c.987-1G>T,Likely Pathogenic,,,NM_000520.6(HEXA):c.987-1G>T
-HEXA,c.605A>G,Likely Pathogenic,,,NM_000520.6(HEXA):c.605A>G (p.His202Arg)
-HEXA,c.1412C>T,Likely Pathogenic,,,NM_000520.6(HEXA):c.1412C>T (p.Pro471Leu)
-HEXA,c.450_456del,Likely Pathogenic,,,NM_000520.6(HEXA):c.450_456del (p.Glu151fs)
-HEXA,c.604del,Likely Pathogenic,,,NM_000520.6(HEXA):c.604del (p.His202fs)
-HEXA,c.862G>T,Likely Pathogenic,,,NM_000520.6(HEXA):c.862G>T (p.Gly288Ter)
-HEXA,c.987-1G>C,Likely Pathogenic,,,NM_000520.6(HEXA):c.987-1G>C
-PAH,c.878T>C,Likely Pathogenic,,,NM_000277.3(PAH):c.878T>C (p.Leu293Ser)
-PAH,c.749C>T,Likely Pathogenic,,,NM_000277.3(PAH):c.749C>T (p.Ser250Phe)
-PAH,c.509+2T>G,Likely Pathogenic,,,NM_000277.3(PAH):c.509+2T>G
-PAH,c.829T>C,Likely Pathogenic,,,NM_000277.3(PAH):c.829T>C (p.Tyr277His)
-PAH,GRCh37/hg19 12q23.2(chr12:103310849-103310908)x1,Likely Pathogenic,,,GRCh37/hg19 12q23.2(chr12:103310849-103310908)x1
-PAH,GRCh37/hg19 12q23.2(chr12:103288513-103288696)x1,Likely Pathogenic,,,GRCh37/hg19 12q23.2(chr12:103288513-103288696)x1
-PAH,c.384_385delinsAA,Likely Pathogenic,,,NM_000277.3(PAH):c.384_385delinsAA (p.Asp129Asn)
-PAH,c.757G>T,Likely Pathogenic,,,NM_000277.3(PAH):c.757G>T (p.Asp253Tyr)
-PAH,c.965C>A,Likely Pathogenic,,,NM_000277.3(PAH):c.965C>A (p.Ala322Asp)
-PAH,c.782del,Likely Pathogenic,,,NM_000277.3(PAH):c.782del (p.Arg261fs)
-PAH,c.509+2T>C,Likely Pathogenic,,,NM_000277.3(PAH):c.509+2T>C
-PAH,c.451G>A,Likely Pathogenic,,,NM_000277.3(PAH):c.451G>A (p.Asp151Asn)
-PAH,c.298_308del,Likely Pathogenic,,,NM_000277.3(PAH):c.298_308del (p.His100fs)
-PAH,c.244del,Likely Pathogenic,,,NM_000277.3(PAH):c.244del (p.His82fs)
-PAH,c.1219C>A,Likely Pathogenic,,,NM_000277.3(PAH):c.1219C>A (p.Pro407Thr)
-PAH,c.1217T>G,Likely Pathogenic,,,NM_000277.3(PAH):c.1217T>G (p.Ile406Arg)
-PAH,c.1066-2A>G,Likely Pathogenic,,,NM_000277.3(PAH):c.1066-2A>G
-PAH,c.1181A>G,Likely Pathogenic,,,NM_000277.3(PAH):c.1181A>G (p.Asp394Gly)
-PAH,c.530T>C,Likely Pathogenic,,,NM_000277.3(PAH):c.530T>C (p.Val177Ala)
-PAH,GRCh37/hg19 12q23.1-24.33(chr12:99532287-133777902)x3,Likely Pathogenic,,,GRCh37/hg19 12q23.1-24.33(chr12:99532287-133777902)x3
-PAH,c.877T>A,Likely Pathogenic,,,NM_000277.3(PAH):c.877T>A (p.Leu293Met)
-PAH,c.512G>A,Likely Pathogenic,,,NM_000277.3(PAH):c.512G>A (p.Gly171Glu)
-PAH,c.911A>C,Likely Pathogenic,,,NM_000277.3(PAH):c.911A>C (p.Gln304Pro)
-PAH,c.696G>T,Likely Pathogenic,,,NM_000277.3(PAH):c.696G>T (p.Gln232His)
-PAH,c.1093del,Likely Pathogenic,,,NM_000277.3(PAH):c.1093del (p.Leu365fs)
-PAH,c.851G>A,Likely Pathogenic,,,NM_000277.3(PAH):c.851G>A (p.Cys284Tyr)
-PAH,c.838G>T,Likely Pathogenic,,,NM_000277.3(PAH):c.838G>T (p.Glu280Ter)
-PAH,c.185_188dup,Likely Pathogenic,,,NM_000277.3(PAH):c.185_188dup (p.His64fs)
-PAH,c.781del,Likely Pathogenic,,,NM_000277.3(PAH):c.781del (p.Arg261fs)
-PAH,c.1247C>T,Likely Pathogenic,,,NM_000277.3(PAH):c.1247C>T (p.Pro416Leu)
-PAH,c.447del,Likely Pathogenic,,,NM_000277.3(PAH):c.447del (p.Phe149fs)
-PAH,c.441+5G>C,Likely Pathogenic,,,NM_000277.3(PAH):c.441+5G>C
-PAH,c.594T>A,Likely Pathogenic,,,NM_000277.3(PAH):c.594T>A (p.Tyr198Ter)
-PAH,c.866G>A,Likely Pathogenic,,,NM_000277.3(PAH):c.866G>A (p.Gly289Glu)
-PAH,c.111_115dup,Likely Pathogenic,,,NM_000277.3(PAH):c.111_115dup (p.Phe39Ter)
-PAH,c.353-2A>C,Likely Pathogenic,,,NM_000277.3(PAH):c.353-2A>C
-PAH,c.1158_1167del,Likely Pathogenic,,,NM_000277.3(PAH):c.1158_1167del (p.Leu385_Tyr386insTer)
-PAH,c.234dup,Likely Pathogenic,,,NM_000277.3(PAH):c.234dup (p.Phe79fs)
-PAH,c.581T>G,Likely Pathogenic,,,NM_000277.3(PAH):c.581T>G (p.Leu194Arg)
-PAH,c.1125A>C,Likely Pathogenic,,,NM_000277.3(PAH):c.1125A>C (p.Gln375His)
-PAH,c.395C>T,Likely Pathogenic,,,NM_000277.3(PAH):c.395C>T (p.Ala132Val)
-PAH,c.548A>G,Likely Pathogenic,,,NM_000277.3(PAH):c.548A>G (p.Glu183Gly)
-PAH,c.686A>G,Likely Pathogenic,,,NM_000277.3(PAH):c.686A>G (p.Asp229Gly)
-PAH,c.552G>T,Likely Pathogenic,,,NM_000277.3(PAH):c.552G>T (p.Lys184Asn)
-PAH,c.607T>G,Likely Pathogenic,,,NM_000277.3(PAH):c.607T>G (p.Cys203Gly)
-PAH,c.453T>A,Likely Pathogenic,,,NM_000277.3(PAH):c.453T>A (p.Asp151Glu)
-PAH,c.560G>A,Likely Pathogenic,,,NM_000277.3(PAH):c.560G>A (p.Trp187Ter)
-PAH,c.800dup,Likely Pathogenic,,,NM_000277.3(PAH):c.800dup (p.Tyr268fs)
-PAH,c.1247del,Likely Pathogenic,,,NM_000277.3(PAH):c.1247del (p.Pro416fs)
-PAH,c.257G>C,Likely Pathogenic,,,NM_000277.3(PAH):c.257G>C (p.Arg86Pro)
-ATP7B,c.2129_2133dup,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2129_2133dup (p.Trp712fs)
-ATP7B,c.3086C>G,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3086C>G (p.Thr1029Ser)
-ATP7B,c.2165_2166insTT,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2165_2166insTT (p.Leu722_Arg723insTer)
-ATP7B,c.2260G>A,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2260G>A (p.Glu754Lys)
-ATP7B,c.2203del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2203del (p.Leu735fs)
-ATP7B,c.826dup,Likely Pathogenic,,,NM_000053.4(ATP7B):c.826dup (p.Glu276fs)
-ATP7B,c.4128T>G,Likely Pathogenic,,,NM_000053.4(ATP7B):c.4128T>G (p.Tyr1376Ter)
-ATP7B,c.3358_3359dup,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3358_3359dup (p.Leu1120fs)
-ATP7B,c.3139del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3139del (p.Asp1047fs)
-ATP7B,c.2824del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2824del (p.Ile942fs)
-ATP7B,c.2757dup,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2757dup (p.Phe920fs)
-ATP7B,c.160dup,Likely Pathogenic,,,NM_000053.4(ATP7B):c.160dup (p.Ser54fs)
-ATP7B,c.1462C>T,Likely Pathogenic,,,NM_000053.4(ATP7B):c.1462C>T (p.Gln488Ter)
-ATP7B,c.1004G>A,Likely Pathogenic,,,NM_000053.4(ATP7B):c.1004G>A (p.Gly335Glu)
-ATP7B,c.4005_4006insTTATAATGGGTTGGG,Likely Pathogenic,,,NM_000053.4(ATP7B):c.4005_4006insTTATAATGGGTTGGG (p.Ile1336delinsLeuTer)
-ATP7B,GRCh37/hg19 13q11-14.3(chr13:19436286-53157340)x3,Likely Pathogenic,,,GRCh37/hg19 13q11-14.3(chr13:19436286-53157340)x3
-ATP7B,NC_000013.10:g.(?_52506804)_(52585587_?)del,Likely Pathogenic,,,NC_000013.10:g.(?_52506804)_(52585587_?)del
-ATP7B,c.949del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.949del (p.Ala317fs)
-ATP7B,c.4162del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.4162del (p.Ala1388fs)
-ATP7B,c.4109C>T,Likely Pathogenic,,,NM_000053.4(ATP7B):c.4109C>T (p.Ser1370Phe)
-ATP7B,c.4017del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.4017del (p.Ala1340fs)
-ATP7B,c.3973del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3973del (p.Leu1325fs)
-ATP7B,c.3903+2T>C,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3903+2T>C
-ATP7B,c.3799G>A,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3799G>A (p.Asp1267Asn)
-ATP7B,c.3787del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3787del (p.Ala1263fs)
-ATP7B,c.3724G>A,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3724G>A (p.Glu1242Lys)
-ATP7B,c.3689T>C,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3689T>C (p.Ile1230Thr)
-ATP7B,c.3628del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3628del (p.Gln1210fs)
-ATP7B,c.3532_3535del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3532_3535del (p.Thr1178fs)
-ATP7B,c.3412+1del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3412+1del
-ATP7B,c.3359T>A,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3359T>A (p.Leu1120Ter)
-ATP7B,c.3028A>G,Likely Pathogenic,,,NM_000053.4(ATP7B):c.3028A>G (p.Lys1010Glu)
-ATP7B,c.2756G>T,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2756G>T (p.Arg919Leu)
-ATP7B,c.2335T>C,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2335T>C (p.Trp779Arg)
-ATP7B,c.2302C>T,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2302C>T (p.Pro768Ser)
-ATP7B,c.2245del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2245del (p.Val749fs)
-ATP7B,c.2200G>T,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2200G>T (p.Val734Phe)
-ATP7B,c.2122-2A>G,Likely Pathogenic,,,NM_000053.4(ATP7B):c.2122-2A>G
-ATP7B,c.21_22del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.21_22del (p.Gln7fs)
-ATP7B,c.1946+2T>G,Likely Pathogenic,,,NM_000053.4(ATP7B):c.1946+2T>G
-ATP7B,c.1440del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.1440del (p.Gln480fs)
-ATP7B,c.132T>G,Likely Pathogenic,,,NM_000053.4(ATP7B):c.132T>G (p.Tyr44Ter)
-ATP7B,c.1275del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.1275del (p.Val426fs)
-ATP7B,c.253G>A,Likely Pathogenic,,,NM_000053.4(ATP7B):c.253G>A (p.Gly85Ser)
-ATP7B,c.465delinsTCCTGTGCA,Likely Pathogenic,,,NM_000053.4(ATP7B):c.465delinsTCCTGTGCA (p.Gln155fs)
-ATP7B,c.4028_4031dup,Likely Pathogenic,,,NM_000053.4(ATP7B):c.4028_4031dup (p.Met1344fs)
-ATP7B,c.166C>T,Likely Pathogenic,,,NM_000053.4(ATP7B):c.166C>T (p.Gln56Ter)
-ATP7B,c.847del,Likely Pathogenic,,,NM_000053.4(ATP7B):c.847del (p.Leu282_Leu283insTer)
-ATP7B,c.1155_1157delinsC,Likely Pathogenic,,,NM_000053.4(ATP7B):c.1155_1157delinsC (p.Glu385fs)
-ATP7B,c.49delA,Likely Pathogenic,,,NM_000053.4(ATP7B):c.49delA (p.Ile18fs)
-SMN1,c.91dup,Likely Pathogenic,,,NM_000344.4(SMN1):c.91dup (p.Ser31fs)
-SMN1,NC_000005.10:g.71656113_71656167del,Likely Pathogenic,,,NC_000005.10:g.71656113_71656167del
-SMN1,GRCh37/hg19 5q13.2(chr5:70247768-70247818)x1,Likely Pathogenic,,,GRCh37/hg19 5q13.2(chr5:70247768-70247818)x1
-SMN1,c.844C>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.844C>T (p.Gln282Ter)
-SMN1,c.326A>G,Likely Pathogenic,,,NM_000344.4(SMN1):c.326A>G (p.Tyr109Cys)
-SMN1,c.*3+6T>G,Likely Pathogenic,,,NM_000344.4(SMN1):c.*3+6T>G
-SMN1,c.834+1G>A,Likely Pathogenic,,,NM_000344.4(SMN1):c.834+1G>A
-SMN1,c.317del,Likely Pathogenic,,,NM_000344.4(SMN1):c.317del (p.Gly106fs)
-SMN1,c.188C>A,Likely Pathogenic,,,NM_000344.4(SMN1):c.188C>A (p.Ser63Ter)
-SMN1,NC_000005.10:g.(?_70951941)_(70951991_?)del,Likely Pathogenic,,,NC_000005.10:g.(?_70951941)_(70951991_?)del
-SMN1,c.82-2596_723+467del,Likely Pathogenic,,,NM_000344.4(SMN1):c.82-2596_723+467del
-SMN1,c.827A>G,Likely Pathogenic,,,NM_000344.4(SMN1):c.827A>G (p.Tyr276Cys)
-SMN1,c.850C>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.850C>T (p.Gln284Ter)
-SMN1,c.490C>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.490C>T (p.Gln164Ter)
-SMN1,c.808A>G,Likely Pathogenic,,,NM_000344.4(SMN1):c.808A>G (p.Ser270Gly)
-SMN1,c.579del,Likely Pathogenic,,,NM_000344.4(SMN1):c.579del (p.Leu194fs)
-SMN1,c.603del,Likely Pathogenic,,,NM_000344.4(SMN1):c.603del (p.Pro203fs)
-SMN1,c.766G>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.766G>T (p.Asp256Tyr)
-SMN1,c.347T>C,Likely Pathogenic,,,NM_000344.4(SMN1):c.347T>C (p.Ile116Thr)
-SMN1,c.13del,Likely Pathogenic,,,NM_000344.4(SMN1):c.13del (p.Ser5fs)
-SMN1,c.245_267del,Likely Pathogenic,,,NM_000344.4(SMN1):c.245_267del (p.Lys82fs)
-SMN1,GRCh37/hg19 5q12.3-13.2(chr5:64364710-72835471)x1,Likely Pathogenic,,,GRCh37/hg19 5q12.3-13.2(chr5:64364710-72835471)x1
-SMN1,c.597dup,Likely Pathogenic,,,NM_000344.4(SMN1):c.597dup (p.Met200fs)
-SMN1,c.823G>A,Likely Pathogenic,,,NM_000344.4(SMN1):c.823G>A (p.Gly275Ser)
-SMN1,c.22dup,Likely Pathogenic,,,NM_000344.4(SMN1):c.22dup (p.Ser8fs)
-SMN1,c.43C>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.43C>T (p.Gln15Ter)
-SMN1,c.268C>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.268C>T (p.Gln90Ter)
-SMN1,c.*3+4_*3+7del,Likely Pathogenic,,,NM_000344.4(SMN1):c.*3+4_*3+7del
-SMN1,c.835-8_835-5delinsG,Likely Pathogenic,,,NM_000344.4(SMN1):c.835-8_835-5delinsG
-SMN1,c.801G>A,Likely Pathogenic,,,NM_000344.4(SMN1):c.801G>A (p.Trp267Ter)
-SMN1,NG_008691.1:g.32086_32087ins[N[1090];32074_32086],Likely Pathogenic,,,NG_008691.1:g.32086_32087ins[N[1090];32074_32086]
-SMN1,c.835-18_835-12del,Likely Pathogenic,,,NM_000344.4(SMN1):c.835-18_835-12del
-SMN1,c.835G>C,Likely Pathogenic,,,NM_000344.4(SMN1):c.835G>C (p.Gly279Arg)
-SMN1,c.630del,Likely Pathogenic,,,NM_000344.4(SMN1):c.630del (p.Gly211fs)
-SMN1,c.291del,Likely Pathogenic,,,NM_000344.4(SMN1):c.291del (p.Lys97fs)
-SMN1,c.549del,Likely Pathogenic,,,NM_000344.4(SMN1):c.549del (p.Lys184fs)
-SMN1,c.*3+32_*3+33insSVA,Likely Pathogenic,,,NM_000344.3:c.*3+32_*3+33insSVA
-SMN1,GRCh37/hg19 5q12.3-13.2(chr5:64049692-70306646),Likely Pathogenic,,,GRCh37/hg19 5q12.3-13.2(chr5:64049692-70306646)
-SMN1,GRCh37/hg19 5q13.2(chr5:70247768-70247818)x0,Likely Pathogenic,,,GRCh37/hg19 5q13.2(chr5:70247768-70247818)x0
-SMN1,GRCh37/hg19 5q13.2(chr5:70247768-70248841)x1,Likely Pathogenic,,,GRCh37/hg19 5q13.2(chr5:70247768-70248841)x1
-SMN1,GRCh37/hg19 5q13.2(chr5:70247768-70248841)x1,Likely Pathogenic,,,GRCh37/hg19 5q13.2(chr5:70247768-70248841)x1
-SMN1,c.724_885del,Likely Pathogenic,,,NM_000344.4(SMN1):c.724_885del (p.Ile242_Ter295del)
-SMN1,c.*3+3A>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.*3+3A>T
-SMN1,c.280G>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.280G>T (p.Val94Phe)
-SMN1,c.*3+1G>C,Likely Pathogenic,,,NM_000344.4(SMN1):c.*3+1G>C
-SMN1,GRCh37/hg19 5q13.2(chr5:70247768-70247821),Likely Pathogenic,,,GRCh37/hg19 5q13.2(chr5:70247768-70247821)
-SMN1,c.379T>C,Likely Pathogenic,,,NM_000344.4(SMN1):c.379T>C (p.Tyr127His)
-SMN1,NC_000005.10:g.(?_70951912)_(70951994_?)del,Likely Pathogenic,,,NC_000005.10:g.(?_70951912)_(70951994_?)del
-SMN1,c.469C>T,Likely Pathogenic,,,NM_000344.4(SMN1):c.469C>T (p.Gln157Ter)
-SMN1,GRCh38/hg38 5q11.2-13.2(chr5:58785203-73519962)x1,Likely Pathogenic,,,GRCh38/hg38 5q11.2-13.2(chr5:58785203-73519962)x1
-MEFV,c.724A>G,Likely Pathogenic,,,NM_000243.3(MEFV):c.724A>G (p.Ser242Gly)
-MEFV,GRCh37/hg19 16p13.3(chr16:513767-5555136)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:513767-5555136)x3
-MEFV,GRCh37/hg19 16p13.3-13.13(chr16:85881-12268399)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-13.13(chr16:85881-12268399)x3
-MEFV,c.590del,Likely Pathogenic,,,NM_000243.3(MEFV):c.590del (p.Gly197fs)
-MEFV,GRCh37/hg19 16p13.3(chr16:2990033-4837646)x1,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:2990033-4837646)x1
-MEFV,GRCh37/hg19 16p13.3(chr16:2606711-3935836)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:2606711-3935836)x3
-MEFV,GRCh37/hg19 16p13.3(chr16:111043-6627459)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:111043-6627459)x3
-MEFV,c.1900C>T,Likely Pathogenic,,,NM_000243.3(MEFV):c.1900C>T (p.Gln634Ter)
-MEFV,c.1321C>T,Likely Pathogenic,,,NM_000243.3(MEFV):c.1321C>T (p.Arg441Ter)
-MEFV,c.1506_1507dup,Likely Pathogenic,,,NM_000243.3(MEFV):c.1506_1507dup (p.Ser503fs)
-MEFV,NC_000016.9:g.(?_3293141)_(3929917_?)del,Likely Pathogenic,,,NC_000016.9:g.(?_3293141)_(3929917_?)del
-MEFV,GRCh37/hg19 16p13.3(chr16:84485-5251013)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:84485-5251013)x3
-MEFV,c.1510C>T,Likely Pathogenic,,,NM_000243.3(MEFV):c.1510C>T (p.Gln504Ter)
-MEFV,c.1597_1598dup,Likely Pathogenic,,,NM_000243.3(MEFV):c.1597_1598dup (p.Asp533fs)
-MEFV,NM_000243.2:c.(?_911)_(1356_?)del,Likely Pathogenic,,,NM_000243.2:c.(?_911)_(1356_?)del
-MEFV,GRCh37/hg19 16p13.3-11.2(chr16:2959279-30190593)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-11.2(chr16:2959279-30190593)x3
-MEFV,GRCh37/hg19 16p13.3(chr16:85880-5249457)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:85880-5249457)x3
-MEFV,c.214C>T,Likely Pathogenic,,,NM_000243.3(MEFV):c.214C>T (p.Gln72Ter)
-MEFV,c.265del,Likely Pathogenic,,,NM_000243.3(MEFV):c.265del (p.Ala89fs)
-MEFV,c.730G>A,Likely Pathogenic,,,NM_000243.3(MEFV):c.730G>A (p.Glu244Lys)
-MEFV,GRCh37/hg19 16p13.3(chr16:2651354-4614965)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:2651354-4614965)x3
-MEFV,GRCh37/hg19 16p13.3(chr16:109978-4316797),Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:109978-4316797)
-MEFV,GRCh37/hg19 16p13.3(chr16:2651354-4460114)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:2651354-4460114)x3
-MEFV,GRCh37/hg19 16p13.3(chr16:1505184-4415346)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:1505184-4415346)x3
-MEFV,GRCh37/hg19 16p13.3-13.13(chr16:85880-11209288)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-13.13(chr16:85880-11209288)x3
-MEFV,c.[1437C>G;501G>C],Likely Pathogenic,,,NM_000243.2(MEFV):c.[1437C>G;501G>C]
-MEFV,c.2080_2082delinsGTA,Likely Pathogenic,,,NM_000243.3(MEFV):c.2080_2082delinsGTA (p.Met694Val)
-MEFV,GRCh37/hg19 16p13.3-13.2(chr16:85880-9883129)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-13.2(chr16:85880-9883129)x3
-MEFV,GRCh37/hg19 16p13.3(chr16:3146027-6362229)x1,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:3146027-6362229)x1
-MEFV,GRCh37/hg19 16p13.3-12.2(chr16:85880-22442007)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-12.2(chr16:85880-22442007)x3
-MEFV,GRCh37/hg19 16p13.3-q24.3(chr16:85881-90155062)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-q24.3(chr16:85881-90155062)x3
-MEFV,GRCh37/hg19 16p13.3-q24.3(chr16:85881-90155062),Likely Pathogenic,,,GRCh37/hg19 16p13.3-q24.3(chr16:85881-90155062)
-MEFV,GRCh37/hg19 16p13.3-12.3(chr16:85880-19806921)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-12.3(chr16:85880-19806921)x3
-MEFV,c.332G>A,Likely Pathogenic,,,NM_000243.3(MEFV):c.332G>A (p.Gly111Glu)
-MEFV,GRCh37/hg19 16p13.3-13.2(chr16:78801-9169448),Likely Pathogenic,,,GRCh37/hg19 16p13.3-13.2(chr16:78801-9169448)
-MEFV,GRCh37/hg19 16p13.3-q24.3(chr16:69193-90274381)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-q24.3(chr16:69193-90274381)x3
-MEFV,GRCh37/hg19 16p13.3(chr16:97133-5122974)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:97133-5122974)x3
-MEFV,maternal UPD(16p),Likely Pathogenic,,,maternal UPD(16p)
-MEFV,GRCh37/hg19 16p13.3(chr16:2867891-3942436)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3(chr16:2867891-3942436)x3
-MEFV,c.2040G>T,Likely Pathogenic,,,NM_000243.3(MEFV):c.2040G>T (p.Met680Ile)
-MEFV,GRCh37/hg19 16p13.3-11.2(chr16:102839-28327676)x3,Likely Pathogenic,,,GRCh37/hg19 16p13.3-11.2(chr16:102839-28327676)x3
-MEFV,GRCh38/hg38 16p13.3-13.11(chr16:666662-15743104)x3,Likely Pathogenic,,,GRCh38/hg38 16p13.3-13.11(chr16:666662-15743104)x3
-MEFV,GRCh38/hg38 16p13.3-13.12(chr16:43732-13326806)x3,Likely Pathogenic,,,GRCh38/hg38 16p13.3-13.12(chr16:43732-13326806)x3
-MEFV,GRCh38/hg38 16p13.3(chr16:46766-4247185)x3,Likely Pathogenic,,,GRCh38/hg38 16p13.3(chr16:46766-4247185)x3
-MEFV,GRCh38/hg38 16p13.3-13.13(chr16:46766-11525516)x3,Likely Pathogenic,,,GRCh38/hg38 16p13.3-13.13(chr16:46766-11525516)x3
-MEFV,c.726C>A,Likely Pathogenic,,,NM_000243.3(MEFV):c.726C>A (p.Ser242Arg)
-MEFV,GRCh38/hg38 16p13.3(chr16:2850734-7110697)x1,Likely Pathogenic,,,GRCh38/hg38 16p13.3(chr16:2850734-7110697)x1
-MEFV,GRCh38/hg38 16p13.3(chr16:2494804-3246579)x1,Likely Pathogenic,,,GRCh38/hg38 16p13.3(chr16:2494804-3246579)x1
-MEFV,GRCh38/hg38 16p13.3(chr16:2717952-4041020)x3,Likely Pathogenic,,,GRCh38/hg38 16p13.3(chr16:2717952-4041020)x3
-MEFV,GRCh38/hg38 16p13.3-13.13(chr16:23141-11296695)x3,Likely Pathogenic,,,GRCh38/hg38 16p13.3-13.13(chr16:23141-11296695)x3
-ASPA,c.634+5_634+8del,Likely Pathogenic,,,NM_000049.4(ASPA):c.634+5_634+8del
-ASPA,GRCh37/hg19 17p13.3-13.2(chr17:525-5728870)x1,Likely Pathogenic,,,GRCh37/hg19 17p13.3-13.2(chr17:525-5728870)x1
-ASPA,c.547C>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.547C>T (p.Pro183Ser)
-ASPA,c.846del,Likely Pathogenic,,,NM_000049.4(ASPA):c.846del (p.Phe282fs)
-ASPA,c.98dup,Likely Pathogenic,,,NM_000049.4(ASPA):c.98dup (p.His33fs)
-ASPA,c.857C>A,Likely Pathogenic,,,NM_000049.4(ASPA):c.857C>A (p.Ala286Asp)
-ASPA,c.847_857del,Likely Pathogenic,,,NM_000049.4(ASPA):c.847_857del (p.Val283fs)
-ASPA,c.83dup,Likely Pathogenic,,,NM_000049.4(ASPA):c.83dup (p.Phe29fs)
-ASPA,c.815T>C,Likely Pathogenic,,,NM_000049.4(ASPA):c.815T>C (p.Leu272Pro)
-ASPA,c.781_782del,Likely Pathogenic,,,NM_000049.4(ASPA):c.781_782del (p.Met261fs)
-ASPA,c.742C>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.742C>T (p.Gln248Ter)
-ASPA,c.70G>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.70G>T (p.Glu24Ter)
-ASPA,c.69del,Likely Pathogenic,,,NM_000049.4(ASPA):c.69del (p.Asn23fs)
-ASPA,c.544C>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.544C>T (p.Gln182Ter)
-ASPA,c.527-1G>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.527-1G>T
-ASPA,c.527-1G>C,Likely Pathogenic,,,NM_000049.4(ASPA):c.527-1G>C
-ASPA,c.497C>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.497C>T (p.Thr166Ile)
-ASPA,c.487A>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.487A>T (p.Lys163Ter)
-ASPA,c.475del,Likely Pathogenic,,,NM_000049.4(ASPA):c.475del (p.His159fs)
-ASPA,c.456C>G,Likely Pathogenic,,,NM_000049.4(ASPA):c.456C>G (p.Cys152Trp)
-ASPA,c.432+2T>C,Likely Pathogenic,,,NM_000049.4(ASPA):c.432+2T>C
-ASPA,c.372dup,Likely Pathogenic,,,NM_000049.4(ASPA):c.372dup (p.Thr125fs)
-ASPA,c.290del,Likely Pathogenic,,,NM_000049.4(ASPA):c.290del (p.Asn97fs)
-ASPA,c.241_242delinsT,Likely Pathogenic,,,NM_000049.4(ASPA):c.241_242delinsT (p.Lys80_Lys81insTer)
-ASPA,c.237-2A>C,Likely Pathogenic,,,NM_000049.4(ASPA):c.237-2A>C
-ASPA,c.128_129insCC,Likely Pathogenic,,,NM_000049.4(ASPA):c.128_129insCC (p.Arg43fs)
-ASPA,c.212G>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.212G>T (p.Arg71Leu)
-ASPA,c.634+2T>A,Likely Pathogenic,,,NM_000049.4(ASPA):c.634+2T>A
-ASPA,c.615dup,Likely Pathogenic,,,NM_000049.4(ASPA):c.615dup (p.Ile206fs)
-ASPA,c.264T>G,Likely Pathogenic,,,NM_000049.4(ASPA):c.264T>G (p.Tyr88Ter)
-ASPA,c.95del,Likely Pathogenic,,,NM_000049.4(ASPA):c.95del (p.Lys32fs)
-ASPA,NC_000017.10:g.(?_3379290)_(3406700_?)del,Likely Pathogenic,,,NC_000017.10:g.(?_3379290)_(3406700_?)del
-ASPA,c.415A>G,Likely Pathogenic,,,NM_000049.4(ASPA):c.415A>G (p.Met139Val)
-ASPA,c.556G>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.556G>T (p.Val186Phe)
-ASPA,c.530dup,Likely Pathogenic,,,NM_000049.4(ASPA):c.530dup (p.Glu178fs)
-ASPA,c.509del,Likely Pathogenic,,,NM_000049.4(ASPA):c.509del (p.Ile170fs)
-ASPA,c.302del,Likely Pathogenic,,,NM_000049.4(ASPA):c.302del (p.Gly101fs)
-ASPA,c.308_309del,Likely Pathogenic,,,NM_000049.4(ASPA):c.308_309del (p.Lys103fs)
-ASPA,GRCh37/hg19 17p13.3-13.2(chr17:9475-3793447)x1,Likely Pathogenic,,,GRCh37/hg19 17p13.3-13.2(chr17:9475-3793447)x1
-ASPA,c.297_300del,Likely Pathogenic,,,NM_000049.4(ASPA):c.297_300del (p.Phe100fs)
-ASPA,NC_000017.11:g.3490217_3490218ins[NC_000001.11:13327499_13330105],Likely Pathogenic,,,NC_000017.11:g.3490217_3490218ins[NC_000001.11:13327499_13330105]
-ASPA,c.203A>C,Likely Pathogenic,,,NM_000049.4(ASPA):c.203A>C (p.Asp68Ala)
-ASPA,c.340G>A,Likely Pathogenic,,,NM_000049.4(ASPA):c.340G>A (p.Asp114Asn)
-ASPA,NC_000017.10:g.(?_3397716)_(3402618_?)del,Likely Pathogenic,,,NC_000017.10:g.(?_3397716)_(3402618_?)del
-ASPA,NC_000017.10:g.(?_3397734)_(3400388_?)del,Likely Pathogenic,,,NC_000017.10:g.(?_3397734)_(3400388_?)del
-ASPA,NC_000017.10:g.(?_3384877)_(3386906_?)dup,Likely Pathogenic,,,NC_000017.10:g.(?_3384877)_(3386906_?)dup
-ASPA,NC_000017.10:g.(?_3379454)_(3397773_?)del,Likely Pathogenic,,,NC_000017.10:g.(?_3379454)_(3397773_?)del
-ASPA,NC_000017.10:g.(?_3379454)_(3402382_?)del,Likely Pathogenic,,,NC_000017.10:g.(?_3379454)_(3402382_?)del
-ASPA,c.192del,Likely Pathogenic,,,NM_000049.4(ASPA):c.192del (p.Arg63_Tyr64insTer)
-ASPA,c.236+1G>T,Likely Pathogenic,,,NM_000049.4(ASPA):c.236+1G>T
-G6PD,GRCh38/hg38 Xq23-28(chrX:112876224-156004066)x1,Likely Pathogenic,,,GRCh38/hg38 Xq23-28(chrX:112876224-156004066)x1
-G6PD,GRCh38/hg38 Xq21.31-28(chrX:89027698-156040895)x1,Likely Pathogenic,,,GRCh38/hg38 Xq21.31-28(chrX:89027698-156040895)x1
-G6PD,GRCh37/hg19 Xq26.2-28(chrX:131207885-155233731)x1,Likely Pathogenic,,,GRCh37/hg19 Xq26.2-28(chrX:131207885-155233731)x1
-G6PD,GRCh37/hg19 Xq11.1-28(chrX:61882086-155233731)x3,Likely Pathogenic,,,GRCh37/hg19 Xq11.1-28(chrX:61882086-155233731)x3
-G6PD,GRCh38/hg38 Xq26.3-28(chrX:137491159-155700385)x2,Likely Pathogenic,,,GRCh38/hg38 Xq26.3-28(chrX:137491159-155700385)x2
-G6PD,c.1334T>C,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1334T>C (p.Phe445Ser)
-G6PD,c.82C>T,Likely Pathogenic,,,NM_001360016.2(G6PD):c.82C>T (p.Gln28Ter)
-G6PD,c.1141T>A,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1141T>A (p.Phe381Ile)
-G6PD,GRCh37/hg19 Xq28(chrX:153622204-153783167)x3,Likely Pathogenic,,,GRCh37/hg19 Xq28(chrX:153622204-153783167)x3
-G6PD,GRCh37/hg19 Xq23-28(chrX:113417246-155233731)x1,Likely Pathogenic,,,GRCh37/hg19 Xq23-28(chrX:113417246-155233731)x1
-G6PD,Single allele,Likely Pathogenic,,,Single allele
-G6PD,c.1175T>G,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1175T>G (p.Ile392Ser)
-G6PD,GRCh37/hg19 Xq28(chrX:150351569-155233731)x1,Likely Pathogenic,,,GRCh37/hg19 Xq28(chrX:150351569-155233731)x1
-G6PD,GRCh37/hg19 Xq27.3-28(chrX:145548062-155233731)x1,Likely Pathogenic,,,GRCh37/hg19 Xq27.3-28(chrX:145548062-155233731)x1
-G6PD,NC_000023.11:g.154398510_154619228dup,Likely Pathogenic,,,NC_000023.11:g.154398510_154619228dup
-G6PD,GRCh37/hg19 Xq28(chrX:152788477-155226944)x2,Likely Pathogenic,,,GRCh37/hg19 Xq28(chrX:152788477-155226944)x2
-G6PD,c.404A>T,Likely Pathogenic,,,NM_001360016.2(G6PD):c.404A>T (p.Asn135Ile)
-G6PD,GRCh37/hg19 Xq26.3-28(chrX:134810076-155258261)x1,Likely Pathogenic,,,GRCh37/hg19 Xq26.3-28(chrX:134810076-155258261)x1
-G6PD,c.1442C>T,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1442C>T (p.Pro481Leu)
-G6PD,c.404A>G,Likely Pathogenic,,,NM_001360016.2(G6PD):c.404A>G (p.Asn135Ser)
-G6PD,c.403A>C,Likely Pathogenic,,,NM_001360016.2(G6PD):c.403A>C (p.Asn135His)
-G6PD,c.679C>G,Likely Pathogenic,,,NM_001360016.2(G6PD):c.679C>G (p.Arg227Gly)
-G6PD,c.1028_1029del,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1028_1029del (p.Tyr343fs)
-G6PD,GRCh37/hg19 Xq27.3-28(chrX:145075197-155233731)x1,Likely Pathogenic,,,GRCh37/hg19 Xq27.3-28(chrX:145075197-155233731)x1
-G6PD,GRCh37/hg19 Xq28(chrX:153614665-153858492)x2,Likely Pathogenic,,,GRCh37/hg19 Xq28(chrX:153614665-153858492)x2
-G6PD,c.520_522del,Likely Pathogenic,,,NM_001360016.2(G6PD):c.520_522del (p.Gly174del)
-G6PD,GRCh38/hg38 Xq28(chrX:154348522-154594454)x3,Likely Pathogenic,,,GRCh38/hg38 Xq28(chrX:154348522-154594454)x3
-G6PD,c.1195del,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1195del (p.Ala399fs)
-G6PD,c.430C>G,Likely Pathogenic,,,NM_001360016.2(G6PD):c.430C>G (p.Pro144Ala)
-G6PD,c.551C>G,Likely Pathogenic,,,NM_001360016.2(G6PD):c.551C>G (p.Ser184Cys)
-G6PD,c.354C>G,Likely Pathogenic,,,NM_001360016.2(G6PD):c.354C>G (p.Tyr118Ter)
-G6PD,c.49C>T,Likely Pathogenic,,,NM_001360016.2(G6PD):c.49C>T (p.Arg17Trp)
-G6PD,c.1438A>T,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1438A>T (p.Ile480Phe)
-G6PD,c.982G>A,Likely Pathogenic,,,NM_001360016.2(G6PD):c.982G>A (p.Val328Met)
-G6PD,c.962G>T,Likely Pathogenic,,,NM_001360016.2(G6PD):c.962G>T (p.Gly321Val)
-G6PD,c.946G>A,Likely Pathogenic,,,NM_001360016.2(G6PD):c.946G>A (p.Gly316Ser)
-G6PD,c.691G>A,Likely Pathogenic,,,NM_001360016.2(G6PD):c.691G>A (p.Ala231Thr)
-G6PD,NC_000023.10:g.(?_152954030)_(154005142_?)del,Likely Pathogenic,,,NC_000023.10:g.(?_152954030)_(154005142_?)del
-G6PD,GRCh38/hg38 Xp22.33-q28(chrX:2757837-156030895)x2,Likely Pathogenic,,,GRCh38/hg38 Xp22.33-q28(chrX:2757837-156030895)x2
-G6PD,c.735_741del,Likely Pathogenic,,,NM_001360016.2(G6PD):c.735_741del (p.Arg246fs)
-G6PD,GRCh37/hg19 Xq25-28(chrX:125253445-155233098)x1,Likely Pathogenic,,,GRCh37/hg19 Xq25-28(chrX:125253445-155233098)x1
-G6PD,GRCh37/hg19 Xq25-28(chrX:121656905-155233098)x1,Likely Pathogenic,,,GRCh37/hg19 Xq25-28(chrX:121656905-155233098)x1
-G6PD,GRCh37/hg19 Xq24-28(chrX:119395676-154930047),Likely Pathogenic,,,GRCh37/hg19 Xq24-28(chrX:119395676-154930047)
-G6PD,GRCh37/hg19 Xq22.2-28(chrX:103405294-155233731),Likely Pathogenic,,,GRCh37/hg19 Xq22.2-28(chrX:103405294-155233731)
-G6PD,GRCh37/hg19 Xq12-28(chrX:67292994-155240074)x3,Likely Pathogenic,,,GRCh37/hg19 Xq12-28(chrX:67292994-155240074)x3
-G6PD,c.1346A>G,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1346A>G (p.Gln449Arg)
-G6PD,c.1354_1358del,Likely Pathogenic,,,NM_001360016.2(G6PD):c.1354_1358del (p.Phe452fs)
-G6PD,c.464A>C,Likely Pathogenic,,,NM_001360016.2(G6PD):c.464A>C (p.His155Pro)
-G6PD,GRCh37/hg19 Xq28(chrX:153606456-153828848)x2,Likely Pathogenic,,,GRCh37/hg19 Xq28(chrX:153606456-153828848)x2
-G6PD,GRCh37/hg19 Xq28(chrX:153549167-153858492)x2,Likely Pathogenic,,,GRCh37/hg19 Xq28(chrX:153549167-153858492)x2
-BTD,c.163_167dup,Likely Pathogenic,,,NM_001370658.1(BTD):c.163_167dup (p.Ile57fs)
-BTD,c.40_44delinsC,Likely Pathogenic,,,NM_001370658.1(BTD):c.40_44delinsC (p.Gly14fs)
-BTD,c.902G>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.902G>A (p.Trp301Ter)
-BTD,GRCh38/hg38 3p25.1(chr3:15441721-15629781)x1,Likely Pathogenic,,,GRCh38/hg38 3p25.1(chr3:15441721-15629781)x1
-BTD,c.98_104delGCGGCTGinsTCC,Likely Pathogenic,,,NM_000060.2:c.98_104delGCGGCTGinsTCC
-BTD,Single allele,Likely Pathogenic,,,Single allele
-BTD,c.1430C>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.1430C>T (p.Pro477Leu)
-BTD,c.641C>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.641C>A (p.Thr214Asn)
-BTD,c.184G>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.184G>A (p.Ala62Thr)
-BTD,c.1493_1494dup,Likely Pathogenic,,,NM_001370658.1(BTD):c.1493_1494dup (p.Tyr499fs)
-BTD,c.158C>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.158C>T (p.Pro53Leu)
-BTD,c.575A>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.575A>T (p.Lys192Ile)
-BTD,c.466A>G,Likely Pathogenic,,,NM_001370658.1(BTD):c.466A>G (p.Lys156Glu)
-BTD,c.38_44delinsTCGC,Likely Pathogenic,,,NM_001370658.1(BTD):c.38_44delinsTCGC (p.Cys13_Cys15delinsPheAla)
-BTD,GRCh37/hg19 3p26.3-14.3(chr3:2263690-55016039)x3,Likely Pathogenic,,,GRCh37/hg19 3p26.3-14.3(chr3:2263690-55016039)x3
-BTD,c.528G>T,Likely Pathogenic,,,NM_000060.4:c.528G>T
-BTD,c.511G>A,Likely Pathogenic,,,NM_000060.4:c.511G>A
-BTD,c.1471C>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.1471C>T (p.Gln491Ter)
-BTD,c.500C>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.500C>T (p.Pro167Leu)
-BTD,c.935G>A,Likely Pathogenic,,,NM_000060.2:c.935G>A
-BTD,c.1334G>T,Likely Pathogenic,,,NM_000060.2:c.1334G>T
-BTD,c.933delT,Likely Pathogenic,,,NM_000060.2:c.933delT
-BTD,c.1330G>C,Likely Pathogenic,,,NM_000060.4:c.1330G>C
-BTD,c.1188_1189insA,Likely Pathogenic,,,NM_001370658.1(BTD):c.1188_1189insA (p.Val397fs)
-BTD,c.289G>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.289G>T (p.Gly97Ter)
-BTD,c.1360G>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.1360G>T (p.Glu454Ter)
-BTD,c.404T>C,Likely Pathogenic,,,NM_001370658.1(BTD):c.404T>C (p.Leu135Pro)
-BTD,c.763C>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.763C>T (p.Gln255Ter)
-BTD,c.1127_1128del,Likely Pathogenic,,,NM_001370658.1(BTD):c.1127_1128del (p.His375_Ser376insTer)
-BTD,c.-16-4_-14del,Likely Pathogenic,,,NM_001370658.1(BTD):c.-16-4_-14del
-BTD,c.-16-2A>C,Likely Pathogenic,,,NM_001370658.1(BTD):c.-16-2A>C
-BTD,c.270dup,Likely Pathogenic,,,NM_001370658.1(BTD):c.270dup (p.Pro91fs)
-BTD,c.250-2A>G,Likely Pathogenic,,,NM_001370658.1(BTD):c.250-2A>G
-BTD,c.1243A>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.1243A>T (p.Lys415Ter)
-BTD,c.1215T>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.1215T>A (p.Tyr405Ter)
-BTD,c.1167G>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.1167G>A (p.Trp389Ter)
-BTD,c.190G>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.190G>A (p.Glu64Lys)
-BTD,c.1220_1224del,Likely Pathogenic,,,NM_001370658.1(BTD):c.1220_1224del (p.Leu407fs)
-BTD,c.134A>G,Likely Pathogenic,,,NM_001370658.1(BTD):c.134A>G (p.His45Arg)
-BTD,c.845A>G,Likely Pathogenic,,,NM_001370658.1(BTD):c.845A>G (p.His282Arg)
-BTD,c.311C>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.311C>T (p.Ser104Phe)
-BTD,c.872G>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.872G>A (p.Ser291Asn)
-BTD,c.250-1G>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.250-1G>A
-BTD,c.1499del,Likely Pathogenic,,,NM_001370658.1(BTD):c.1499del (p.Phe500fs)
-BTD,c.1270G>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.1270G>T (p.Asp424Tyr)
-BTD,c.1134delinsAA,Likely Pathogenic,,,NM_001370658.1(BTD):c.1134delinsAA (p.Met378fs)
-BTD,c.782C>T,Likely Pathogenic,,,NM_001370658.1(BTD):c.782C>T (p.Ala261Val)
-BTD,c.570C>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.570C>A (p.Tyr190Ter)
-BTD,c.3G>A,Likely Pathogenic,,,NM_001370658.1(BTD):c.3G>A (p.Met1Ile)
-BTD,c.1264dup,Likely Pathogenic,,,NM_001370658.1(BTD):c.1264dup (p.Val422fs)
+gene,variant_id,classification,raw_clinsig,review_status,title,conditions,disease_db_xrefs
+CFTR,GRCh38/hg38 7q31.2(chr7:117642438-117642593)x3,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",GRCh38/hg38 7q31.2(chr7:117642438-117642593)x3,Cystic fibrosis,Orphanet:586; MedGen:C0010674; MONDO:MONDO:0009061; OMIM:219700
+CFTR,c.2620-10_2621del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.2620-10_2621del,Cystic fibrosis,Orphanet:586; MedGen:C0010674; MONDO:MONDO:0009061; OMIM:219700
+CFTR,c.3123dup,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3123dup (p.Gln1042fs),Cystic fibrosis,Orphanet:586; MedGen:C0010674; MONDO:MONDO:0009061; OMIM:219700
+CFTR,c.44T>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.44T>G (p.Leu15Arg),Cystic fibrosis,Orphanet:586; MedGen:C0010674; MONDO:MONDO:0009061; OMIM:219700
+CFTR,GRCh37/hg19 7q31.2(chr7:117141950-117159386)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 7q31.2(chr7:117141950-117159386)x1,not specified,MedGen:CN169374
+CFTR,NC_000007.13:g.(117254768_117267575)_(117292986_117304741)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000007.13:g.(117254768_117267575)_(117292986_117304741)del,Cystic fibrosis,Orphanet:586; MedGen:C0010674; MONDO:MONDO:0009061; OMIM:219700
+CFTR,c.3384del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3384del (p.Val1129fs),Cystic fibrosis,Orphanet:586; MedGen:C0010674; MONDO:MONDO:0009061; OMIM:219700
+CFTR,c.989_990insTA,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.989_990insTA (p.Ile331fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.962_968del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.962_968del (p.Ser321fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.954delinsTT,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.954delinsTT (p.Leu320fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.751_767del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.751_767del (p.Gln250_Arg251insTer),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.742del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.742del (p.Arg248fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.71_72delinsA,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.71_72delinsA (p.Ile23_Leu24insTer),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.708dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.708dup (p.Gln237fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.605G>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.605G>A (p.Trp202Ter),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.53+1G>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.53+1G>A,CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.526del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.526del (p.Ser176fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.490-2A>C,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.490-2A>C,CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.481del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.481del (p.Tyr161fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.463_466del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.463_466del (p.Ala155fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.461dup,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.461dup (p.Ala155fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.461del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.461del (p.Ile154fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.4378_4429del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.4378_4429del (p.Ser1460fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.43_44delinsG,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.43_44delinsG (p.Leu15fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.4267C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.4267C>T (p.Gln1423Ter),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.4252dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.4252dup (p.Glu1418fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.424_427del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.424_427del (p.Ile142fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.4231del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.4231del (p.Gln1411fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.4223_4230del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.4223_4230del (p.Leu1408fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.4137-2del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.4137-2del,CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.4137-1G>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.4137-1G>C,CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.4137-1G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.4137-1G>A,CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.4136+1G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.4136+1G>T,CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.3909C>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3909C>A (p.Asn1303Lys),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.3895del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3895del (p.Thr1299fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.3827C>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3827C>G (p.Ser1276Ter),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.3739G>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3739G>C (p.Gly1247Arg),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.3733_3824del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3733_3824del (p.Arg1245fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.3717G>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3717G>C (p.Arg1239Ser),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.3632_3635delinsTCTCACAG,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3632_3635delinsTCTCACAG (p.Thr1211fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.3630dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3630dup (p.Thr1211fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.3622_3623dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3622_3623dup (p.Gln1209fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.3552del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3552del (p.Asn1184fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.350_351delinsTT,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.350_351delinsTT (p.Arg117Leu),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.3479_3482del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3479_3482del (p.Val1160fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.3454_3455del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3454_3455del (p.Asp1152fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.3441_3442insG,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3441_3442insG (p.Asn1148fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.3403_3404dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3403_3404dup (p.Leu1135fs),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.3367+2T>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3367+2T>C,CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+CFTR,c.3310G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000492.4(CFTR):c.3310G>A (p.Glu1104Lys),CFTR-related disorder,MedGen:C5924204; MONDO:MONDO:7770004
+HBB,GRCh37/hg19 11p15.4(chr11:5187270-5268465)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 11p15.4(chr11:5187270-5268465)x1,not specified,MedGen:CN169374
+HBB,c.316-12_316-7delinsCTCCTA,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.316-12_316-7delinsCTCCTA,beta Thalassemia,Orphanet:848; MedGen:C0005283; MONDO:MONDO:0019402
+HBB,c.327C>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.327C>A (p.Asn109Lys),Hemoglobinopathy,MedGen:C0019045; MONDO:MONDO:0044348
+HBB,c.206_216del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.206_216del (p.Leu69fs),beta Thalassemia,Orphanet:848; MedGen:C0005283; MONDO:MONDO:0019402
+HBB,c.9_83del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.9_83del (p.Thr5_Leu29del),beta Thalassemia,Orphanet:848; MedGen:C0005283; MONDO:MONDO:0019402
+HBB,c.55del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.55del (p.Lys18_Val19insTer),beta Thalassemia,Orphanet:848; MedGen:C0005283; MONDO:MONDO:0019402
+HBB,c.36dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.36dup (p.Thr13fs),beta Thalassemia,Orphanet:848; MedGen:C0005283; MONDO:MONDO:0019402
+HBB,c.327del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.327del (p.Asn109fs),beta Thalassemia,Orphanet:848; MedGen:C0005283; MONDO:MONDO:0019402
+HBB,c.275del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.275del (p.Leu92fs),beta Thalassemia,Orphanet:848; MedGen:C0005283; MONDO:MONDO:0019402
+HBB,c.331del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.331del (p.Leu111fs),not provided,MedGen:C3661900
+HBB,c.84_90del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.84_90del (p.Leu29fs),not provided,MedGen:C3661900
+HBB,c.199_202del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.199_202del (p.Lys67fs),not provided,MedGen:C3661900
+HBB,c.346del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.346del (p.Ala116fs),Dominant beta-thalassemia,Orphanet:231226; Orphanet:848; MedGen:C1858990; MONDO:MONDO:0011381; OMIM:603902
+HBB,c.290T>G,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.290T>G (p.Leu97Arg),"Malaria, susceptibility to",Orphanet:673; MedGen:C1970028; MONDO:MONDO:0021024; OMIM:611162
+HBB,GRCh37/hg19 11p15.4(chr11:5187270-5268464)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 11p15.4(chr11:5187270-5268464)x1,not specified,MedGen:CN169374
+HBB,GRCh37/hg19 11p15.4(chr11:5244009-5253899)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 11p15.4(chr11:5244009-5253899)x1,not specified,MedGen:CN169374
+HBB,NC_000011.9:g.(?_5246693)_(5248302_?)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000011.9:g.(?_5246693)_(5248302_?)del,beta Thalassemia,Orphanet:848; MedGen:C0005283; MONDO:MONDO:0019402
+HBB,c.348_349delinsG,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.348_349delinsG (p.His117fs),beta Thalassemia,Orphanet:848; MedGen:C0005283; MONDO:MONDO:0019402
+HBB,NC_000011.10:g.5225255_5225875del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000011.10:g.5225255_5225875del,beta Thalassemia,Orphanet:848; MedGen:C0005283; MONDO:MONDO:0019402
+HBB,c.92G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.92G>T (p.Arg31Met),not provided,MedGen:C3661900
+HBB,c.20_21del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.20_21del (p.Glu7fs),not provided,MedGen:C3661900
+HBB,c.315+1_315+2insACGTTCTC,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.315+1_315+2insACGTTCTC,not provided,MedGen:C3661900
+HBB,c.294C>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.294C>A (p.His98Gln),not provided,MedGen:C3661900
+HBB,NC_000011.10:g.5226995_5227540delinsTGAAAACTCTACCTCA,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000011.10:g.5226995_5227540delinsTGAAAACTCTACCTCA,not provided,MedGen:C3661900
+HBB,c.160G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.160G>A (p.Ala54Thr),"Heinz body anemia; METHEMOGLOBINEMIA, BETA TYPE; Dominant beta-thalassemia; Erythrocytosis, familial, 6; Malaria, susceptibility to; Hereditary persistence of fetal hemoglobin; Beta-thalassemia HBB/LCRB; Hb SS disease",Orphanet:178330; MedGen:C0700299; MONDO:MONDO:0007705; OMIM:140700; Human Phenotype Ontology:HP:0005511; MedGen:C1840779; OMIM:617971; Orphanet:231226; Orphanet:848; MedGen:C1858990; MONDO:MONDO:0011381; OMIM:603902; MedGen:C4693822; MONDO:MONDO:0054801; OMIM:617980; Orphanet:673; MedGen:C1970028; MONDO:MONDO:0021024; OMIM:611162; MedGen:C0019025; MONDO:MONDO:0020989; OMIM:141749; MedGen:CN322236; MONDO:MONDO:0013517; OMIM:613985; Orphanet:232; Orphanet:275752; MedGen:C0002895; MONDO:MONDO:0011382; OMIM:603903
+HBB,c.363dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.363dup (p.Glu122fs),not provided,MedGen:C3661900
+HBB,c.126_129dup,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.126_129dup (p.Glu44delinsLeuTer),not provided,MedGen:C3661900
+HBB,c.327C>G,Likely Pathogenic,Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000518.5(HBB):c.327C>G (p.Asn109Lys),"beta Thalassemia; Malaria, susceptibility to; METHEMOGLOBINEMIA, BETA TYPE; Hereditary persistence of fetal hemoglobin; Dominant beta-thalassemia; Erythrocytosis, familial, 6; Beta-thalassemia HBB/LCRB; Hb SS disease; Heinz body anemia; not provided",Orphanet:848; MedGen:C0005283; MONDO:MONDO:0019402; Orphanet:673; MedGen:C1970028; MONDO:MONDO:0021024; OMIM:611162; MedGen:C1840779; OMIM:617971; MedGen:C0019025; MONDO:MONDO:0020989; OMIM:141749; Orphanet:231226; MedGen:C1858990; MONDO:MONDO:0011381; OMIM:603902; MedGen:C4693822; MONDO:MONDO:0054801; OMIM:617980; MedGen:CN322236; MONDO:MONDO:0013517; OMIM:613985; Orphanet:232; Orphanet:275752; MedGen:C0002895; MONDO:MONDO:0011382; OMIM:603903; Orphanet:178330; MedGen:C0700299; MONDO:MONDO:0007705; OMIM:140700; Human Phenotype Ontology:HP:0005511; MedGen:C3661900
+HBB,NC_000011.9:g.(?_5246486)_(5247105_?)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000011.9:g.(?_5246486)_(5247105_?)del,not provided,MedGen:C3661900
+HBB,NC_000011.9:g.(?_5247800)_(5255213_?)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000011.9:g.(?_5247800)_(5255213_?)del,not provided,MedGen:C3661900
+HBB,NC_000011.9:g.(?_5246696)_(5248301_?)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000011.9:g.(?_5246696)_(5248301_?)del,not provided,MedGen:C3661900
+HBB,NC_000011.9:g.(?_5246693)_(5246957_5247806)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000011.9:g.(?_5246693)_(5246957_5247806)del,beta Thalassemia,Orphanet:848; MedGen:C0005283; MONDO:MONDO:0019402
+HBB,c.19del,Pathogenic,Pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000518.5(HBB):c.19del (p.Glu7fs),not provided; Hemoglobinopathy,MedGen:C3661900; MedGen:C0019045; MONDO:MONDO:0044348
+HBB,NC_000011.10:g.5226995_5227524del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000011.10:g.5226995_5227524del,not provided,MedGen:C3661900
+HBB,c.323G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000518.5(HBB):c.323G>A (p.Gly108Asp),beta Thalassemia; not provided,Orphanet:848; MedGen:C0005283; MONDO:MONDO:0019402; MedGen:C3661900
+HBB,c.345_348dup,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000518.5(HBB):c.345_348dup (p.His117fs),Hemoglobinopathy,MedGen:C0019045; MONDO:MONDO:0044348
+GJB2,c.76_79delinsCCA,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.76_79delinsCCA (p.Thr26fs),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.171dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.171dup (p.Pro58fs),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.495dup,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.495dup (p.Leu166fs),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.444del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.444del (p.Ala149fs),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,GRCh37/hg19 13q11-14.3(chr13:19436286-53157340)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 13q11-14.3(chr13:19436286-53157340)x3,not specified,MedGen:CN169374
+GJB2,c.521G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.521G>A (p.Cys174Tyr),Nonsyndromic genetic hearing loss,Orphanet:87884; MedGen:C5680182; MONDO:MONDO:0019497
+GJB2,c.240G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.240G>T (p.Gln80His),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.128T>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.128T>G (p.Val43Gly),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.556A>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.556A>G (p.Thr186Ala),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.42C>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.42C>G (p.Asn14Lys),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.40A>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.40A>T (p.Asn14Tyr),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.401G>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.401G>A (p.Trp134Ter),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.363del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.363del (p.Thr123fs),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.32G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.32G>A (p.Gly11Glu),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.41A>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.41A>T (p.Asn14Ile),not provided,MedGen:C3661900
+GJB2,c.160A>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.160A>G (p.Asn54Asp),not provided,MedGen:C3661900
+GJB2,c.580T>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.580T>C (p.Phe194Leu),"Autosomal dominant nonsyndromic hearing loss 3A; Mutilating keratoderma; Palmoplantar keratoderma-deafness syndrome; Autosomal recessive nonsyndromic hearing loss 1A; Autosomal dominant keratitis-ichthyosis-hearing loss syndrome; Knuckle pads, deafness AND leukonychia syndrome; Ichthyosis, hystrix-like, with hearing loss",Orphanet:90635; MedGen:C2675750; MONDO:MONDO:0011103; OMIM:601544; Orphanet:494; MedGen:C0265964; MONDO:MONDO:0007422; OMIM:124500; Orphanet:2202; MedGen:C1835672; MONDO:MONDO:0007852; OMIM:148350; Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290; Orphanet:477; MedGen:C0265336; MONDO:MONDO:0007850; OMIM:148210; Orphanet:2698; MedGen:C0266004; MONDO:MONDO:0007866; OMIM:149200; MedGen:C1865234; MONDO:MONDO:0011245; OMIM:602540
+GJB2,c.217C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.217C>T (p.His73Tyr),not provided,MedGen:C3661900
+GJB2,c.53C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.53C>T (p.Thr18Ile),Autosomal dominant nonsyndromic hearing loss 3A,Orphanet:90635; MedGen:C2675750; MONDO:MONDO:0011103; OMIM:601544
+GJB2,c.279G>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.279G>C (p.Met93Ile),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.550C>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.550C>G (p.Arg184Gly),Nonsyndromic genetic hearing loss,Orphanet:87884; MedGen:C5680182; MONDO:MONDO:0019497
+GJB2,GRCh37/hg19 13q12.11(chr13:19748003-22275574)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 13q12.11(chr13:19748003-22275574)x1,ZMYM2-associated disorder,
+GJB2,c.192C>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.192C>A (p.Cys64Ter),not provided,MedGen:C3661900
+GJB2,c.627_628del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.627_628del (p.Glu209fs),Intellectual disability,MedGen:C3714756; MeSH:D008607; MONDO:MONDO:0001071; Human Phenotype Ontology:HP:0001249; Human Phenotype Ontology:HP:0000730; Human Phenotype Ontology:HP:0001267; Human Phenotype Ontology:HP:0001286; Human Phenotype Ontology:HP:0002122; Human Phenotype Ontology:HP:0002192; Human Phenotype Ontology:HP:0002316; Human Phenotype Ontology:HP:0002382; Human Phenotype Ontology:HP:0002386; Human Phenotype Ontology:HP:0002402; Human Phenotype Ontology:HP:0002458; Human Phenotype Ontology:HP:0002482; Human Phenotype Ontology:HP:0002499; Human Phenotype Ontology:HP:0002543; Human Phenotype Ontology:HP:0003767; Human Phenotype Ontology:HP:0006833; Human Phenotype Ontology:HP:0007154; Human Phenotype Ontology:HP:0007176; Human Phenotype Ontology:HP:0007180
+GJB2,c.428G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.428G>T (p.Arg143Leu),Nonsyndromic genetic hearing loss,Orphanet:87884; MedGen:C5680182; MONDO:MONDO:0019497
+GJB2,c.346A>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.346A>T (p.Lys116Ter),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.113T>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.113T>A (p.Val38Glu),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.601del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.601del (p.Ile201fs),not provided,MedGen:C3661900
+GJB2,c.389G>T,Pathogenic,Pathogenic,"criteria provided, multiple submitters, no conflicts",NM_004004.6(GJB2):c.389G>T (p.Gly130Val),Inborn genetic diseases; Nonsyndromic genetic hearing loss; not provided; Autosomal recessive nonsyndromic hearing loss 1A,MedGen:C0950123; MeSH:D030342; Orphanet:87884; MedGen:C5680182; MONDO:MONDO:0019497; MedGen:C3661900; Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.8G>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.8G>A (p.Trp3Ter),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.72G>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.72G>C (p.Trp24Cys),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.626A>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.626A>C (p.Glu209Ala),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.610del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.610del (p.Leu204fs),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.468_472del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.468_472del (p.Met157fs),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.420C>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.420C>G (p.Ile140Met),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.236T>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.236T>A (p.Leu79Gln),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.161del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.161del (p.Asn54fs),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.108del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.108del (p.Val37fs),Autosomal recessive nonsyndromic hearing loss 1A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,c.-23+2T>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.-23+2T>G,"Autosomal dominant keratitis-ichthyosis-hearing loss syndrome; Autosomal recessive nonsyndromic hearing loss 1A; Ichthyosis, hystrix-like, with hearing loss; Knuckle pads, deafness AND leukonychia syndrome; Palmoplantar keratoderma-deafness syndrome; Mutilating keratoderma; Autosomal dominant nonsyndromic hearing loss 3A",Orphanet:477; MedGen:C0265336; MONDO:MONDO:0007850; OMIM:148210; Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290; MedGen:C1865234; MONDO:MONDO:0011245; OMIM:602540; Orphanet:2698; MedGen:C0266004; MONDO:MONDO:0007866; OMIM:149200; Orphanet:2202; MedGen:C1835672; MONDO:MONDO:0007852; OMIM:148350; Orphanet:494; MedGen:C0265964; MONDO:MONDO:0007422; OMIM:124500; Orphanet:90635; MedGen:C2675750; MONDO:MONDO:0011103; OMIM:601544
+GJB2,c.253T>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.253T>C (p.Ser85Pro),"Autosomal dominant keratitis-ichthyosis-hearing loss syndrome; Autosomal recessive nonsyndromic hearing loss 1A; Ichthyosis, hystrix-like, with hearing loss; Knuckle pads, deafness AND leukonychia syndrome; Palmoplantar keratoderma-deafness syndrome; Mutilating keratoderma; Autosomal dominant nonsyndromic hearing loss 3A",Orphanet:477; MedGen:C0265336; MONDO:MONDO:0007850; OMIM:148210; Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290; MedGen:C1865234; MONDO:MONDO:0011245; OMIM:602540; Orphanet:2698; MedGen:C0266004; MONDO:MONDO:0007866; OMIM:149200; Orphanet:2202; MedGen:C1835672; MONDO:MONDO:0007852; OMIM:148350; Orphanet:494; MedGen:C0265964; MONDO:MONDO:0007422; OMIM:124500; Orphanet:90635; MedGen:C2675750; MONDO:MONDO:0011103; OMIM:601544
+GJB2,c.486_493dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.486_493dup (p.Arg165fs),"Autosomal dominant keratitis-ichthyosis-hearing loss syndrome; Autosomal recessive nonsyndromic hearing loss 1A; Ichthyosis, hystrix-like, with hearing loss; Knuckle pads, deafness AND leukonychia syndrome; Palmoplantar keratoderma-deafness syndrome; Mutilating keratoderma; Autosomal dominant nonsyndromic hearing loss 3A",Orphanet:477; MedGen:C0265336; MONDO:MONDO:0007850; OMIM:148210; Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290; MedGen:C1865234; MONDO:MONDO:0011245; OMIM:602540; Orphanet:2698; MedGen:C0266004; MONDO:MONDO:0007866; OMIM:149200; Orphanet:2202; MedGen:C1835672; MONDO:MONDO:0007852; OMIM:148350; Orphanet:494; MedGen:C0265964; MONDO:MONDO:0007422; OMIM:124500; Orphanet:90635; MedGen:C2675750; MONDO:MONDO:0011103; OMIM:601544
+GJB2,c.498_499dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.498_499dup (p.Val167fs),"Autosomal dominant keratitis-ichthyosis-hearing loss syndrome; Autosomal recessive nonsyndromic hearing loss 1A; Ichthyosis, hystrix-like, with hearing loss; Knuckle pads, deafness AND leukonychia syndrome; Palmoplantar keratoderma-deafness syndrome; Mutilating keratoderma; Autosomal dominant nonsyndromic hearing loss 3A",Orphanet:477; MedGen:C0265336; MONDO:MONDO:0007850; OMIM:148210; Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290; MedGen:C1865234; MONDO:MONDO:0011245; OMIM:602540; Orphanet:2698; MedGen:C0266004; MONDO:MONDO:0007866; OMIM:149200; Orphanet:2202; MedGen:C1835672; MONDO:MONDO:0007852; OMIM:148350; Orphanet:494; MedGen:C0265964; MONDO:MONDO:0007422; OMIM:124500; Orphanet:90635; MedGen:C2675750; MONDO:MONDO:0011103; OMIM:601544
+GJB2,c.614T>C,Likely Pathogenic,Pathogenic/Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_004004.6(GJB2):c.614T>C (p.Leu205Pro),not provided; Autosomal recessive nonsyndromic hearing loss 1A,MedGen:C3661900; Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290
+GJB2,GRCh37/hg19 13q11-31.3(chr13:19436287-92292639)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 13q11-31.3(chr13:19436287-92292639)x3,not provided,MedGen:C3661900
+GJB2,c.428G>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.428G>C (p.Arg143Pro),"Mutilating keratoderma; Autosomal recessive nonsyndromic hearing loss 1A; Ichthyosis, hystrix-like, with hearing loss; Autosomal dominant nonsyndromic hearing loss 3A; Autosomal dominant keratitis-ichthyosis-hearing loss syndrome; Palmoplantar keratoderma-deafness syndrome; Knuckle pads, deafness AND leukonychia syndrome",Orphanet:494; MedGen:C0265964; MONDO:MONDO:0007422; OMIM:124500; Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290; Orphanet:477; MedGen:C1865234; MONDO:MONDO:0011245; OMIM:602540; Orphanet:90635; MedGen:C2675750; MONDO:MONDO:0011103; OMIM:601544; MedGen:C0265336; MONDO:MONDO:0007850; OMIM:148210; Orphanet:2202; MedGen:C1835672; MONDO:MONDO:0007852; OMIM:148350; Orphanet:2698; MedGen:C0266004; MONDO:MONDO:0007866; OMIM:149200
+GJB2,c.388G>C,Likely Pathogenic,Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_004004.6(GJB2):c.388G>C (p.Gly130Arg),Autosomal recessive nonsyndromic hearing loss 1A; Autosomal dominant nonsyndromic hearing loss 3A,Orphanet:90636; MedGen:C2673759; MONDO:MONDO:0009076; OMIM:220290; Orphanet:90635; MedGen:C2675750; MONDO:MONDO:0011103; OMIM:601544
+GJB2,c.[101T>C;550C>T],Pathogenic,Pathogenic,"criteria provided, single submitter",NM_004004.6(GJB2):c.[101T>C;550C>T],"Hearing loss, autosomal recessive",Orphanet:90635; Orphanet:90636; MedGen:C1846647; MONDO:MONDO:0019588; OMIM:607197; OMIM:PS220290
+GJB2,NC_000013.10:g.(?_20762215)_(20763473_?)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000013.10:g.(?_20762215)_(20763473_?)del,not provided,MedGen:C3661900
+GJB2,NC_000013.10:g.(?_20763040)_(21099933_?)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000013.10:g.(?_20763040)_(21099933_?)del,not provided,MedGen:C3661900
+GJB2,NC_000013.10:g.(?_20472281)_(24052335_?)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000013.10:g.(?_20472281)_(24052335_?)del,not provided,MedGen:C3661900
+HEXA,c.1559del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1559del (p.Gly520fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.1526_1526+3del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1526_1526+3del,Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.1451T>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1451T>C (p.Leu484Pro),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.1422-1G>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1422-1G>A,Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.1421+1G>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1421+1G>A,Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.1374T>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1374T>A (p.Cys458Ter),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.1345_1346dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1345_1346dup (p.Ala450fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.1331-2A>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1331-2A>G,Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.1292G>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1292G>A (p.Trp431Ter),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.1260G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1260G>T (p.Trp420Cys),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.1257del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1257del (p.Trp420fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.1235_1247del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1235_1247del (p.Phe412fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.1228del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1228del (p.Ala410fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.1226del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1226del (p.Lys409fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.1147-2A>G,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1147-2A>G,Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.1061_1063del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1061_1063del (p.Phe354del),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.1026del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1026del (p.Gly343fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.970del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.970del (p.Val324fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.894T>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.894T>A (p.Tyr298Ter),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.803del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.803del (p.Pro268fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.798G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.798G>A (p.Trp266Ter),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.722_732dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.722_732dup (p.Tyr245fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.681C>G,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.681C>G (p.Tyr227Ter),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.672+1G>C,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.672+1G>C,Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.639T>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.639T>A (p.Tyr213Ter),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.623A>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.623A>T (p.Asp208Val),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.613del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.613del (p.Leu205fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.609del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.609del (p.Trp203fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.602del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.602del (p.Phe201fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.571-8A>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.571-8A>G,Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.571-2A>G,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.571-2A>G,Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.511_515delinsAAA,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.511_515delinsAAA (p.Gly171fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.488A>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.488A>G (p.Asp163Gly),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.412G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.412G>A (p.Gly138Ser),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.272del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.272del (p.Glu91fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.271G>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.271G>T (p.Glu91Ter),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.258del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.258del (p.Lys86fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.231_235del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.231_235del (p.Trp78fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.194dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.194dup (p.Gln66fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.175_176dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.175_176dup (p.Val60fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.440G>A,Likely Pathogenic,Pathogenic/Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000520.6(HEXA):c.440G>A (p.Trp147Ter),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.755G>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.755G>T (p.Arg252Leu),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.805+2T>C,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.805+2T>C,Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.987-1G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.987-1G>T,Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.605A>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.605A>G (p.His202Arg),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.1412C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.1412C>T (p.Pro471Leu),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.450_456del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.450_456del (p.Glu151fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.604del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.604del (p.His202fs),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.862G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.862G>T (p.Gly288Ter),Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+HEXA,c.987-1G>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000520.6(HEXA):c.987-1G>C,Tay-Sachs disease,Orphanet:845; MedGen:C0039373; MONDO:MONDO:0010100; OMIM:272800
+PAH,c.878T>C,Likely Pathogenic,Likely pathogenic,reviewed by expert panel,NM_000277.3(PAH):c.878T>C (p.Leu293Ser),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.749C>T,Likely Pathogenic,Likely pathogenic,reviewed by expert panel,NM_000277.3(PAH):c.749C>T (p.Ser250Phe),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.509+2T>G,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.509+2T>G,not provided,MedGen:C3661900
+PAH,c.829T>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.829T>C (p.Tyr277His),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,GRCh37/hg19 12q23.2(chr12:103310849-103310908)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 12q23.2(chr12:103310849-103310908)x1,not provided,MedGen:C3661900
+PAH,GRCh37/hg19 12q23.2(chr12:103288513-103288696)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 12q23.2(chr12:103288513-103288696)x1,not provided,MedGen:C3661900
+PAH,c.384_385delinsAA,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.384_385delinsAA (p.Asp129Asn),not provided,MedGen:C3661900
+PAH,c.757G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.757G>T (p.Asp253Tyr),not provided,MedGen:C3661900
+PAH,c.965C>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.965C>A (p.Ala322Asp),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.782del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.782del (p.Arg261fs),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.509+2T>C,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.509+2T>C,Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.451G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.451G>A (p.Asp151Asn),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.298_308del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.298_308del (p.His100fs),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.244del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.244del (p.His82fs),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.1219C>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.1219C>A (p.Pro407Thr),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.1217T>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.1217T>G (p.Ile406Arg),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.1066-2A>G,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.1066-2A>G,Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.1181A>G,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.1181A>G (p.Asp394Gly),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.530T>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.530T>C (p.Val177Ala),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,GRCh37/hg19 12q23.1-24.33(chr12:99532287-133777902)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 12q23.1-24.33(chr12:99532287-133777902)x3,not provided,MedGen:C3661900
+PAH,c.877T>A,Likely Pathogenic,Likely pathogenic,reviewed by expert panel,NM_000277.3(PAH):c.877T>A (p.Leu293Met),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.512G>A,Likely Pathogenic,Likely pathogenic,reviewed by expert panel,NM_000277.3(PAH):c.512G>A (p.Gly171Glu),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.911A>C,Likely Pathogenic,Likely pathogenic,reviewed by expert panel,NM_000277.3(PAH):c.911A>C (p.Gln304Pro),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.696G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.696G>T (p.Gln232His),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.1093del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.1093del (p.Leu365fs),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.851G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.851G>A (p.Cys284Tyr),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.838G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.838G>T (p.Glu280Ter),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.185_188dup,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.185_188dup (p.His64fs),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.1247C>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.1247C>T (p.Pro416Leu),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.447del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.447del (p.Phe149fs),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.441+5G>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.441+5G>C,not provided,MedGen:C3661900
+PAH,c.594T>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.594T>A (p.Tyr198Ter),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.866G>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.866G>A (p.Gly289Glu),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.111_115dup,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.111_115dup (p.Phe39Ter),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.353-2A>C,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.353-2A>C,Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.1158_1167del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.1158_1167del (p.Leu385_Tyr386insTer),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.234dup,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.234dup (p.Phe79fs),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.581T>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.581T>G (p.Leu194Arg),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.1125A>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.1125A>C (p.Gln375His),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.395C>T,Likely Pathogenic,Likely pathogenic,reviewed by expert panel,NM_000277.3(PAH):c.395C>T (p.Ala132Val),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.548A>G,Pathogenic,Pathogenic,reviewed by expert panel,NM_000277.3(PAH):c.548A>G (p.Glu183Gly),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.686A>G,Likely Pathogenic,Likely pathogenic,reviewed by expert panel,NM_000277.3(PAH):c.686A>G (p.Asp229Gly),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.552G>T,Likely Pathogenic,Likely pathogenic,reviewed by expert panel,NM_000277.3(PAH):c.552G>T (p.Lys184Asn),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.607T>G,Likely Pathogenic,Likely pathogenic,reviewed by expert panel,NM_000277.3(PAH):c.607T>G (p.Cys203Gly),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.453T>A,Likely Pathogenic,Likely pathogenic,reviewed by expert panel,NM_000277.3(PAH):c.453T>A (p.Asp151Glu),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.560G>A,Pathogenic,Pathogenic,reviewed by expert panel,NM_000277.3(PAH):c.560G>A (p.Trp187Ter),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.800dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.800dup (p.Tyr268fs),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.1247del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.1247del (p.Pro416fs),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+PAH,c.257G>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000277.3(PAH):c.257G>C (p.Arg86Pro),Phenylketonuria,Orphanet:716; MedGen:C0031485; MONDO:MONDO:0009861; OMIM:261600
+ATP7B,c.2129_2133dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.2129_2133dup (p.Trp712fs),Neurodevelopmental disorder with or without early-onset generalized epilepsy,MedGen:C5436914; MONDO:MONDO:0030930; OMIM:619157
+ATP7B,c.2165_2166insTT,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.2165_2166insTT (p.Leu722_Arg723insTer),not provided,MedGen:C3661900
+ATP7B,c.2260G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.2260G>A (p.Glu754Lys),not provided,MedGen:C3661900
+ATP7B,c.826dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.826dup (p.Glu276fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.4128T>G,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.4128T>G (p.Tyr1376Ter),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.3358_3359dup,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.3358_3359dup (p.Leu1120fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.3139del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.3139del (p.Asp1047fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.2824del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.2824del (p.Ile942fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.2757dup,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.2757dup (p.Phe920fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.160dup,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.160dup (p.Ser54fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.1462C>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.1462C>T (p.Gln488Ter),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.1004G>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.1004G>A (p.Gly335Glu),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.4005_4006insTTATAATGGGTTGGG,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.4005_4006insTTATAATGGGTTGGG (p.Ile1336delinsLeuTer),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,GRCh37/hg19 13q11-14.3(chr13:19436286-53157340)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 13q11-14.3(chr13:19436286-53157340)x3,not specified,MedGen:CN169374
+ATP7B,NC_000013.10:g.(?_52506804)_(52585587_?)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000013.10:g.(?_52506804)_(52585587_?)del,Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.949del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.949del (p.Ala317fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.4162del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.4162del (p.Ala1388fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.4109C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.4109C>T (p.Ser1370Phe),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.4017del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.4017del (p.Ala1340fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.3973del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.3973del (p.Leu1325fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.3903+2T>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.3903+2T>C,Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.3799G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.3799G>A (p.Asp1267Asn),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.3787del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.3787del (p.Ala1263fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.3724G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.3724G>A (p.Glu1242Lys),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.3689T>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.3689T>C (p.Ile1230Thr),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.3628del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.3628del (p.Gln1210fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.3532_3535del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.3532_3535del (p.Thr1178fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.3412+1del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.3412+1del,Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.3359T>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.3359T>A (p.Leu1120Ter),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.3028A>G,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.3028A>G (p.Lys1010Glu),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.2756G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.2756G>T (p.Arg919Leu),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.2335T>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.2335T>C (p.Trp779Arg),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.2302C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.2302C>T (p.Pro768Ser),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.2245del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.2245del (p.Val749fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.2200G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.2200G>T (p.Val734Phe),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.2122-2A>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.2122-2A>G,Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.21_22del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.21_22del (p.Gln7fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.1946+2T>G,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.1946+2T>G,Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.1440del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.1440del (p.Gln480fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.132T>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.132T>G (p.Tyr44Ter),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.1275del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.1275del (p.Val426fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.253G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.253G>A (p.Gly85Ser),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.465delinsTCCTGTGCA,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.465delinsTCCTGTGCA (p.Gln155fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.4028_4031dup,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.4028_4031dup (p.Met1344fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.166C>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.166C>T (p.Gln56Ter),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.847del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.847del (p.Leu282_Leu283insTer),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.1155_1157delinsC,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000053.4(ATP7B):c.1155_1157delinsC (p.Glu385fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+ATP7B,c.49delA,Likely Pathogenic,Pathogenic/Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000053.4(ATP7B):c.49delA (p.Ile18fs),Wilson disease,Orphanet:905; MedGen:C0019202; MONDO:MONDO:0010200; OMIM:277900
+SMN1,GRCh37/hg19 5q13.2(chr5:70247768-70247818)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 5q13.2(chr5:70247768-70247818)x1,not provided,MedGen:C3661900
+SMN1,c.844C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.844C>T (p.Gln282Ter),"Spinal muscular atrophy, type II; Werdnig-Hoffmann disease",Orphanet:70; Orphanet:83418; MedGen:C0393538; MONDO:MONDO:0009673; OMIM:253550; Orphanet:83330; MedGen:C5848259; MONDO:MONDO:0009669; OMIM:253300
+SMN1,c.326A>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.326A>G (p.Tyr109Cys),not provided,MedGen:C3661900
+SMN1,c.*3+6T>G,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.*3+6T>G,not provided,MedGen:C3661900
+SMN1,c.834+1G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.834+1G>A,not provided,MedGen:C3661900
+SMN1,c.317del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.317del (p.Gly106fs),not provided,MedGen:C3661900
+SMN1,c.188C>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.188C>A (p.Ser63Ter),not provided,MedGen:C3661900
+SMN1,c.82-2596_723+467del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.82-2596_723+467del,"Spinal muscular atrophy, type II",Orphanet:70; Orphanet:83418; MedGen:C0393538; MONDO:MONDO:0009673; OMIM:253550
+SMN1,c.827A>G,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.827A>G (p.Tyr276Cys),Werdnig-Hoffmann disease,Orphanet:83330; MedGen:C5848259; MONDO:MONDO:0009669; OMIM:253300
+SMN1,c.850C>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.850C>T (p.Gln284Ter),"Spinal muscular atrophy, type II",Orphanet:70; Orphanet:83418; MedGen:C0393538; MONDO:MONDO:0009673; OMIM:253550
+SMN1,c.490C>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.490C>T (p.Gln164Ter),"Spinal muscular atrophy, type II",Orphanet:70; Orphanet:83418; MedGen:C0393538; MONDO:MONDO:0009673; OMIM:253550
+SMN1,c.808A>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.808A>G (p.Ser270Gly),Kugelberg-Welander disease,Orphanet:70; Orphanet:83419; MedGen:C0152109; MONDO:MONDO:0009672; OMIM:253400
+SMN1,c.579del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.579del (p.Leu194fs),"Spinal muscular atrophy, type II",Orphanet:70; Orphanet:83418; MedGen:C0393538; MONDO:MONDO:0009673; OMIM:253550
+SMN1,c.603del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.603del (p.Pro203fs),"Spinal muscular atrophy, type II",Orphanet:70; Orphanet:83418; MedGen:C0393538; MONDO:MONDO:0009673; OMIM:253550
+SMN1,c.766G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.766G>T (p.Asp256Tyr),Kugelberg-Welander disease,Orphanet:70; Orphanet:83419; MedGen:C0152109; MONDO:MONDO:0009672; OMIM:253400
+SMN1,c.347T>C,Likely Pathogenic,Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000344.4(SMN1):c.347T>C (p.Ile116Thr),Spinal muscular atrophy; Werdnig-Hoffmann disease; Kugelberg-Welander disease,MedGen:C0026847; MeSH:D009134; MONDO:MONDO:0001516; OMIM:PS253300; Human Phenotype Ontology:HP:0007269; Orphanet:83330; MedGen:C5848259; MONDO:MONDO:0009669; OMIM:253300; Orphanet:70; Orphanet:83419; MedGen:C0152109; MONDO:MONDO:0009672; OMIM:253400
+SMN1,c.13del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.13del (p.Ser5fs),Kugelberg-Welander disease,Orphanet:70; Orphanet:83419; MedGen:C0152109; MONDO:MONDO:0009672; OMIM:253400
+SMN1,c.245_267del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.245_267del (p.Lys82fs),Werdnig-Hoffmann disease,Orphanet:83330; MedGen:C5848259; MONDO:MONDO:0009669; OMIM:253300
+SMN1,GRCh37/hg19 5q12.3-13.2(chr5:64364710-72835471)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 5q12.3-13.2(chr5:64364710-72835471)x1,See cases,
+SMN1,c.597dup,Likely Pathogenic,Pathogenic/Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000344.4(SMN1):c.597dup (p.Met200fs),not provided; Werdnig-Hoffmann disease,MedGen:C3661900; Orphanet:83330; MedGen:C5848259; MONDO:MONDO:0009669; OMIM:253300
+SMN1,c.823G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.823G>A (p.Gly275Ser),not provided,MedGen:C3661900
+SMN1,c.22dup,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.22dup (p.Ser8fs),not provided,MedGen:C3661900
+SMN1,c.43C>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.43C>T (p.Gln15Ter),not provided,MedGen:C3661900
+SMN1,c.268C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.268C>T (p.Gln90Ter),Werdnig-Hoffmann disease,Orphanet:83330; MedGen:C5848259; MONDO:MONDO:0009669; OMIM:253300
+SMN1,c.*3+4_*3+7del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.*3+4_*3+7del,Spinal muscular atrophy,MedGen:C0026847; MeSH:D009134; MONDO:MONDO:0001516; OMIM:PS253300; Human Phenotype Ontology:HP:0007269
+SMN1,c.801G>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.801G>A (p.Trp267Ter),Kugelberg-Welander disease,Orphanet:70; Orphanet:83419; MedGen:C0152109; MONDO:MONDO:0009672; OMIM:253400
+SMN1,c.835-18_835-12del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.835-18_835-12del,Spinal muscular atrophy,MedGen:C0026847; MeSH:D009134; MONDO:MONDO:0001516; OMIM:PS253300; Human Phenotype Ontology:HP:0007269
+SMN1,c.835G>C,Likely Pathogenic,Pathogenic/Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000344.4(SMN1):c.835G>C (p.Gly279Arg),Spinal muscular atrophy,MedGen:C0026847; MeSH:D009134; MONDO:MONDO:0001516; OMIM:PS253300; Human Phenotype Ontology:HP:0007269
+SMN1,c.630del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.630del (p.Gly211fs),not provided,MedGen:C3661900
+SMN1,c.291del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.291del (p.Lys97fs),Spinal muscular atrophy,MedGen:C0026847; MeSH:D009134; MONDO:MONDO:0001516; OMIM:PS253300; Human Phenotype Ontology:HP:0007269
+SMN1,c.549del,Pathogenic,Pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000344.4(SMN1):c.549del (p.Lys184fs),Spinal muscular atrophy; not provided,MedGen:C0026847; MeSH:D009134; MONDO:MONDO:0001516; OMIM:PS253300; Human Phenotype Ontology:HP:0007269; MedGen:C3661900
+SMN1,c.*3+32_*3+33insSVA,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000344.3:c.*3+32_*3+33insSVA,Kugelberg-Welander disease,Orphanet:70; Orphanet:83419; MedGen:C0152109; MONDO:MONDO:0009672; OMIM:253400
+SMN1,GRCh37/hg19 5q12.3-13.2(chr5:64049692-70306646),Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 5q12.3-13.2(chr5:64049692-70306646),not specified,MedGen:CN169374
+SMN1,GRCh37/hg19 5q13.2(chr5:70247768-70247818)x0,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 5q13.2(chr5:70247768-70247818)x0,not provided,MedGen:C3661900
+SMN1,c.724_885del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.724_885del (p.Ile242_Ter295del),Werdnig-Hoffmann disease,Orphanet:83330; MedGen:C5848259; MONDO:MONDO:0009669; OMIM:253300
+SMN1,c.*3+3A>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.*3+3A>T,Werdnig-Hoffmann disease,Orphanet:83330; MedGen:C5848259; MONDO:MONDO:0009669; OMIM:253300
+SMN1,c.280G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.280G>T (p.Val94Phe),Werdnig-Hoffmann disease,Orphanet:83330; MedGen:C5848259; MONDO:MONDO:0009669; OMIM:253300
+SMN1,c.*3+1G>C,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000344.4(SMN1):c.*3+1G>C,Spinal muscular atrophy,MedGen:C0026847; MeSH:D009134; MONDO:MONDO:0001516; OMIM:PS253300; Human Phenotype Ontology:HP:0007269
+SMN1,NC_000005.10:g.(?_70951912)_(70951994_?)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000005.10:g.(?_70951912)_(70951994_?)del,Spinal muscular atrophy,MedGen:C0026847; MeSH:D009134; MONDO:MONDO:0001516; OMIM:PS253300; Human Phenotype Ontology:HP:0007269
+SMN1,c.469C>T,Pathogenic,Pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000344.4(SMN1):c.469C>T (p.Gln157Ter),Werdnig-Hoffmann disease; not provided,Orphanet:83330; MedGen:C5848259; MONDO:MONDO:0009669; OMIM:253300; MedGen:C3661900
+MEFV,c.724A>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000243.3(MEFV):c.724A>G (p.Ser242Gly),Familial Mediterranean fever,Orphanet:342; MedGen:C0031069; MONDO:MONDO:0018088; OMIM:249100
+MEFV,GRCh37/hg19 16p13.3(chr16:513767-5555136)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 16p13.3(chr16:513767-5555136)x3,not provided,MedGen:C3661900
+MEFV,GRCh37/hg19 16p13.3-13.13(chr16:85881-12268399)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 16p13.3-13.13(chr16:85881-12268399)x3,not provided,MedGen:C3661900
+MEFV,c.590del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000243.3(MEFV):c.590del (p.Gly197fs),Familial Mediterranean fever,Orphanet:342; MedGen:C0031069; MONDO:MONDO:0018088; OMIM:249100
+MEFV,GRCh37/hg19 16p13.3(chr16:2990033-4837646)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 16p13.3(chr16:2990033-4837646)x1,not provided,MedGen:C3661900
+MEFV,GRCh37/hg19 16p13.3(chr16:2606711-3935836)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 16p13.3(chr16:2606711-3935836)x3,not provided,MedGen:C3661900
+MEFV,c.1900C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000243.3(MEFV):c.1900C>T (p.Gln634Ter),not provided,MedGen:C3661900
+MEFV,c.1321C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000243.3(MEFV):c.1321C>T (p.Arg441Ter),Autoinflammatory syndrome,Orphanet:93665; MedGen:C3890737; MONDO:MONDO:0019751
+MEFV,c.1506_1507dup,Likely Pathogenic,Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000243.3(MEFV):c.1506_1507dup (p.Ser503fs),Familial Mediterranean fever,Orphanet:342; MedGen:C0031069; MONDO:MONDO:0018088; OMIM:249100
+MEFV,NC_000016.9:g.(?_3293141)_(3929917_?)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000016.9:g.(?_3293141)_(3929917_?)del,Rubinstein-Taybi syndrome,Orphanet:783; MedGen:C0035934; MONDO:MONDO:0019188; OMIM:PS180849
+MEFV,GRCh37/hg19 16p13.3(chr16:84485-5251013)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 16p13.3(chr16:84485-5251013)x3,not provided,MedGen:C3661900
+MEFV,c.1510C>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000243.3(MEFV):c.1510C>T (p.Gln504Ter),"Familial Mediterranean fever; Familial Mediterranean fever, autosomal dominant; Acute febrile neutrophilic dermatosis",Orphanet:342; MedGen:C0031069; MONDO:MONDO:0018088; OMIM:249100; MedGen:C1851347; MONDO:MONDO:0007601; OMIM:134610; Orphanet:3243; MedGen:C0085077; MONDO:MONDO:0011959; OMIM:608068
+MEFV,c.1597_1598dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000243.3(MEFV):c.1597_1598dup (p.Asp533fs),"Familial Mediterranean fever; Familial Mediterranean fever, autosomal dominant; Acute febrile neutrophilic dermatosis",Orphanet:342; MedGen:C0031069; MONDO:MONDO:0018088; OMIM:249100; MedGen:C1851347; MONDO:MONDO:0007601; OMIM:134610; Orphanet:3243; MedGen:C0085077; MONDO:MONDO:0011959; OMIM:608068
+MEFV,NM_000243.2:c.(?_911)_(1356_?)del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000243.2:c.(?_911)_(1356_?)del,"Familial Mediterranean fever, autosomal dominant",Orphanet:342; MedGen:C1851347; MONDO:MONDO:0007601; OMIM:134610
+MEFV,c.214C>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000243.3(MEFV):c.214C>T (p.Gln72Ter),Familial Mediterranean fever,Orphanet:342; MedGen:C0031069; MONDO:MONDO:0018088; OMIM:249100
+MEFV,c.265del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000243.3(MEFV):c.265del (p.Ala89fs),Familial Mediterranean fever,Orphanet:342; MedGen:C0031069; MONDO:MONDO:0018088; OMIM:249100
+MEFV,GRCh37/hg19 16p13.3(chr16:109978-4316797),Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 16p13.3(chr16:109978-4316797),Chromosome 16p13.3 duplication syndrome,Orphanet:96078; MedGen:C3150708; MONDO:MONDO:0013273; OMIM:613458
+MEFV,GRCh37/hg19 16p13.3(chr16:2651354-4460114)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 16p13.3(chr16:2651354-4460114)x3,not provided,MedGen:C3661900
+MEFV,c.[1437C>G;501G>C],Pathogenic,Pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000243.2(MEFV):c.[1437C>G;501G>C],Familial Mediterranean fever,Orphanet:342; MedGen:C0031069; MONDO:MONDO:0018088; OMIM:249100
+MEFV,c.2080_2082delinsGTA,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000243.3(MEFV):c.2080_2082delinsGTA (p.Met694Val),not provided,MedGen:CN517202
+MEFV,GRCh37/hg19 16p13.3(chr16:2867891-3942436)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 16p13.3(chr16:2867891-3942436)x3,See cases,
+MEFV,c.2040G>T,Likely Pathogenic,Pathogenic/Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000243.3(MEFV):c.2040G>T (p.Met680Ile),not provided; Familial Mediterranean fever,MedGen:C3661900; Orphanet:342; MedGen:C0031069; MONDO:MONDO:0018088; OMIM:249100
+MEFV,GRCh37/hg19 16p13.3-11.2(chr16:102839-28327676)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 16p13.3-11.2(chr16:102839-28327676)x3,See cases,
+MEFV,c.726C>A,Likely Pathogenic,Pathogenic/Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000243.3(MEFV):c.726C>A (p.Ser242Arg),"Familial Mediterranean fever; Familial Mediterranean fever, autosomal dominant; Acute febrile neutrophilic dermatosis; Neuronal ceroid lipofuscinosis",Orphanet:342; MedGen:C0031069; MONDO:MONDO:0018088; OMIM:249100; MedGen:C1851347; MONDO:MONDO:0007601; OMIM:134610; Orphanet:3243; MedGen:C0085077; MONDO:MONDO:0011959; OMIM:608068; Orphanet:216; Orphanet:79263; MedGen:C0027877; MONDO:MONDO:0016295; OMIM:PS256730
+MEFV,GRCh38/hg38 16p13.3(chr16:2850734-7110697)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh38/hg38 16p13.3(chr16:2850734-7110697)x1,See cases,
+MEFV,GRCh38/hg38 16p13.3(chr16:2494804-3246579)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh38/hg38 16p13.3(chr16:2494804-3246579)x1,See cases,
+MEFV,GRCh38/hg38 16p13.3(chr16:2717952-4041020)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh38/hg38 16p13.3(chr16:2717952-4041020)x3,See cases,
+MEFV,GRCh38/hg38 16p13.3-13.13(chr16:23141-11296695)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh38/hg38 16p13.3-13.13(chr16:23141-11296695)x3,See cases,
+ASPA,c.634+5_634+8del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.634+5_634+8del,Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,GRCh37/hg19 17p13.3-13.2(chr17:525-5728870)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 17p13.3-13.2(chr17:525-5728870)x1,not specified,MedGen:CN169374
+ASPA,c.547C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.547C>T (p.Pro183Ser),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.846del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.846del (p.Phe282fs),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.98dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.98dup (p.His33fs),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.857C>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.857C>A (p.Ala286Asp),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.847_857del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.847_857del (p.Val283fs),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.83dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.83dup (p.Phe29fs),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.815T>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.815T>C (p.Leu272Pro),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.781_782del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.781_782del (p.Met261fs),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.742C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.742C>T (p.Gln248Ter),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.70G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.70G>T (p.Glu24Ter),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.69del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.69del (p.Asn23fs),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.544C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.544C>T (p.Gln182Ter),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.527-1G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.527-1G>T,Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.527-1G>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.527-1G>C,Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.497C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.497C>T (p.Thr166Ile),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.487A>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.487A>T (p.Lys163Ter),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.475del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.475del (p.His159fs),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.456C>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.456C>G (p.Cys152Trp),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.432+2T>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.432+2T>C,Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.372dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.372dup (p.Thr125fs),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.290del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.290del (p.Asn97fs),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.241_242delinsT,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.241_242delinsT (p.Lys80_Lys81insTer),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.237-2A>C,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.237-2A>C,Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.128_129insCC,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.128_129insCC (p.Arg43fs),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.212G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.212G>T (p.Arg71Leu),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.634+2T>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.634+2T>A,Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.615dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.615dup (p.Ile206fs),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.264T>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.264T>G (p.Tyr88Ter),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.95del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.95del (p.Lys32fs),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,NC_000017.10:g.(?_3379290)_(3406700_?)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000017.10:g.(?_3379290)_(3406700_?)del,"Canavan Disease, Familial Form",MedGen:C0751663
+ASPA,c.415A>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.415A>G (p.Met139Val),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.556G>T,Likely Pathogenic,Pathogenic/Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000049.4(ASPA):c.556G>T (p.Val186Phe),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.530dup,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.530dup (p.Glu178fs),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.509del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.509del (p.Ile170fs),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.302del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.302del (p.Gly101fs),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.308_309del,Likely Pathogenic,Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000049.4(ASPA):c.308_309del (p.Lys103fs),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,GRCh37/hg19 17p13.3-13.2(chr17:9475-3793447)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 17p13.3-13.2(chr17:9475-3793447)x1,not provided,MedGen:C3661900
+ASPA,c.297_300del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.297_300del (p.Phe100fs),"Canavan Disease, Familial Form",MedGen:C0751663
+ASPA,NC_000017.11:g.3490217_3490218ins[NC_000001.11:13327499_13330105],Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NC_000017.11:g.3490217_3490218ins[NC_000001.11:13327499_13330105],Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.203A>C,Likely Pathogenic,Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000049.4(ASPA):c.203A>C (p.Asp68Ala),"Canavan Disease, Familial Form; Spongy degeneration of central nervous system",MedGen:C0751663; Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.340G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.340G>A (p.Asp114Asn),"Canavan Disease, Familial Form",MedGen:C0751663
+ASPA,NC_000017.10:g.(?_3397716)_(3402618_?)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000017.10:g.(?_3397716)_(3402618_?)del,Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,NC_000017.10:g.(?_3397734)_(3400388_?)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000017.10:g.(?_3397734)_(3400388_?)del,Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,NC_000017.10:g.(?_3384877)_(3386906_?)dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NC_000017.10:g.(?_3384877)_(3386906_?)dup,Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,NC_000017.10:g.(?_3379454)_(3397773_?)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000017.10:g.(?_3379454)_(3397773_?)del,Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,NC_000017.10:g.(?_3379454)_(3402382_?)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000017.10:g.(?_3379454)_(3402382_?)del,Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.192del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.192del (p.Arg63_Tyr64insTer),Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+ASPA,c.236+1G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000049.4(ASPA):c.236+1G>T,Spongy degeneration of central nervous system,Orphanet:141; MedGen:C0206307; MONDO:MONDO:0010079; OMIM:271900
+GBA1,GRCh38/hg38 1q21.1-25.3(chr1:143550435-185515177)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh38/hg38 1q21.1-25.3(chr1:143550435-185515177)x3,See cases,
+GBA1,c.1240G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.1240G>A (p.Val414Met),Gaucher disease type I,Orphanet:355; Orphanet:77259; MedGen:C1961835; MONDO:MONDO:0009265; OMIM:230800
+GBA1,c.599T>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.599T>G (p.Ile200Ser),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.371T>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.371T>G (p.Met124Arg),Gaucher disease type II,Orphanet:77260; MedGen:C0268250; MONDO:MONDO:0009266; OMIM:230900
+GBA1,c.242G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.242G>A (p.Ser81Asn),Gaucher disease type II,Orphanet:77260; MedGen:C0268250; MONDO:MONDO:0009266; OMIM:230900
+GBA1,c.472A>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.472A>G (p.Ile158Val),Gaucher disease type II,Orphanet:77260; MedGen:C0268250; MONDO:MONDO:0009266; OMIM:230900
+GBA1,c.999+1G>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.999+1G>T,Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.999+1G>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.999+1G>A,Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.979del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.979del (p.Leu327fs),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.978_989delinsTTGCCCCA,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.978_989delinsTTGCCCCA (p.Leu327fs),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.971G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.971G>A (p.Arg324His),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.94C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.94C>T (p.Gln32Ter),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.930T>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.930T>A (p.Ser310Arg),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.907C>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.907C>G (p.Leu303Val),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.897T>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.897T>G (p.Ile299Met),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.892T>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.892T>C (p.Phe298Leu),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.883C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.883C>T (p.Gln295Ter),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.876del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.876del (p.Glu293fs),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.856del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.856del (p.Gln286fs),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.856C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.856C>T (p.Gln286Ter),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.851C>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.851C>A (p.Pro284His),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.850C>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.850C>A (p.Pro284Thr),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.833G>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.833G>C (p.Gly278Ala),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.820G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.820G>T (p.Glu274Ter),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.800G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.800G>A (p.Trp267Ter),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.793C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.793C>T (p.Gln265Ter),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.770A>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.770A>T (p.Asp257Val),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.762-2A>G,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.762-2A>G,Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.762-1G>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.762-1G>A,Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.761+2T>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.761+2T>A,Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.761+1G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.761+1G>T,Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.761+1G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.761+1G>A,Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.761+1del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.761+1del,Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.755T>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.755T>C (p.Phe252Ser),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.744G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.744G>A (p.Trp248Ter),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.743G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.743G>A (p.Trp248Ter),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.736C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.736C>T (p.Gln246Ter),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.731A>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.731A>G (p.Tyr244Cys),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.719C>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.719C>A (p.Pro240His),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.715C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.715C>T (p.Gln239Ter),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.700G>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.700G>T (p.Gly234Trp),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.700G>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.700G>C (p.Gly234Arg),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.700G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.700G>A (p.Gly234Arg),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.694G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.694G>T (p.Gly232Trp),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.681T>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.681T>A (p.Asn227Lys),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.668G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.668G>A (p.Trp223Ter),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.662C>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.662C>T (p.Pro221Leu),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.659C>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.659C>G (p.Ser220Ter),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.656C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.656C>T (p.Thr219Ile),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+GBA1,c.629_635del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000157.4(GBA1):c.629_635del (p.Pro210fs),Gaucher disease,Orphanet:355; MedGen:C0017205; MONDO:MONDO:0018150
+G6PD,GRCh38/hg38 Xq23-28(chrX:112876224-156004066)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh38/hg38 Xq23-28(chrX:112876224-156004066)x1,See cases,
+G6PD,GRCh38/hg38 Xq21.31-28(chrX:89027698-156040895)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh38/hg38 Xq21.31-28(chrX:89027698-156040895)x1,See cases,
+G6PD,GRCh37/hg19 Xq26.2-28(chrX:131207885-155233731)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 Xq26.2-28(chrX:131207885-155233731)x1,not specified,MedGen:CN169374
+G6PD,GRCh37/hg19 Xq11.1-28(chrX:61882086-155233731)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 Xq11.1-28(chrX:61882086-155233731)x3,not specified,MedGen:CN169374
+G6PD,GRCh38/hg38 Xq26.3-28(chrX:137491159-155700385)x2,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh38/hg38 Xq26.3-28(chrX:137491159-155700385)x2,not provided,MedGen:C3661900
+G6PD,c.1334T>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.1334T>C (p.Phe445Ser),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,c.82C>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.82C>T (p.Gln28Ter),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,c.1141T>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.1141T>A (p.Phe381Ile),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,GRCh37/hg19 Xq28(chrX:153622204-153783167)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 Xq28(chrX:153622204-153783167)x3,not provided,MedGen:C3661900
+G6PD,GRCh37/hg19 Xq23-28(chrX:113417246-155233731)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 Xq23-28(chrX:113417246-155233731)x1,not provided,MedGen:C3661900
+G6PD,c.1175T>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.1175T>G (p.Ile392Ser),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,GRCh37/hg19 Xq28(chrX:150351569-155233731)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 Xq28(chrX:150351569-155233731)x1,not specified,MedGen:CN169374
+G6PD,GRCh37/hg19 Xq27.3-28(chrX:145548062-155233731)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 Xq27.3-28(chrX:145548062-155233731)x1,not specified,MedGen:CN169374
+G6PD,c.404A>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.404A>T (p.Asn135Ile),G6PD deficiency,MedGen:C2939465; MONDO:MONDO:0005775
+G6PD,GRCh37/hg19 Xq26.3-28(chrX:134810076-155258261)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 Xq26.3-28(chrX:134810076-155258261)x1,Partial deletion of the long arm of chromosome X,Orphanet:263756; MedGen:C5679688; MONDO:MONDO:0017007
+G6PD,c.1442C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.1442C>T (p.Pro481Leu),not provided,MedGen:C3661900
+G6PD,c.404A>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.404A>G (p.Asn135Ser),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,c.403A>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.403A>C (p.Asn135His),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,c.679C>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.679C>G (p.Arg227Gly),"Malaria, susceptibility to; Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:673; MedGen:C1970028; MONDO:MONDO:0021024; OMIM:611162; Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,c.1028_1029del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.1028_1029del (p.Tyr343fs),"Malaria, susceptibility to; Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:673; MedGen:C1970028; MONDO:MONDO:0021024; OMIM:611162; Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,GRCh37/hg19 Xq27.3-28(chrX:145075197-155233731)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 Xq27.3-28(chrX:145075197-155233731)x1,not provided,MedGen:C3661900
+G6PD,GRCh37/hg19 Xq28(chrX:153614665-153858492)x2,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 Xq28(chrX:153614665-153858492)x2,not provided,MedGen:C3661900
+G6PD,c.520_522del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.520_522del (p.Gly174del),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,c.1195del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.1195del (p.Ala399fs),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,c.430C>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.430C>G (p.Pro144Ala),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,c.551C>G,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.551C>G (p.Ser184Cys),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,c.354C>G,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.354C>G (p.Tyr118Ter),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,c.49C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.49C>T (p.Arg17Trp),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,c.1438A>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.1438A>T (p.Ile480Phe),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,c.982G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.982G>A (p.Val328Met),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,c.962G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.962G>T (p.Gly321Val),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,c.946G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.946G>A (p.Gly316Ser),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,c.691G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.691G>A (p.Ala231Thr),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,NC_000023.10:g.(?_152954030)_(154005142_?)del,Pathogenic,Pathogenic,"criteria provided, single submitter",NC_000023.10:g.(?_152954030)_(154005142_?)del,"Spastic paraplegia; Dyskeratosis congenita; 3-Methylglutaconic aciduria type 2; Anemia, nonspherocytic hemolytic, due to G6PD deficiency; Creatine transporter deficiency; X-linked Emery-Dreifuss muscular dystrophy; Adrenoleukodystrophy",MedGen:C0037772; Human Phenotype Ontology:HP:0001258; Human Phenotype Ontology:HP:0007062; Human Phenotype Ontology:HP:0007124; Human Phenotype Ontology:HP:0007216; Orphanet:1775; MedGen:C0265965; MONDO:MONDO:0015780; OMIM:PS127550; Orphanet:111; MedGen:C0574083; MONDO:MONDO:0010543; OMIM:302060; Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908; Orphanet:52503; MedGen:C1845862; MONDO:MONDO:0010305; OMIM:300352; Orphanet:261; Orphanet:98863; MedGen:C0751337; MONDO:MONDO:0010680; Orphanet:43; MedGen:C0162309; MONDO:MONDO:0018544; OMIM:300100
+G6PD,GRCh38/hg38 Xp22.33-q28(chrX:2757837-156030895)x2,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh38/hg38 Xp22.33-q28(chrX:2757837-156030895)x2,Klinefelter syndrome,MedGen:C0022735; MONDO:MONDO:0006823
+G6PD,c.735_741del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.735_741del (p.Arg246fs),"Malaria, susceptibility to",Orphanet:673; MedGen:C1970028; MONDO:MONDO:0021024; OMIM:611162
+G6PD,GRCh37/hg19 Xq25-28(chrX:125253445-155233098)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 Xq25-28(chrX:125253445-155233098)x1,See cases,
+G6PD,GRCh37/hg19 Xq25-28(chrX:121656905-155233098)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 Xq25-28(chrX:121656905-155233098)x1,not provided,MedGen:C3661900
+G6PD,GRCh37/hg19 Xq24-28(chrX:119395676-154930047),Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 Xq24-28(chrX:119395676-154930047),not specified,MedGen:CN169374
+G6PD,GRCh37/hg19 Xq22.2-28(chrX:103405294-155233731),Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 Xq22.2-28(chrX:103405294-155233731),not specified,MedGen:CN169374
+G6PD,GRCh37/hg19 Xq12-28(chrX:67292994-155240074)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 Xq12-28(chrX:67292994-155240074)x3,not provided,MedGen:C3661900
+G6PD,c.1346A>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.1346A>G (p.Gln449Arg),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,c.1354_1358del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.1354_1358del (p.Phe452fs),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,c.464A>C,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001360016.2(G6PD):c.464A>C (p.His155Pro),"Anemia, nonspherocytic hemolytic, due to G6PD deficiency",Orphanet:466026; MedGen:C2720289; MONDO:MONDO:0010480; OMIM:300908
+G6PD,GRCh37/hg19 Xq28(chrX:153606456-153828848)x2,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 Xq28(chrX:153606456-153828848)x2,not provided,MedGen:C3661900
+G6PD,GRCh37/hg19 Xq28(chrX:153549167-153858492)x2,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 Xq28(chrX:153549167-153858492)x2,not provided,MedGen:C3661900
+BTD,c.163_167dup,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.163_167dup (p.Ile57fs),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.902G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.902G>A (p.Trp301Ter),not provided,MedGen:C3661900
+BTD,GRCh38/hg38 3p25.1(chr3:15441721-15629781)x1,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh38/hg38 3p25.1(chr3:15441721-15629781)x1,Epilepsy,MedGen:C0014544; MeSH:D004827; MONDO:MONDO:0005027
+BTD,c.98_104delGCGGCTGinsTCC,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000060.2:c.98_104delGCGGCTGinsTCC,Inborn genetic diseases,MedGen:C0950123; MeSH:D030342
+BTD,Single allele,Pathogenic,Pathogenic,"criteria provided, single submitter",Single allele,Partial duplication of the short arm of chromosome 3,Orphanet:262707; MedGen:C5679720; MONDO:MONDO:0016940
+BTD,c.1430C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.1430C>T (p.Pro477Leu),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.641C>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.641C>A (p.Thr214Asn),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.184G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.184G>A (p.Ala62Thr),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.1493_1494dup,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.1493_1494dup (p.Tyr499fs),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.158C>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.158C>T (p.Pro53Leu),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.575A>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.575A>T (p.Lys192Ile),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.466A>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.466A>G (p.Lys156Glu),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.38_44delinsTCGC,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.38_44delinsTCGC (p.Cys13_Cys15delinsPheAla),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,GRCh37/hg19 3p26.3-14.3(chr3:2263690-55016039)x3,Pathogenic,Pathogenic,"criteria provided, single submitter",GRCh37/hg19 3p26.3-14.3(chr3:2263690-55016039)x3,not provided,MedGen:C3661900
+BTD,c.528G>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000060.4:c.528G>T,not provided,MedGen:C3661900
+BTD,c.511G>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000060.4:c.511G>A,not provided,MedGen:C3661900
+BTD,c.1471C>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.1471C>T (p.Gln491Ter),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.500C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.500C>T (p.Pro167Leu),not provided,MedGen:C3661900
+BTD,c.935G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_000060.2:c.935G>A,Inborn genetic diseases,MedGen:C0950123; MeSH:D030342
+BTD,c.1334G>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000060.2:c.1334G>T,Inborn genetic diseases,MedGen:C0950123; MeSH:D030342
+BTD,c.933delT,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_000060.2:c.933delT,Inborn genetic diseases,MedGen:C0950123; MeSH:D030342
+BTD,c.1330G>C,Pathogenic,Pathogenic,"criteria provided, multiple submitters, no conflicts",NM_000060.4:c.1330G>C,Biotinidase deficiency; not provided,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260; MedGen:C3661900
+BTD,c.1188_1189insA,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.1188_1189insA (p.Val397fs),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.289G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.289G>T (p.Gly97Ter),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.1360G>T,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.1360G>T (p.Glu454Ter),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.404T>C,Likely Pathogenic,Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_001370658.1(BTD):c.404T>C (p.Leu135Pro),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.1167G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.1167G>A (p.Trp389Ter),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.190G>A,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.190G>A (p.Glu64Lys),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.1220_1224del,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.1220_1224del (p.Leu407fs),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.134A>G,Pathogenic,Pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.134A>G (p.His45Arg),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.845A>G,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.845A>G (p.His282Arg),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.311C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.311C>T (p.Ser104Phe),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.872G>A,Likely Pathogenic,Pathogenic/Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_001370658.1(BTD):c.872G>A (p.Ser291Asn),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.250-1G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.250-1G>A,Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.1499del,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.1499del (p.Phe500fs),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.1270G>T,Likely Pathogenic,Likely pathogenic,"criteria provided, multiple submitters, no conflicts",NM_001370658.1(BTD):c.1270G>T (p.Asp424Tyr),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.1134delinsAA,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.1134delinsAA (p.Met378fs),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.782C>T,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.782C>T (p.Ala261Val),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.570C>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.570C>A (p.Tyr190Ter),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.3G>A,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.3G>A (p.Met1Ile),Biotinidase deficiency,Orphanet:79241; MedGen:C0220754; MONDO:MONDO:0009665; OMIM:253260
+BTD,c.1264dup,Likely Pathogenic,Likely pathogenic,"criteria provided, single submitter",NM_001370658.1(BTD):c.1264dup (p.Val422fs),not provided,MedGen:C3661900

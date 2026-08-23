@@ -244,7 +244,7 @@ def main():
 
     # Write augmented CSV
     fieldnames = ["gene", "variant_id", "classification", "raw_clinsig", "review_status", "title",
-                  "chrom", "pos", "ref", "alt"]
+                  "conditions", "disease_db_xrefs", "chrom", "pos", "ref", "alt"]
     with open(OUT_PATH, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
