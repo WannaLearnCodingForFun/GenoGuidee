@@ -5,7 +5,9 @@ Endpoints (per the guide):
   POST /variant/interpret       -> Phase 1 (VEP + AlphaMissense + ACMG reconciliation)
   POST /family/carrier-screen   -> Phase 2 carrier logic
   POST /family/trio-phase       -> Phase 2 trio logic
-  POST /recommend               -> Phase 3 RAG (stubbed until build_index.py/rag_recommend.py exist)
+  POST /recommend               -> Phase 3 RAG (NOW WIRED to rag_recommend.py)
+  GET  /family/mutation-hotspots -> real ClinVar recurring-position aggregation
+  GET  /family/mutation-path    -> AlphaMissense-ordered heuristic path (NEW)
   GET  /ledger/verify           -> Phase 4 chain verification (stubbed until hash_chain.py exists)
 
 Run locally:
@@ -25,6 +27,7 @@ from src.decision.decision_mapping import build_evidence_trace, map_variant_to_a
 from src.family.carrier_screen import CarrierVariant, screen_couple
 from src.family.trio_phasing import Variant as TrioVariant
 from src.family.trio_phasing import phase_trio
+from src.family.mutation_chain import find_hotspots, build_heuristic_path
 from src.reconciliation.reconcile import reconcile
 from src.visualization.graph_builders import (
     carrier_network_graph,
@@ -32,6 +35,12 @@ from src.visualization.graph_builders import (
     evidence_flow_graph,
     trio_pedigree_graph,
 )
+
+# rag_recommend.py lives in scripts/, not src/ -- imported directly since
+# it's a standalone retrieval+templating module, not a package-style module.
+# If you move it into src/ later, update this import to match.
+from scripts.rag_recommend import retrieve as rag_retrieve, generate_summary as rag_generate_summary
+from scripts.mutation_chain_data import load_real_variants_for_mutation_chain
 
 app = FastAPI(
     title="GenoChain API",
@@ -145,6 +154,10 @@ class CarrierVariantIn(BaseModel):
 class CarrierScreenRequest(BaseModel):
     partner_a_variants: list[CarrierVariantIn]
     partner_b_variants: list[CarrierVariantIn]
+    ancestry: Optional[str] = Field(
+        None, description="Optional ancestry label for real published carrier-rate context, "
+                           "e.g. 'european', 'ashkenazi_jewish', 'african', 'hispanic', 'asian'"
+    )
 
 
 class GeneCarrierFlagOut(BaseModel):
@@ -154,10 +167,19 @@ class GeneCarrierFlagOut(BaseModel):
     partner_b_variant_ids: list[str]
     compound_het: bool
     recurrence_risk_pct: Optional[int]
+    carrier_rate_context: Optional[str] = None
+
+
+class GeneNearMissOut(BaseModel):
+    gene: str
+    disease: str
+    carrier_partner: str
+    variant_ids: list[str]
 
 
 class CarrierScreenResponse(BaseModel):
     flagged_genes: list[GeneCarrierFlagOut]
+    near_miss_genes: list[GeneNearMissOut]
     screened_gene_count: int
     network_graph: dict
 
@@ -167,7 +189,7 @@ def carrier_screen_endpoint(req: CarrierScreenRequest) -> CarrierScreenResponse:
     a_vars = [CarrierVariant(v.gene, v.variant_id, v.classification) for v in req.partner_a_variants]
     b_vars = [CarrierVariant(v.gene, v.variant_id, v.classification) for v in req.partner_b_variants]
 
-    result = screen_couple(a_vars, b_vars)
+    result = screen_couple(a_vars, b_vars, ancestry=req.ancestry)
 
     flags = [
         GeneCarrierFlagOut(
@@ -177,11 +199,22 @@ def carrier_screen_endpoint(req: CarrierScreenRequest) -> CarrierScreenResponse:
             partner_b_variant_ids=[v.variant_id for v in f.partner_b_variants],
             compound_het=f.compound_het,
             recurrence_risk_pct=f.recurrence_risk_pct,
+            carrier_rate_context=f.carrier_rate_context,
         )
         for f in result.flagged_genes
     ]
+    near_misses = [
+        GeneNearMissOut(
+            gene=n.gene,
+            disease=n.disease,
+            carrier_partner=n.carrier_partner,
+            variant_ids=[v.variant_id for v in n.variants],
+        )
+        for n in result.near_miss_genes
+    ]
     return CarrierScreenResponse(
         flagged_genes=flags,
+        near_miss_genes=near_misses,
         screened_gene_count=len(result.screened_genes),
         network_graph=carrier_network_graph("Partner A", "Partner B", result),
     )
@@ -265,32 +298,145 @@ def trio_phase_endpoint(req: TrioPhaseRequest) -> TrioPhaseResponse:
 
 
 # ---------------------------------------------------------------------------
-# POST /recommend  (stub — Phase 3 not built yet)
+# GET /family/mutation-hotspots  (NEW — real ClinVar recurring-position data)
 # ---------------------------------------------------------------------------
 
-class RecommendRequest(BaseModel):
+class HotspotOut(BaseModel):
+    protein_pos: int
+    variant_count: int
+    variant_ids: list[str]
+    classifications: list[str]
+
+
+class MutationHotspotsResponse(BaseModel):
     gene: str
-    variant_notation: str
-    tier: str
+    hotspots: list[HotspotOut]
+    caveat: str = (
+        "Hotspots reflect recurrence in ClinVar's curated pathogenic entries, "
+        "not necessarily a structurally or functionally critical residue -- "
+        "ClinVar's own submission bias toward well-studied positions is a "
+        "real confound, not corrected for here."
+    )
 
 
-class RecommendResponse(BaseModel):
-    recommendation: str
-    sources: list[str]
-
-
-@app.post("/recommend", response_model=RecommendResponse)
-def recommend_endpoint(req: RecommendRequest) -> RecommendResponse:
-    raise HTTPException(
-        status_code=501,
-        detail="Not implemented yet — Phase 3 (build_index.py / rag_recommend.py) "
-               "hasn't been built. This endpoint is wired up so the frontend can "
-               "call it once that lands.",
+@app.get("/family/mutation-hotspots", response_model=MutationHotspotsResponse)
+def mutation_hotspots_endpoint(gene: str, min_count: int = 2) -> MutationHotspotsResponse:
+    variants = load_real_variants_for_mutation_chain(genes=[gene])
+    hotspots = find_hotspots(variants, min_count=min_count)
+    return MutationHotspotsResponse(
+        gene=gene,
+        hotspots=[
+            HotspotOut(
+                protein_pos=h.protein_pos,
+                variant_count=h.variant_count,
+                variant_ids=h.variant_ids,
+                classifications=h.classifications,
+            )
+            for h in hotspots
+        ],
     )
 
 
 # ---------------------------------------------------------------------------
-# GET /ledger/verify  (stub — Phase 4 not built yet)
+# GET /family/mutation-path  (NEW — AlphaMissense-ordered heuristic path)
+# ---------------------------------------------------------------------------
+
+class PathStepOut(BaseModel):
+    order: int
+    variant_id: str
+    protein_pos: Optional[int]
+    alphamissense_score: Optional[float]
+    cumulative_label: str
+
+
+class MutationPathResponse(BaseModel):
+    gene: str
+    final_variant_ids: list[str]
+    steps: list[PathStepOut]
+    caveat: str
+
+
+@app.get("/family/mutation-path", response_model=Optional[MutationPathResponse])
+def mutation_path_endpoint(gene: str) -> Optional[MutationPathResponse]:
+    """
+    Returns None (HTTP 200, null body) rather than a 404/500 if fewer than 2
+    variants in this gene have a real AlphaMissense score -- this is an
+    expected, non-error outcome (e.g. AlphaMissense doesn't score indels,
+    or the local index doesn't cover this gene's variants), not a failure.
+    """
+    variants = load_real_variants_for_mutation_chain(genes=[gene])
+    path = build_heuristic_path(gene, variants)
+    if path is None:
+        return None
+    return MutationPathResponse(
+        gene=path.gene,
+        final_variant_ids=path.final_variant_ids,
+        steps=[
+            PathStepOut(
+                order=s.order,
+                variant_id=s.variant_id,
+                protein_pos=s.protein_pos,
+                alphamissense_score=s.alphamissense_score,
+                cumulative_label=s.cumulative_label,
+            )
+            for s in path.steps
+        ],
+        caveat=path.caveat,
+    )
+
+
+# ---------------------------------------------------------------------------
+# POST /recommend  (Phase 3 -- NOW WIRED to rag_recommend.py)
+# ---------------------------------------------------------------------------
+
+class RecommendRequest(BaseModel):
+    gene: str
+    variant_id: Optional[str] = Field(
+        None, description="Specific ClinVar variant_id (c. notation). If omitted, "
+                           "returns aggregate gene-level summary."
+    )
+    ancestry: Optional[str] = Field(
+        None, description="Optional ancestry label for carrier-rate context"
+    )
+    summary_mode: bool = Field(
+        False, description="If true and variant_id is omitted, return aggregate stats "
+                            "instead of full per-variant listing"
+    )
+
+
+class RecommendResponse(BaseModel):
+    summary_text: str
+    gene: str
+    disease: Optional[str]
+    matched_variant_count: int
+    ancestry_rate: Optional[str]
+    hotspot_positions: list[int]
+
+
+@app.post("/recommend", response_model=RecommendResponse)
+def recommend_endpoint(req: RecommendRequest) -> RecommendResponse:
+    facts = rag_retrieve(req.gene, req.variant_id, req.ancestry)
+    if not facts.matched_rows:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No ClinVar entries found for gene={req.gene}"
+                   + (f", variant_id={req.variant_id}" if req.variant_id else "")
+                   + " in local panel data.",
+        )
+
+    summary_text = rag_generate_summary(facts, summary_mode=req.summary_mode)
+    return RecommendResponse(
+        summary_text=summary_text,
+        gene=facts.gene,
+        disease=facts.disease,
+        matched_variant_count=len(facts.matched_rows),
+        ancestry_rate=facts.ancestry_rate,
+        hotspot_positions=facts.hotspot_positions,
+    )
+
+
+# ---------------------------------------------------------------------------
+# GET /ledger/verify  (stub — Phase 4 not built yet, not in scope here)
 # ---------------------------------------------------------------------------
 
 class LedgerVerifyResponse(BaseModel):
