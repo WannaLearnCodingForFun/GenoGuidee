@@ -241,13 +241,16 @@ GET /family/mutation-path?gene=CFTR
 
 ### `POST /variant/interpret`, `POST /variant/decision-map`
 
-Single-variant ACMG + ML reconciliation pipeline. **Owned by a different
-contributor** (not this branch's author) — depends on `src/reconciliation/reconcile.py`
-and `src/annotation/vep_client.py`, which perform live per-variant lookups
-(not from this branch's static CSV files). Included here since they're part
-of the shared `main.py` app, but not modified or verified by this branch's
-author.
+In Swagger UI, under POST /variant/interpret → "Try it out":
 
+json
+{
+  "hgvs_notation": "NM_000492.4:c.1521_1523delCTT"
+}
+
+POST /variant/decision-map — same request body shape (hgvs_notation):
+
+curl -X POST http://127.0.0.1:8000/variant/decision-map -H "Content-Type: application/json" -d "{\"hgvs_notation\": \"NM_000492.4:c.1521_1523delCTT\"}"
 ### `GET /ledger/verify`
 
 Stubbed — Phase 4 (hash-chain audit ledger) not built in this branch.
