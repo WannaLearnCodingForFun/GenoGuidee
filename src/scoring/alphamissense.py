@@ -45,7 +45,15 @@ from typing import Optional
 
 import duckdb
 
-DEFAULT_DB_PATH = "data/processed/alphamissense.duckdb"
+DEFAULT_DB_PATH = str(Path(__file__).resolve().parent.parent.parent / "data" / "processed" / "alphamissense.duckdb")
+# Fixed: was a bare relative string ("data/processed/alphamissense.duckdb"),
+# resolved against the process's CURRENT WORKING DIRECTORY at call time --
+# correct when run standalone from the repo root, but silently wrong (empty
+# DB, or a DB at the wrong path entirely) once this module gets imported
+# into a process launched from a different CWD (e.g. a merged backend
+# server). Now resolves the same way regardless of launch directory, same
+# pattern already used correctly by stringdb_client.py and
+# scripts/mutation_chain_data.py elsewhere in this repo.
 TABLE_NAME = "alphamissense_scores"
 
 EXPECTED_COLUMNS = [
