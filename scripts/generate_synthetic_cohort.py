@@ -42,12 +42,25 @@ import csv
 import json
 import os
 import time
+from pathlib import Path
 
 from src.annotation.gnomad_client import fetch_gnomad_population_af, POPULATION_LABELS
 
-IN_PATH = "data/knowledge/clinvar_panel_with_coords.csv"
-CACHE_PATH = "data/knowledge/gnomad_af_cache.json"
-OUT_PATH = "data/knowledge/synthetic_cohort.csv"
+# Fixed: these were bare relative strings, resolved against the process's
+# CURRENT WORKING DIRECTORY at call time -- correct when run standalone
+# from the repo root (`python -m scripts.generate_synthetic_cohort`), but
+# silently wrong once this module runs inside a process launched from a
+# different CWD (e.g. a merged backend server). Real symptom: gnomAD cache
+# and clinvar input both appear "missing" from the new CWD's perspective,
+# so this script would silently regenerate an empty/near-empty cohort
+# instead of using the real cached AFs -- looks exactly like "cache data
+# getting mixed up" from the outside. Now resolves relative to this file's
+# own location instead, same pattern as stringdb_client.py elsewhere in
+# this repo.
+_REPO_ROOT = Path(__file__).resolve().parent.parent
+IN_PATH = str(_REPO_ROOT / "data" / "knowledge" / "clinvar_panel_with_coords.csv")
+CACHE_PATH = str(_REPO_ROOT / "data" / "knowledge" / "gnomad_af_cache.json")
+OUT_PATH = str(_REPO_ROOT / "data" / "knowledge" / "synthetic_cohort.csv")
 
 INDIVIDUALS_PER_ANCESTRY = 500
 REQUEST_DELAY_SEC = 0.15  # be polite to gnomAD's free API
@@ -274,3 +287,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+  
