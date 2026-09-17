@@ -61,6 +61,16 @@ async def lifespan(_: FastAPI):
     log.info("[BACKEND] starting FastAPI on local process")
     from . import clinical_db as clinical_db
     clinical_db.init()
+    try:
+        from .platform.schema import apply_platform_schema
+        con = clinical_db.connect()
+        try:
+            apply_platform_schema(con)
+            con.commit()
+        finally:
+            con.close()
+    except Exception as exc:  # noqa: BLE001
+        log.warning("[PLATFORM] schema apply skipped: %s", exc)
     log.info("[DATABASE] clinical SQLite ready")
     provenance.init_ledger()
     log.info("[PROVENANCE] local hash-chain ledger initialized (not Hyperledger Fabric)")
@@ -108,6 +118,13 @@ try:
     logging.getLogger("genoguide").info("[CLINICAL] auth/workup/upload routes mounted")
 except Exception as _clin_err:  # noqa: BLE001
     logging.getLogger("genoguide").warning("[CLINICAL] routes unavailable: %s", _clin_err)
+
+try:
+    from .api.platform import router as platform_router
+    app.include_router(platform_router)
+    logging.getLogger("genoguide").info("[PLATFORM] continuous-interpretation routes mounted")
+except Exception as _plat_err:  # noqa: BLE001 — never take down legacy/v1
+    logging.getLogger("genoguide").warning("[PLATFORM] routes unavailable: %s", _plat_err)
 
 # ---------------------------------------------------------------------------
 # Drug Recommendation Module Router Integration

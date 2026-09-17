@@ -22,6 +22,9 @@ Commands:
     tunnel                       how to expose the local API via ngrok for the UI
     demo                         guaranteed terminal showcase (BRCA1/TP53/CFTR)
     pipeline --vcf F --patient P end-to-end interpretation pipeline
+    doctor                       component + migration health
+    regression-test              pytest (legacy + platform)
+    demo-regression              BRCA1/TP53/CFTR showcase still works
 """
 from __future__ import annotations
 
@@ -119,6 +122,10 @@ def main(argv: list[str] | None = None) -> int:
     p_pipe.add_argument("--output", default="results")
     p_pipe.add_argument("--build", default="GRCh38", choices=["GRCh38", "GRCh37"])
 
+    sub.add_parser("doctor")
+    sub.add_parser("regression-test")
+    sub.add_parser("demo-regression")
+
     args = parser.parse_args(argv)
 
     if args.command == "status":
@@ -172,6 +179,15 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "pipeline":
         from cli.commands import pipeline_cmd
         return pipeline_cmd.run(args)
+    if args.command == "doctor":
+        from cli.commands import doctor_cmd
+        return doctor_cmd.run()
+    if args.command == "regression-test":
+        from cli.commands import regression_cmd
+        return regression_cmd.run()
+    if args.command == "demo-regression":
+        from cli.commands import demo_regression_cmd
+        return demo_regression_cmd.run()
     parser.error(f"unknown command {args.command}")
     return 2
 

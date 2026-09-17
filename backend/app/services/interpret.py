@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import logging
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Optional
@@ -105,6 +106,14 @@ def _ml_predict(annotation: dict[str, Any]) -> Optional[MlPrediction]:
     if pred is None:
         return None
     probs = pred["probabilities"]
+    import math
+    ent = 0.0
+    for p in probs.values():
+        if p and p > 0:
+            ent -= float(p) * math.log(float(p))
+    ood = pred.get("ood")
+    if ood is None and pred.get("confidence") is not None and pred["confidence"] < 0.4:
+        ood = {"state": "OUT_OF_DISTRIBUTION", "score": 1.0 - float(pred["confidence"])}
     return MlPrediction(
         model_id=pred["model_name"],
         model_version=pred["model_version"],
@@ -114,8 +123,9 @@ def _ml_predict(annotation: dict[str, Any]) -> Optional[MlPrediction]:
         calibrated_probabilities=probs,
         uncertainty={
             "max_probability": pred["confidence"],
+            "entropy": round(ent, 6),
         },
-        ood=None,
+        ood=ood,
     )
 
 
@@ -192,13 +202,21 @@ class InterpretationService:
             "acmg_confidence": acmg.confidence,
             "not_evaluable_criteria": len(acmg.not_evaluable),
         }
+        if ml and ml.ood and ml.ood.get("state") == "OUT_OF_DISTRIBUTION":
+            review_reasons_ood = True
+        else:
+            review_reasons_ood = False
         human_review = {
-            "required": recon.human_review_required,
+            "required": recon.human_review_required or review_reasons_ood,
             "reasons": [r for r, cond in [
                 ("discordant ML/ACMG", recon.status == "DISCORDANT"),
                 ("ML unavailable", recon.status == "ML_UNAVAILABLE"),
                 ("ACMG flagged review", acmg.human_review_required),
                 ("classification is VUS", acmg.classification == "VUS"),
+                ("OOD high", review_reasons_ood),
+                ("model confidence high BUT ACMG conflicts",
+                 recon.status == "DISCORDANT" and ml is not None
+                 and (ml.uncertainty or {}).get("max_probability", 0) >= 0.8),
             ] if cond],
         }
 
@@ -232,7 +250,7 @@ class InterpretationService:
                 tx_id=rec["tx_id"],
             )
 
-        return InterpretationObject(
+        obj = InterpretationObject(
             variant=variant,
             annotation={"gene": gene, "consequence": annotation["consequence"],
                         "clinvar": annotation["clinvar"],
@@ -268,3 +286,11 @@ class InterpretationService:
             human_review=human_review,
             provenance=provenance,
         )
+        try:
+            from ..platform.flags import enabled
+            if enabled("ENABLE_INTERPRETATION_VERSIONING"):
+                from ..platform.interpretations import record_from_object
+                record_from_object(obj)
+        except Exception:
+            logging.getLogger("genoguide").warning("platform versioning hook skipped")
+        return obj

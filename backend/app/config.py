@@ -41,3 +41,28 @@ DRUG_API_ENABLED = os.environ.get("GENOGUIDE_DRUG_API_ENABLED", "false").lower()
 # CORS origins for a hosted UI (localhost + ngrok regex are always allowed).
 #   GENOGUIDE_TUNNEL_KEY=…
 #   GENOGUIDE_CORS_ORIGINS=https://your-ui.example
+
+# Continuous-interpretation feature flags. Existing /api/* and /api/v1/*
+# handlers ignore these. New platform routes return FEATURE_DISABLED when off.
+# Cohort mode defaults off (de-identified research surface).
+def _env_flag(name: str, default: bool) -> bool:
+    raw = os.environ.get(name)
+    if raw is None:
+        return default
+    return raw.lower() in ("1", "true", "yes", "on")
+
+
+ENABLE_REANALYSIS = _env_flag("ENABLE_REANALYSIS", True)
+ENABLE_EVIDENCE_GRAPH = _env_flag("ENABLE_EVIDENCE_GRAPH", True)
+ENABLE_HUMAN_REVIEW = _env_flag("ENABLE_HUMAN_REVIEW", True)
+ENABLE_PHENOPACKET = _env_flag("ENABLE_PHENOPACKET", True)
+ENABLE_INHERITANCE_SOLVER = _env_flag("ENABLE_INHERITANCE_SOLVER", True)
+ENABLE_VARIANT_SIMULATOR = _env_flag("ENABLE_VARIANT_SIMULATOR", True)
+ENABLE_COHORT_MODE = _env_flag("ENABLE_COHORT_MODE", False)
+ENABLE_MODEL_MONITORING = _env_flag("ENABLE_MODEL_MONITORING", True)
+ENABLE_INTERPRETATION_VERSIONING = _env_flag("ENABLE_INTERPRETATION_VERSIONING", True)
+ENABLE_WATCHLIST = _env_flag("ENABLE_WATCHLIST", True)
+ENABLE_PHENOTYPE_ENGINE = _env_flag("ENABLE_PHENOTYPE_ENGINE", True)
+ENABLE_EXPLANATION = _env_flag("ENABLE_EXPLANATION", True)
+ENABLE_PROVENANCE_UPGRADE = _env_flag("ENABLE_PROVENANCE_UPGRADE", True)
+ENABLE_EVIDENCE_TIMELINE = _env_flag("ENABLE_EVIDENCE_TIMELINE", True)

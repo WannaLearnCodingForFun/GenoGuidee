@@ -38,3 +38,29 @@ reports, and provenance.
 - Invented VAF histories
 - Fabricated therapy when no evidence exists
 - Fake ESM-2 embeddings when the model is not loaded
+
+## Continuous interpretation layer (additive, 2026-09)
+
+New code lives in `backend/app/platform/` and `backend/app/api/platform.py`.
+Legacy `/api/*` and existing `/api/v1/*` handlers are unchanged.
+
+```
+GENOME + PATIENT
+        ↓
+   INTERPRETATION (ACMG authoritative, ML advisory)
+        ↓
+   EVIDENCE GRAPH (provenance-required edges)
+        ↓
+   CONFLICT RADAR + HUMAN CURATION
+        ↓
+   VERSIONED INTERPRETATION + PROVENANCE
+        ↓
+   WATCHLIST → REANALYSIS → DIFF
+```
+
+Feature flags (see `.env.example`): when all `ENABLE_*` platform flags are false,
+existing APIs still work; new routes return `FEATURE_DISABLED`.
+
+Details: `docs/EVIDENCE_MODEL.md`, `docs/REANALYSIS.md`, `docs/CLINICAL_LOGIC.md`,
+`docs/SAFE_UPGRADE_AUDIT.md`.
+

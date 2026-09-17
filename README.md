@@ -81,6 +81,10 @@ Sign up a **doctor / patient / lab technician** at `/signup`. Patient signup
 issues the only `PAT-YYYY-NNNNNN` ID. Doctors enter that ID on clinical workup
 — they cannot mint a new one.
 
+Repeated testing is on **Genomic Timeline** (`/genomic-timeline`). Each upload
+becomes an immutable snapshot. The page never claims time-to-death. Doctors and
+lab staff can load a marked synthetic four-test demo from that page.
+
 Local mode does **not** require ngrok or Supabase. Optional tunnel:
 
 ```bash
@@ -170,6 +174,20 @@ Honest highlights:
 - Gene-disjoint ClinVar benchmark is a **real recorded run** (logreg selected by AUPRC).
 - Optional somatic oncology ranking is a **separate connector** (default off). It never overrides ACMG and is not CPIC/PGx.
 - ESM-2 live embeddings, VEP, gnomAD v4 sites, DeepVariant execution, Fabric, and LLMs are **NOT IMPLEMENTED** as production paths (interfaces/docs only).
+
+### Continuous interpretation (additive APIs)
+
+```bash
+export PYTHONPATH=.
+backend/.venv/bin/python -m genoguide doctor
+backend/.venv/bin/python -m genoguide regression-test
+backend/.venv/bin/python -m genoguide demo-regression
+```
+
+New `/api/v1` groups (evidence graph, reanalysis, watchlist, phenotypes, inheritance,
+ACMG simulate, curation, phenopackets, cohorts, model-monitoring) are **feature-flagged**.
+They do not replace `/api/analyze` or the existing frontend. See `docs/API.md` and
+`docs/SAFE_UPGRADE_AUDIT.md`.
 
 ## License / data
 
