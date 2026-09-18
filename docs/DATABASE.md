@@ -19,7 +19,10 @@ Override path: `GENOGUIDE_CLINICAL_DB`.
 - `therapy_results`
 - `provenance_blocks` — hash chain
 - `audit_logs`
-- `variant_observations` — real sample timepoints only
+- `variant_observations` — real sample timepoints; optional snapshot/canonical/ACMG/ML fields
+- `genomic_test_snapshots` — immutable Test #1, #2, … per upload
+- `report_revisions` — lab review old/new/reason
+- `patient_trajectory_summaries` — cached timeline payload
 - `model_registry` — seeded from `models/registry/*.json` (no invented metrics)
 
 ## Relationships

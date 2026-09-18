@@ -118,9 +118,12 @@ function ClassificationStage({ result }: { result: WorkupResult }) {
       <div className="grid gap-5 lg:grid-cols-2">
         <div className="rounded-xl border border-violet/25 bg-violet/[0.04] p-4">
           <h3 className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-violet">
-            <BrainCircuit className="size-3.5" /> AI path — ESM-2 + XGBoost
+            <BrainCircuit className="size-3.5" /> ML prediction — not clinical certainty
           </h3>
-          <p className="mt-3 text-xl font-bold">{result.ml.top_class}</p>
+          <p className="mt-3 text-xl font-bold">
+            {result.ml.top_class}
+            {confidence != null ? ` — ${(confidence * 100).toFixed(1)}%` : ""}
+          </p>
           <p className="text-xs text-muted">
             {confidence != null ? `confidence ${(confidence * 100).toFixed(1)}% · ` : ""}
             {result.ml.engine}
@@ -149,7 +152,7 @@ function ClassificationStage({ result }: { result: WorkupResult }) {
             <Scale className="size-3.5" /> ACMG path — deterministic rules
           </h3>
           <p className={`mt-3 text-xl font-bold ${cc.text}`}>{result.acmg.classification}</p>
-          <p className="text-xs text-muted">{result.acmg.framework}</p>
+          <p className="text-xs text-muted">ACMG classification · {result.acmg.framework}</p>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {result.acmg.met_criteria?.length ? (
               result.acmg.met_criteria.map((c) => (
@@ -226,9 +229,9 @@ function ReconciliationStage({ result }: { result: WorkupResult }) {
           </p>
         </div>
         <div>
-          <p className="text-[10px] uppercase tracking-widest text-muted">Final classification</p>
+          <p className="text-[10px] uppercase tracking-widest text-muted">Final clinical interpretation</p>
           <p className={`mt-1 text-2xl font-black ${cc.text}`}>{r.final_classification}</p>
-          <p className="text-xs text-muted">decided by the ACMG rule engine</p>
+          <p className="text-xs text-muted">ACMG is authoritative. ML does not override deterministic ACMG evidence.</p>
         </div>
         <div className="min-w-[220px] flex-1">
           <p className="text-[10px] uppercase tracking-widest text-muted">Buckets compared</p>

@@ -22,6 +22,7 @@ import {
   RadialBarChart,
   ResponsiveContainer,
 } from "recharts";
+import Link from "next/link";
 import { api, type ClinicalBundle, type ClinicalPatient, type ContextAnalysis, type WorkupResult } from "@/lib/api";
 import { WorkupStages, workupPayload } from "@/components/WorkupStages";
 import { classColor, levelColor } from "@/lib/ui";
@@ -272,8 +273,15 @@ export default function PatientContext() {
           )}
 
           <section className="card mt-4 p-5">
-            <h2 className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-muted">
-              <Activity className="size-4 text-cyan" /> Mutation progression
+            <h2 className="mb-2 flex items-center justify-between gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-muted">
+              <span className="flex items-center gap-2">
+                <Activity className="size-4 text-cyan" /> Mutation progression
+              </span>
+              {selectedId != null && (
+                <Link href={`/genomic-timeline?patient=${selectedId}`} className="text-[10px] font-bold text-cyan">
+                  Open Genomic Timeline
+                </Link>
+              )}
             </h2>
             <p className="mb-3 text-xs text-muted">
               Observed timepoints only. No interpolated or invented trajectory.

@@ -764,9 +764,12 @@ function AiPath({ result }: { result: AnalyzeResult }) {
       </div>
 
       <p className="mt-4 text-center text-sm">
-        Top call:{" "}
+        ML prediction:{" "}
         <span className="font-bold text-violet">{result.ml.top_class}</span>{" "}
         <span className="mono text-muted">({(result.ml.confidence * 100).toFixed(1)}%)</span>
+      </p>
+      <p className="mt-2 text-center text-[11px] text-muted">
+        Calibrated model probability. This is not ACMG classification and is not clinical certainty.
       </p>
     </section>
   );
@@ -804,7 +807,7 @@ function Verdict({ result }: { result: AnalyzeResult }) {
 
       <div className="card p-4">
         <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted">
-          Final classification (ACMG authority)
+          Final clinical interpretation (ACMG authority)
         </p>
         <p
           className={`mt-1 text-lg font-bold ${classColor(result.reconciliation.final_classification).text}`}

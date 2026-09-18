@@ -234,6 +234,50 @@ CREATE TABLE IF NOT EXISTS variant_observations (
   source_dataset TEXT,
   created_at REAL NOT NULL
 );
+CREATE TABLE IF NOT EXISTS genomic_test_snapshots (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  patient_id INTEGER NOT NULL REFERENCES patients(id),
+  doctor_id INTEGER,
+  uploaded_by INTEGER,
+  upload_id INTEGER REFERENCES vcf_uploads(id),
+  test_date REAL NOT NULL,
+  analysis_date REAL,
+  test_number INTEGER NOT NULL,
+  sample_identifier TEXT,
+  platform TEXT,
+  reference_genome TEXT NOT NULL DEFAULT 'GRCh38',
+  variant_count INTEGER NOT NULL DEFAULT 0,
+  pathogenic_variant_count INTEGER NOT NULL DEFAULT 0,
+  likely_pathogenic_variant_count INTEGER NOT NULL DEFAULT 0,
+  vus_count INTEGER NOT NULL DEFAULT 0,
+  benign_variant_count INTEGER NOT NULL DEFAULT 0,
+  overall_risk_score REAL,
+  confidence_score REAL,
+  pipeline_version TEXT,
+  model_version TEXT,
+  acmg_engine_version TEXT,
+  therapy_engine_version TEXT,
+  status TEXT NOT NULL DEFAULT 'RECORDED',
+  created_at REAL NOT NULL,
+  updated_at REAL NOT NULL,
+  UNIQUE(patient_id, test_number),
+  UNIQUE(upload_id)
+);
+CREATE TABLE IF NOT EXISTS report_revisions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  patient_id INTEGER NOT NULL REFERENCES patients(id),
+  report_id INTEGER REFERENCES reports(id),
+  changed_by INTEGER,
+  changed_at REAL NOT NULL,
+  old_value TEXT,
+  new_value TEXT,
+  reason TEXT
+);
+CREATE TABLE IF NOT EXISTS patient_trajectory_summaries (
+  patient_id INTEGER PRIMARY KEY REFERENCES patients(id),
+  payload_json TEXT NOT NULL,
+  updated_at REAL NOT NULL
+);
 CREATE TABLE IF NOT EXISTS model_registry (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   model_name TEXT NOT NULL,
@@ -272,6 +316,9 @@ CREATE INDEX IF NOT EXISTS idx_prov_hash ON provenance_blocks(block_hash);
 CREATE INDEX IF NOT EXISTS idx_audit_patient ON audit_logs(patient_id);
 CREATE INDEX IF NOT EXISTS idx_audit_user ON audit_logs(user_id);
 CREATE INDEX IF NOT EXISTS idx_workup_patient ON workup_snapshots(patient_id);
+CREATE INDEX IF NOT EXISTS idx_snap_patient ON genomic_test_snapshots(patient_id);
+CREATE INDEX IF NOT EXISTS idx_snap_date ON genomic_test_snapshots(test_date);
+CREATE INDEX IF NOT EXISTS idx_rev_patient ON report_revisions(patient_id);
 """
 
 
@@ -329,7 +376,104 @@ def _migrate_columns(con: sqlite3.Connection) -> None:
              payload_json TEXT NOT NULL,
              created_at REAL NOT NULL
            );
-           CREATE INDEX IF NOT EXISTS idx_workup_patient ON workup_snapshots(patient_id);"""
+           CREATE INDEX IF NOT EXISTS idx_workup_patient ON workup_snapshots(patient_id);
+           CREATE TABLE IF NOT EXISTS genomic_test_snapshots (
+             id INTEGER PRIMARY KEY AUTOINCREMENT,
+             patient_id INTEGER NOT NULL REFERENCES patients(id),
+             doctor_id INTEGER,
+             uploaded_by INTEGER,
+             upload_id INTEGER REFERENCES vcf_uploads(id),
+             test_date REAL NOT NULL,
+             analysis_date REAL,
+             test_number INTEGER NOT NULL,
+             sample_identifier TEXT,
+             platform TEXT,
+             reference_genome TEXT NOT NULL DEFAULT 'GRCh38',
+             variant_count INTEGER NOT NULL DEFAULT 0,
+             pathogenic_variant_count INTEGER NOT NULL DEFAULT 0,
+             likely_pathogenic_variant_count INTEGER NOT NULL DEFAULT 0,
+             vus_count INTEGER NOT NULL DEFAULT 0,
+             benign_variant_count INTEGER NOT NULL DEFAULT 0,
+             overall_risk_score REAL,
+             confidence_score REAL,
+             pipeline_version TEXT,
+             model_version TEXT,
+             acmg_engine_version TEXT,
+             therapy_engine_version TEXT,
+             status TEXT NOT NULL DEFAULT 'RECORDED',
+             created_at REAL NOT NULL,
+             updated_at REAL NOT NULL,
+             UNIQUE(patient_id, test_number),
+             UNIQUE(upload_id)
+           );
+           CREATE TABLE IF NOT EXISTS report_revisions (
+             id INTEGER PRIMARY KEY AUTOINCREMENT,
+             patient_id INTEGER NOT NULL REFERENCES patients(id),
+             report_id INTEGER REFERENCES reports(id),
+             changed_by INTEGER,
+             changed_at REAL NOT NULL,
+             old_value TEXT,
+             new_value TEXT,
+             reason TEXT
+           );
+           CREATE TABLE IF NOT EXISTS patient_trajectory_summaries (
+             patient_id INTEGER PRIMARY KEY REFERENCES patients(id),
+             payload_json TEXT NOT NULL,
+             updated_at REAL NOT NULL
+           );
+           CREATE INDEX IF NOT EXISTS idx_snap_patient ON genomic_test_snapshots(patient_id);
+           CREATE INDEX IF NOT EXISTS idx_snap_date ON genomic_test_snapshots(test_date);
+           CREATE INDEX IF NOT EXISTS idx_rev_patient ON report_revisions(patient_id);"""
+    )
+    _migrate_observation_columns(con)
+
+
+def _migrate_observation_columns(con: sqlite3.Connection) -> None:
+    extras = {
+        "snapshot_id": "INTEGER",
+        "canonical_variant_id": "TEXT",
+        "chromosome": "TEXT",
+        "position": "INTEGER",
+        "reference": "TEXT",
+        "alternate": "TEXT",
+        "hgvs": "TEXT",
+        "gene": "TEXT",
+        "transcript": "TEXT",
+        "consequence": "TEXT",
+        "zygosity": "TEXT",
+        "allele_frequency": "REAL",
+        "depth": "REAL",
+        "quality": "REAL",
+        "pathogenicity_probability": "REAL",
+        "likely_pathogenic_probability": "REAL",
+        "vus_probability": "REAL",
+        "likely_benign_probability": "REAL",
+        "benign_probability": "REAL",
+        "acmg_classification": "TEXT",
+        "acmg_criteria": "TEXT",
+        "evidence_score": "REAL",
+        "confidence": "REAL",
+        "clinical_significance": "TEXT",
+        "detected": "INTEGER DEFAULT 1",
+        "trajectory_score": "REAL",
+        "trajectory_components": "TEXT",
+        "model_name": "TEXT",
+        "model_version": "TEXT",
+        "feature_version": "TEXT",
+        "training_dataset_version": "TEXT",
+        "inference_timestamp": "REAL",
+    }
+    for name, ddl in extras.items():
+        _add_col(con, "variant_observations", name, ddl)
+    con.execute("CREATE INDEX IF NOT EXISTS idx_obs_patient ON variant_observations(patient_id)")
+    con.execute("CREATE INDEX IF NOT EXISTS idx_obs_snapshot ON variant_observations(snapshot_id)")
+    con.execute("CREATE INDEX IF NOT EXISTS idx_obs_canonical ON variant_observations(canonical_variant_id)")
+    con.execute("CREATE INDEX IF NOT EXISTS idx_obs_gene ON variant_observations(gene)")
+    con.execute("CREATE INDEX IF NOT EXISTS idx_obs_chrom_pos ON variant_observations(chromosome, position)")
+    con.execute(
+        """CREATE UNIQUE INDEX IF NOT EXISTS idx_obs_unique_canon
+           ON variant_observations(patient_id, snapshot_id, canonical_variant_id)
+           WHERE snapshot_id IS NOT NULL AND canonical_variant_id IS NOT NULL"""
     )
 
 
@@ -348,6 +492,8 @@ def init() -> None:
         try:
             con.executescript(SCHEMA)
             _migrate_columns(con)
+            from .platform.schema import apply_platform_schema
+            apply_platform_schema(con)
             con.commit()
         finally:
             con.close()
@@ -549,6 +695,7 @@ def purge_stored_patient_identities() -> dict[str, int]:
         "knowledge_graph_relationships", "knowledge_graph_entities",
         "reconciliations", "acmg_interpretations", "ml_predictions",
         "variant_annotations", "variant_observations", "variants", "vcf_uploads",
+        "genomic_test_snapshots", "report_revisions", "patient_trajectory_summaries",
         "medications", "family_history", "patient_phenotypes",
         "patient_invitations", "patient_assignments", "patients",
     )
@@ -1268,8 +1415,12 @@ def insert_observation(
     allele_fraction: float | None = None,
     clinical_status: str | None = None,
     source_dataset: str | None = None,
+    snapshot_id: int | None = None,
+    extra: dict[str, Any] | None = None,
 ) -> int:
     ts = observation_date if observation_date is not None else _now()
+    extra = extra or {}
+    af = extra.get("allele_frequency", allele_fraction)
     con = connect()
     try:
         if source_file_id is not None:
@@ -1279,14 +1430,32 @@ def insert_observation(
                 (patient_id, variant_id, source_file_id),
             ).fetchone()
             if exists:
+                if snapshot_id is not None:
+                    con.execute(
+                        """UPDATE variant_observations SET snapshot_id=COALESCE(snapshot_id, ?),
+                           canonical_variant_id=COALESCE(canonical_variant_id, ?)
+                           WHERE id=?""",
+                        (snapshot_id, extra.get("canonical_variant_id"), int(exists[0])),
+                    )
+                    con.commit()
                 return int(exists[0])
         cur = con.execute(
             """INSERT INTO variant_observations
                (patient_id, variant_id, source_file_id, observation_date, allele_fraction,
-                clinical_status, source_dataset, created_at)
-               VALUES (?,?,?,?,?,?,?,?)""",
-            (patient_id, variant_id, source_file_id, ts, allele_fraction,
-             clinical_status, source_dataset, _now()),
+                clinical_status, source_dataset, created_at, snapshot_id, canonical_variant_id,
+                chromosome, position, reference, alternate, hgvs, gene, transcript, consequence,
+                zygosity, allele_frequency, depth, quality, detected)
+               VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+            (
+                patient_id, variant_id, source_file_id, ts, allele_fraction,
+                clinical_status, source_dataset, _now(), snapshot_id,
+                extra.get("canonical_variant_id"), extra.get("chromosome"),
+                extra.get("position"), extra.get("reference"), extra.get("alternate"),
+                extra.get("hgvs"), extra.get("gene"), extra.get("transcript"),
+                extra.get("consequence"), extra.get("zygosity"), af,
+                extra.get("depth"), extra.get("quality"),
+                1 if extra.get("detected", True) else 0,
+            ),
         )
         con.commit()
         return int(cur.lastrowid)
@@ -1296,10 +1465,29 @@ def insert_observation(
 
 def record_observations_for_upload(upload_id: int, patient_id: int) -> int:
     """Persist real sample timepoints only. Never invent historical VAF."""
+    from .services.variant_normalize import canonical_id_from_record
+
     up = get_upload(upload_id)
+    snap = get_or_create_snapshot_for_upload(upload_id, patient_id)
     variants = list_variants(upload_id, page=1, page_size=2000)["items"]
     n = 0
     for v in variants:
+        extra = {
+            "chromosome": v.get("chromosome"),
+            "position": v.get("position"),
+            "reference": v.get("reference"),
+            "alternate": v.get("alternate"),
+            "hgvs": v.get("hgvs_c") or v.get("hgvs"),
+            "gene": v.get("gene"),
+            "transcript": v.get("transcript"),
+            "consequence": v.get("consequence"),
+            "allele_frequency": v.get("allele_fraction") or v.get("allele_frequency"),
+            "detected": True,
+        }
+        try:
+            extra["canonical_variant_id"] = canonical_id_from_record({**v, **extra})
+        except ValueError:
+            extra["canonical_variant_id"] = v.get("normalized_variant")
         insert_observation(
             patient_id=patient_id,
             variant_id=v["id"],
@@ -1307,8 +1495,11 @@ def record_observations_for_upload(upload_id: int, patient_id: int) -> int:
             observation_date=up.get("uploaded_at"),
             allele_fraction=v.get("allele_fraction"),
             source_dataset="UPLOADED_FILE",
+            snapshot_id=int(snap["id"]),
+            extra=extra,
         )
         n += 1
+    refresh_snapshot_scores(int(snap["id"]))
     return n
 
 
@@ -1383,22 +1574,335 @@ def longitudinal_for_patient(patient_id: int) -> dict[str, Any]:
     }
 
 
+def get_or_create_snapshot_for_upload(upload_id: int, patient_id: int) -> dict[str, Any]:
+    """One immutable snapshot per upload. A later upload never overwrites this row."""
+    con = connect()
+    try:
+        existing = _row(con.execute(
+            "SELECT * FROM genomic_test_snapshots WHERE upload_id=?", (upload_id,)
+        ).fetchone())
+        if existing:
+            return existing
+        up = get_upload(upload_id)
+        n = con.execute(
+            "SELECT COALESCE(MAX(test_number), 0) FROM genomic_test_snapshots WHERE patient_id=?",
+            (patient_id,),
+        ).fetchone()[0]
+        ts = up.get("uploaded_at") or _now()
+        doctor_id = None
+        prow = con.execute("SELECT created_by FROM patients WHERE id=?", (patient_id,)).fetchone()
+        if prow:
+            doctor_id = prow[0]
+        cur = con.execute(
+            """INSERT INTO genomic_test_snapshots
+               (patient_id, doctor_id, uploaded_by, upload_id, test_date, analysis_date,
+                test_number, sample_identifier, platform, reference_genome, variant_count,
+                pipeline_version, model_version, acmg_engine_version, therapy_engine_version,
+                status, created_at, updated_at)
+               VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+            (
+                patient_id, doctor_id, up.get("uploaded_by"), upload_id, ts, ts,
+                int(n) + 1, up.get("filename"), None, "GRCh38",
+                int(up.get("variant_count") or 0),
+                "genoguide-clinical-v1", None, "ACMG/AMP 2015",
+                "Medical_DrugRecommendation",
+                "RECORDED", _now(), _now(),
+            ),
+        )
+        con.commit()
+        return dict(con.execute(
+            "SELECT * FROM genomic_test_snapshots WHERE id=?", (cur.lastrowid,)
+        ).fetchone())
+    finally:
+        con.close()
+
+
+def list_genomic_snapshots(patient_id: int) -> list[dict[str, Any]]:
+    con = connect()
+    try:
+        return [
+            dict(r) for r in con.execute(
+                """SELECT * FROM genomic_test_snapshots
+                   WHERE patient_id=? ORDER BY test_number ASC, id ASC""",
+                (patient_id,),
+            ).fetchall()
+        ]
+    finally:
+        con.close()
+
+
+def get_genomic_snapshot(snapshot_id: int) -> dict[str, Any] | None:
+    con = connect()
+    try:
+        return _row(con.execute(
+            "SELECT * FROM genomic_test_snapshots WHERE id=?", (snapshot_id,)
+        ).fetchone())
+    finally:
+        con.close()
+
+
+def list_snapshot_observations(snapshot_id: int) -> list[dict[str, Any]]:
+    con = connect()
+    try:
+        rows = [dict(r) for r in con.execute(
+            """SELECT o.*, u.filename
+               FROM variant_observations o
+               LEFT JOIN vcf_uploads u ON u.id=o.source_file_id
+               WHERE o.snapshot_id=?
+               ORDER BY o.id ASC""",
+            (snapshot_id,),
+        ).fetchall()]
+    finally:
+        con.close()
+    for row in rows:
+        if row.get("allele_frequency") is None:
+            row["allele_frequency"] = row.get("allele_fraction")
+        row["detected"] = bool(row.get("detected", 1))
+        row["test_date"] = row.get("observation_date")
+    return rows
+
+
+def list_patient_genomic_observations(patient_id: int) -> list[dict[str, Any]]:
+    con = connect()
+    try:
+        rows = [dict(r) for r in con.execute(
+            """SELECT o.*, s.test_number, s.test_date AS snapshot_test_date
+               FROM variant_observations o
+               LEFT JOIN genomic_test_snapshots s ON s.id=o.snapshot_id
+               WHERE o.patient_id=?
+               ORDER BY COALESCE(s.test_number, o.id) ASC, o.id ASC""",
+            (patient_id,),
+        ).fetchall()]
+    finally:
+        con.close()
+    for row in rows:
+        if row.get("allele_frequency") is None:
+            row["allele_frequency"] = row.get("allele_fraction")
+        row["detected"] = bool(row.get("detected", 1))
+        row["test_date"] = row.get("snapshot_test_date") or row.get("observation_date")
+    return rows
+
+
+def refresh_snapshot_scores(snapshot_id: int) -> dict[str, Any] | None:
+    from .services.trajectory_score import patient_genomic_risk_score
+
+    snap = get_genomic_snapshot(snapshot_id)
+    if not snap:
+        return None
+    obs = list_snapshot_observations(snapshot_id)
+    counts = {"Pathogenic": 0, "Likely Pathogenic": 0, "VUS": 0, "Benign": 0, "Likely Benign": 0}
+    for row in obs:
+        cls = row.get("acmg_classification") or ""
+        if cls in counts:
+            counts[cls] += 1
+        elif cls == "Likely Benign":
+            counts["Likely Benign"] += 1
+    scored = patient_genomic_risk_score(obs)
+    con = connect()
+    try:
+        con.execute(
+            """UPDATE genomic_test_snapshots SET
+               variant_count=?, pathogenic_variant_count=?, likely_pathogenic_variant_count=?,
+               vus_count=?, benign_variant_count=?, overall_risk_score=?, confidence_score=?,
+               analysis_date=?, updated_at=?, status=?
+               WHERE id=?""",
+            (
+                len(obs), counts["Pathogenic"], counts["Likely Pathogenic"],
+                counts["VUS"], counts["Benign"] + counts["Likely Benign"],
+                scored.get("patient_genomic_risk_score"), scored.get("confidence_score"),
+                _now(), _now(), "ANALYZED" if any(r.get("acmg_classification") for r in obs) else "RECORDED",
+                snapshot_id,
+            ),
+        )
+        con.commit()
+    finally:
+        con.close()
+    return get_genomic_snapshot(snapshot_id)
+
+
+def update_observation_interpretation(variant_id: int, patient_id: int | None, ml: dict[str, Any], acmg: dict[str, Any]) -> None:
+    from .services.trajectory_score import variant_trajectory_score
+    from .services.variant_normalize import canonical_id_from_record
+
+    probs = ml.get("probabilities") or {}
+    try:
+        v = get_variant(variant_id)
+    except KeyError:
+        return
+    extra_key = None
+    try:
+        extra_key = canonical_id_from_record(v)
+    except ValueError:
+        extra_key = v.get("normalized_variant")
+    scored = variant_trajectory_score(
+        pathogenicity_probability=probs.get("pathogenic"),
+        acmg_classification=acmg.get("classification"),
+        vaf=None,
+        vaf_slope=None,
+        detection_rate=1.0,
+        confidence=ml.get("confidence"),
+    )
+    criteria = acmg.get("met_criteria") or acmg.get("criteria") or []
+    con = connect()
+    try:
+        con.execute(
+            """UPDATE variant_observations SET
+               pathogenicity_probability=?, likely_pathogenic_probability=?,
+               vus_probability=?, likely_benign_probability=?, benign_probability=?,
+               acmg_classification=?, acmg_criteria=?, confidence=?,
+               clinical_significance=?, trajectory_score=?, trajectory_components=?,
+               canonical_variant_id=COALESCE(canonical_variant_id, ?),
+               gene=COALESCE(gene, ?), chromosome=COALESCE(chromosome, ?),
+               position=COALESCE(position, ?), reference=COALESCE(reference, ?),
+               alternate=COALESCE(alternate, ?), hgvs=COALESCE(hgvs, ?),
+               model_name=?, model_version=?, feature_version=?,
+               training_dataset_version=?, inference_timestamp=?
+               WHERE variant_id=?""",
+            (
+                probs.get("pathogenic"), probs.get("likely_pathogenic"),
+                probs.get("vus"), probs.get("likely_benign"), probs.get("benign"),
+                acmg.get("classification"), json.dumps(criteria),
+                ml.get("confidence"), acmg.get("classification"),
+                scored["variant_trajectory_score"], json.dumps(scored["components"]),
+                extra_key, v.get("gene"), v.get("chromosome"), v.get("position"),
+                v.get("reference"), v.get("alternate"), v.get("hgvs_c"),
+                ml.get("model_name") or ml.get("engine"),
+                ml.get("model_version"),
+                ml.get("feature_schema_version"),
+                ml.get("training_dataset_version"),
+                _now(),
+                variant_id,
+            ),
+        )
+        con.commit()
+        rows = con.execute(
+            "SELECT DISTINCT snapshot_id FROM variant_observations WHERE variant_id=? AND snapshot_id IS NOT NULL",
+            (variant_id,),
+        ).fetchall()
+    finally:
+        con.close()
+    for (sid,) in rows:
+        refresh_snapshot_scores(int(sid))
+
+
+def save_trajectory_summary(patient_id: int, payload: dict[str, Any]) -> None:
+    con = connect()
+    try:
+        con.execute(
+            """INSERT INTO patient_trajectory_summaries (patient_id, payload_json, updated_at)
+               VALUES (?,?,?)
+               ON CONFLICT(patient_id) DO UPDATE SET payload_json=excluded.payload_json, updated_at=excluded.updated_at""",
+            (patient_id, json.dumps(payload, default=str), _now()),
+        )
+        con.commit()
+    finally:
+        con.close()
+
+
+def get_trajectory_summary(patient_id: int) -> dict[str, Any] | None:
+    con = connect()
+    try:
+        row = _row(con.execute(
+            "SELECT * FROM patient_trajectory_summaries WHERE patient_id=?", (patient_id,)
+        ).fetchone())
+        if not row:
+            return None
+        return json.loads(row["payload_json"])
+    finally:
+        con.close()
+
+
+def list_therapy_results(patient_id: int) -> list[dict[str, Any]]:
+    con = connect()
+    try:
+        rows = [dict(r) for r in con.execute(
+            "SELECT * FROM therapy_results WHERE patient_id=? ORDER BY id DESC",
+            (patient_id,),
+        ).fetchall()]
+    finally:
+        con.close()
+    out = []
+    for row in rows:
+        try:
+            row["payload"] = json.loads(row["payload_json"])
+        except (TypeError, json.JSONDecodeError):
+            row["payload"] = {}
+        out.append(row)
+    return out
+
+
+def insert_report_revision(
+    *,
+    patient_id: int,
+    report_id: int | None,
+    changed_by: int,
+    old_value: Any,
+    new_value: Any,
+    reason: str | None,
+) -> int:
+    con = connect()
+    try:
+        cur = con.execute(
+            """INSERT INTO report_revisions
+               (patient_id, report_id, changed_by, changed_at, old_value, new_value, reason)
+               VALUES (?,?,?,?,?,?,?)""",
+            (
+                patient_id, report_id, changed_by, _now(),
+                json.dumps(old_value, default=str), json.dumps(new_value, default=str),
+                reason,
+            ),
+        )
+        con.commit()
+        return int(cur.lastrowid)
+    finally:
+        con.close()
+
+
+def list_report_revisions(patient_id: int) -> list[dict[str, Any]]:
+    con = connect()
+    try:
+        rows = [dict(r) for r in con.execute(
+            "SELECT * FROM report_revisions WHERE patient_id=? ORDER BY id DESC",
+            (patient_id,),
+        ).fetchall()]
+    finally:
+        con.close()
+    for row in rows:
+        for key in ("old_value", "new_value"):
+            try:
+                row[key] = json.loads(row[key]) if row.get(key) else None
+            except (TypeError, json.JSONDecodeError):
+                pass
+    return rows
+
+
 def append_report_review(
     patient_id: int,
     *,
     reviewed_by: int,
     lab_notes: str | None,
     review_status: str | None,
+    reason: str | None = None,
 ) -> dict[str, Any]:
     latest = latest_report(patient_id)
-    payload = dict(latest.get("payload") or {}) if latest else {}
+    old_payload = dict(latest.get("payload") or {}) if latest else {}
+    payload = dict(old_payload)
     payload["lab_review"] = {
         "notes": lab_notes,
         "status": review_status or "REVIEWED",
         "reviewed_by": reviewed_by,
         "reviewed_at": _now(),
     }
-    return save_report(patient_id, latest.get("variant_id") if latest else None, payload)
+    saved = save_report(patient_id, latest.get("variant_id") if latest else None, payload)
+    insert_report_revision(
+        patient_id=patient_id,
+        report_id=int(saved["id"]),
+        changed_by=reviewed_by,
+        old_value=old_payload,
+        new_value=payload,
+        reason=reason or "lab_report_review",
+    )
+    return saved
 
 
 def public_patient(row: dict[str, Any]) -> dict[str, Any]:

@@ -1,4 +1,5 @@
 import type { Role } from "@/lib/useAccount";
+import { platformNavForRole } from "@/lib/platformNav";
 
 export interface NavItem {
   href: string;
@@ -14,6 +15,8 @@ const ALL: Record<string, NavItem> = {
   therapy: { href: "/therapy", label: "Therapy Ranking" },
   knowledgeGraph: { href: "/knowledge-graph", label: "Knowledge Graph" },
   provenance: { href: "/provenance", label: "Provenance" },
+  genomicTimeline: { href: "/genomic-timeline", label: "Genomic Timeline" },
+  modelEval: { href: "/model-evaluation", label: "Model Evaluation" },
 };
 
 /**
@@ -31,24 +34,34 @@ export const NAV_BY_ROLE: Record<Role, NavItem[]> = {
     ALL.clinicalWorkup,
     ALL.variantLab,
     ALL.patientContext,
+    ALL.genomicTimeline,
     ALL.therapy,
     ALL.knowledgeGraph,
     ALL.provenance,
+    ALL.modelEval,
     ALL.upload,
   ],
-  patient: [ALL.dashboard, ALL.patientContext, ALL.upload, ALL.provenance],
+  patient: [ALL.dashboard, ALL.patientContext, ALL.genomicTimeline, ALL.upload, ALL.provenance],
   lab_technician: [
     ALL.dashboard,
     ALL.variantLab,
     ALL.patientContext,
+    ALL.genomicTimeline,
     ALL.provenance,
+    ALL.modelEval,
     ALL.upload,
   ],
   "": [ALL.dashboard],
 };
 
+export function navItemsForRole(role: Role): NavItem[] {
+  const base = NAV_BY_ROLE[role] ?? NAV_BY_ROLE[""];
+  return [...base, ...platformNavForRole(role)];
+}
+
 export function allowedPathsForRole(role: Role): string[] {
-  return (NAV_BY_ROLE[role] ?? NAV_BY_ROLE[""]).map((n) => n.href);
+  const extra = role === "doctor" || role === "lab_technician" ? ["/interpretations"] : [];
+  return [...navItemsForRole(role).map((n) => n.href), ...extra];
 }
 
 export function pathAllowedForRole(role: Role, path: string): boolean {

@@ -128,16 +128,10 @@ def ingest_bytes(*, user_id: int, filename: str, data: bytes, patient_id: int | 
         for rec in variants:
             vid = DB.insert_variant(uid, rec)
             rec["id"] = vid
-            if patient_id:
-                DB.insert_observation(
-                    patient_id=patient_id,
-                    variant_id=vid,
-                    source_file_id=uid,
-                    allele_fraction=rec.get("allele_fraction"),
-                    source_dataset=rec.get("source_type"),
-                )
         DB.update_upload(uid, parsing_status="PARSED", variant_count=len(variants),
                          parsing_error=None, analysis_status="PARSED")
+        if patient_id:
+            DB.record_observations_for_upload(uid, patient_id)
         log.info("[INGEST] parsed %s variants from %s", len(variants), filename)
         return {**DB.get_upload(uid), "variants": variants}
     except Exception as exc:

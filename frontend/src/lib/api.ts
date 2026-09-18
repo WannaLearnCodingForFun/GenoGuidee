@@ -56,6 +56,12 @@ function describeHttpError(path: string, status: number, detail?: string): strin
     return "BACKEND UNAVAILABLE — unable to connect to the GenoGuide API. Check that the backend is running on port 8000.";
   }
   if (detail) return detail;
+  if (status === 401) return "Sign in is required for this request.";
+  if (status === 403) return "You do not have permission for this action.";
+  if (status === 404) return "The requested record was not found.";
+  if (status === 422) return "The request could not be validated.";
+  if (status === 429) return "Too many requests. Try again shortly.";
+  if (status >= 500) return "The GenoGuide API reported a server error.";
   return `${path} failed (${status})`;
 }
 
@@ -402,10 +408,10 @@ export interface Stats {
 // Fetch helpers
 // ---------------------------------------------------------------------------
 
-async function get<T>(path: string): Promise<T> {
+async function get<T>(path: string, extra?: Record<string, string>): Promise<T> {
   let res: Response;
   try {
-    res = await fetch(`${API}${path}`, { headers: await apiHeaders() });
+    res = await fetch(`${API}${path}`, { headers: await apiHeaders(extra) });
   } catch {
     throw new Error(
       "BACKEND UNAVAILABLE — unable to connect to the GenoGuide API. Check that the backend is running on port 8000.",
@@ -415,7 +421,8 @@ async function get<T>(path: string): Promise<T> {
     let detail = "";
     try {
       const err = await res.json();
-      if (err?.detail) detail = typeof err.detail === "string" ? err.detail : "";
+      if (err?.error?.message) detail = String(err.error.message);
+      else if (err?.detail) detail = typeof err.detail === "string" ? err.detail : "";
     } catch {
       /* keep status */
     }
@@ -424,12 +431,12 @@ async function get<T>(path: string): Promise<T> {
   return res.json();
 }
 
-async function post<T>(path: string, body: unknown): Promise<T> {
+async function post<T>(path: string, body: unknown, extra?: Record<string, string>): Promise<T> {
   let res: Response;
   try {
     res = await fetch(`${API}${path}`, {
       method: "POST",
-      headers: await apiHeaders({ "Content-Type": "application/json" }),
+      headers: await apiHeaders({ "Content-Type": "application/json", ...extra }),
       body: JSON.stringify(body),
     });
   } catch {
@@ -441,7 +448,8 @@ async function post<T>(path: string, body: unknown): Promise<T> {
     let detail = "";
     try {
       const err = await res.json();
-      if (err?.detail) detail = typeof err.detail === "string" ? err.detail : "";
+      if (err?.error?.message) detail = String(err.error.message);
+      else if (err?.detail) detail = typeof err.detail === "string" ? err.detail : "";
     } catch {
       /* keep status */
     }
@@ -449,6 +457,8 @@ async function post<T>(path: string, body: unknown): Promise<T> {
   }
   return res.json();
 }
+
+export { get as apiGet, post as apiPost };
 
 async function patch<T>(path: string, body: unknown): Promise<T> {
   let res: Response;
@@ -467,7 +477,8 @@ async function patch<T>(path: string, body: unknown): Promise<T> {
     let detail = "";
     try {
       const err = await res.json();
-      if (err?.detail) detail = typeof err.detail === "string" ? err.detail : "";
+      if (err?.error?.message) detail = String(err.error.message);
+      else if (err?.detail) detail = typeof err.detail === "string" ? err.detail : "";
     } catch {
       /* keep status */
     }
@@ -811,7 +822,129 @@ export const api = {
     patient_id?: number;
   }) => post<Record<string, unknown>>("/api/clinical/curated/interpret", body),
   mlHealth: () => get<Record<string, unknown>>("/api/ml/health"),
+  clinicalGenomicsTimeline: (patientId: number) =>
+    get<GenomicsTimeline>(`/api/clinical/patients/${patientId}/genomics/timeline`),
+  clinicalGenomicsSnapshots: (patientId: number) =>
+    get<{ items: GenomicsSnapshot[] }>(`/api/clinical/patients/${patientId}/genomics/snapshots`),
+  clinicalGenomicsSnapshot: (patientId: number, snapshotId: number) =>
+    get<Record<string, unknown>>(`/api/clinical/patients/${patientId}/genomics/snapshots/${snapshotId}`),
+  clinicalGenomicsVariants: (patientId: number) =>
+    get<{ items: GenomicsVariant[] }>(`/api/clinical/patients/${patientId}/genomics/variants`),
+  clinicalGenomicsVariant: (patientId: number, canonicalId: string) =>
+    get<GenomicsVariant>(
+      `/api/clinical/patients/${patientId}/genomics/variants/${encodeURIComponent(canonicalId)}/trajectory`,
+    ),
+  clinicalGenomicsSummary: (patientId: number) =>
+    get<{ text: string | null; trend: string; delta: number | null }>(
+      `/api/clinical/patients/${patientId}/genomics/summary`,
+    ),
+  clinicalGenomicsProjection: (patientId: number) =>
+    get<{ projection: GenomicsProjection; current_score: number | null; trend: string }>(
+      `/api/clinical/patients/${patientId}/genomics/projection`,
+    ),
+  clinicalGenomicsTherapy: (patientId: number) =>
+    get<{
+      reclassification_notes: Array<{ gene?: string; classification_path: string[]; note: string }>;
+      disclaimer: string;
+    }>(`/api/clinical/patients/${patientId}/genomics/therapy-relevance`),
+  clinicalReportRevisions: (patientId: number) =>
+    get<{ items: Array<Record<string, unknown>> }>(`/api/clinical/patients/${patientId}/report-revisions`),
+  clinicalModelEvaluation: () =>
+    get<{
+      items: Array<Record<string, unknown>>;
+      ablations?: Array<{
+        name: string;
+        balanced_accuracy?: number;
+        macro_f1?: number;
+        macro_auprc?: number;
+        macro_auroc?: number;
+      }>;
+      headline?: {
+        binary_hq: Record<string, unknown>;
+        five_class: Record<string, unknown>;
+      };
+      note: string;
+      leakage_policy: string;
+    }>("/api/clinical/models/evaluation"),
+  clinicalSeedLongitudinalDemo: () =>
+    post<{
+      synthetic: boolean;
+      patient: ClinicalPatient;
+      patients?: Array<ClinicalPatient & { demo_story?: string }>;
+      note: string;
+    }>("/api/clinical/demo/longitudinal", {}),
 };
+
+export interface GenomicsSnapshot {
+  id: number;
+  test_number: number;
+  test_date: number;
+  variant_count: number;
+  pathogenic_variant_count: number;
+  likely_pathogenic_variant_count: number;
+  vus_count: number;
+  overall_risk_score: number | null;
+  trend?: string;
+  sample_identifier?: string | null;
+}
+
+export interface GenomicsVariant {
+  canonical_variant_id: string;
+  gene?: string | null;
+  hgvs?: string | null;
+  trend: string;
+  first_detected?: number | null;
+  last_detected?: number | null;
+  number_of_tests_detected: number;
+  current_classification?: string | null;
+  current_vaf?: number | null;
+  current_pathogenicity_probability?: number | null;
+  variant_trajectory_score?: number;
+  components?: Record<string, number>;
+  classification_history?: Array<string | null>;
+  points?: Array<Record<string, unknown>>;
+}
+
+export interface GenomicsProjection {
+  available: boolean;
+  status: string;
+  model?: string;
+  n_observations?: number;
+  current_score?: number;
+  risk_threshold?: number;
+  forecast?: Array<{ interval: number; score: number; ci_low: number; ci_high: number }>;
+  threshold_crossing_intervals?: number | null;
+  confidence?: string;
+  disclaimer?: string;
+  mortality_prediction?: boolean;
+  message?: string | null;
+}
+
+export interface GenomicsTimeline {
+  patient_id: number;
+  synthetic?: boolean;
+  baseline_score: number | null;
+  current_score: number | null;
+  delta: number | null;
+  percentage_change: number | null;
+  trend: string;
+  snapshots: GenomicsSnapshot[];
+  variants: GenomicsVariant[];
+  latest_comparison?: {
+    newly_detected: Array<Record<string, unknown>>;
+    persistent: Array<Record<string, unknown>>;
+    not_detected_in_current_sample: Array<Record<string, unknown>>;
+    reclassified: Array<Record<string, unknown>>;
+    counts: Record<string, number>;
+    not_detected_note: string;
+    risk_change?: { previous: number; current: number; delta: number } | null;
+  } | null;
+  change_summary?: string | null;
+  projection: GenomicsProjection;
+  scoring: Record<string, unknown>;
+  outcome: { supported: boolean; message: string; note: string };
+  disclaimer: string;
+}
 
 export interface ClinicalPatient {
   id: number;

@@ -79,6 +79,7 @@ class CuratedInterpretIn(BaseModel):
 class ReportPatch(BaseModel):
     lab_notes: Optional[str] = None
     review_status: Optional[str] = None
+    reason: Optional[str] = None
 
 
 def _need_role(user: dict[str, Any], *roles: str) -> None:
@@ -580,6 +581,7 @@ def patch_report(
         reviewed_by=user["id"],
         lab_notes=body.lab_notes,
         review_status=body.review_status,
+        reason=body.reason,
     )
     DB.audit(user["id"], patient_id, "report_updated", "report", str(updated["id"]))
     DB.append_provenance(
@@ -595,6 +597,158 @@ def patient_longitudinal(patient_id: int, user: dict[str, Any] = Depends(require
     if not DB.can_access_patient(user, patient_id):
         _deny_patient()
     return DB.longitudinal_for_patient(patient_id)
+
+
+@router.get("/clinical/patients/{patient_id}/genomics/timeline")
+def genomics_timeline(patient_id: int, user: dict[str, Any] = Depends(require_user)) -> dict[str, Any]:
+    if not DB.can_access_patient(user, patient_id):
+        _deny_patient()
+    from .services.longitudinal import build_timeline
+    return build_timeline(patient_id)
+
+
+@router.get("/clinical/patients/{patient_id}/genomics/snapshots")
+def genomics_snapshots(patient_id: int, user: dict[str, Any] = Depends(require_user)) -> dict[str, Any]:
+    if not DB.can_access_patient(user, patient_id):
+        _deny_patient()
+    return {"patient_id": patient_id, "items": DB.list_genomic_snapshots(patient_id)}
+
+
+@router.get("/clinical/patients/{patient_id}/genomics/snapshots/{snapshot_id}")
+def genomics_snapshot_detail(
+    patient_id: int, snapshot_id: int, user: dict[str, Any] = Depends(require_user),
+) -> dict[str, Any]:
+    if not DB.can_access_patient(user, patient_id):
+        _deny_patient()
+    from .services.longitudinal import snapshot_detail
+    try:
+        return snapshot_detail(patient_id, snapshot_id)
+    except KeyError as exc:
+        raise HTTPException(404, "Snapshot not found for this patient.") from exc
+
+
+@router.get("/clinical/patients/{patient_id}/genomics/variants")
+def genomics_variants(patient_id: int, user: dict[str, Any] = Depends(require_user)) -> dict[str, Any]:
+    if not DB.can_access_patient(user, patient_id):
+        _deny_patient()
+    from .services.longitudinal import build_variant_summaries
+    return {"patient_id": patient_id, "items": build_variant_summaries(patient_id)}
+
+
+@router.get("/clinical/patients/{patient_id}/genomics/variants/{variant_id}/trajectory")
+def genomics_variant_trajectory(
+    patient_id: int, variant_id: str, user: dict[str, Any] = Depends(require_user),
+) -> dict[str, Any]:
+    if not DB.can_access_patient(user, patient_id):
+        _deny_patient()
+    from .services.longitudinal import variant_trajectory
+    try:
+        return variant_trajectory(patient_id, variant_id)
+    except KeyError as exc:
+        raise HTTPException(404, "Variant trajectory not found for this patient.") from exc
+
+
+@router.get("/clinical/patients/{patient_id}/genomics/summary")
+def genomics_summary(patient_id: int, user: dict[str, Any] = Depends(require_user)) -> dict[str, Any]:
+    if not DB.can_access_patient(user, patient_id):
+        _deny_patient()
+    from .services.longitudinal import change_summary
+    return change_summary(patient_id)
+
+
+@router.get("/clinical/patients/{patient_id}/genomics/projection")
+def genomics_projection(patient_id: int, user: dict[str, Any] = Depends(require_user)) -> dict[str, Any]:
+    if not DB.can_access_patient(user, patient_id):
+        _deny_patient()
+    from .services.longitudinal import build_timeline
+    tl = build_timeline(patient_id)
+    return {
+        "patient_id": patient_id,
+        "projection": tl.get("projection"),
+        "current_score": tl.get("current_score"),
+        "trend": tl.get("trend"),
+        "outcome": tl.get("outcome"),
+    }
+
+
+@router.get("/clinical/patients/{patient_id}/genomics/therapy-relevance")
+def genomics_therapy(patient_id: int, user: dict[str, Any] = Depends(require_user)) -> dict[str, Any]:
+    if not DB.can_access_patient(user, patient_id):
+        _deny_patient()
+    from .services.longitudinal import therapy_relevance
+    return therapy_relevance(patient_id)
+
+
+@router.get("/clinical/patients/{patient_id}/report-revisions")
+def report_revisions(patient_id: int, user: dict[str, Any] = Depends(require_user)) -> dict[str, Any]:
+    if not DB.can_access_patient(user, patient_id):
+        _deny_patient()
+    return {"patient_id": patient_id, "items": DB.list_report_revisions(patient_id)}
+
+
+@router.post("/clinical/demo/longitudinal")
+def seed_demo_longitudinal(user: dict[str, Any] = Depends(require_user)) -> dict[str, Any]:
+    _need_role(user, "doctor", "lab_technician")
+    from .services.longitudinal_demo import seed_longitudinal_demo
+    return seed_longitudinal_demo(user["id"])
+
+
+@router.get("/clinical/models/evaluation")
+def model_evaluation(user: dict[str, Any] = Depends(require_user)) -> dict[str, Any]:
+    _need_role(user, "doctor", "lab_technician")
+    from pathlib import Path
+    import json
+    root = Path(__file__).resolve().parents[2]
+    registry = root / "models" / "registry"
+    items = []
+    for path in sorted(registry.glob("*.json")):
+        try:
+            items.append(json.loads(path.read_text()))
+        except (OSError, json.JSONDecodeError):
+            continue
+    ablations = []
+    ext = root / "research" / "reports" / "extended_eval.json"
+    if ext.is_file():
+        try:
+            payload = json.loads(ext.read_text())
+            for row in payload.get("ablations") or []:
+                if row.get("status") == "RAN":
+                    ablations.append({
+                        "name": row.get("ablation"),
+                        "balanced_accuracy": row.get("balanced_accuracy"),
+                        "macro_f1": row.get("macro_f1"),
+                        "macro_auprc": row.get("macro_auprc"),
+                        "macro_auroc": row.get("macro_auroc"),
+                    })
+        except (OSError, json.JSONDecodeError):
+            pass
+    return {
+        "items": items,
+        "ablations": ablations,
+        "headline": {
+            "binary_hq": {
+                "task": "P+LP vs B+LB, gene-disjoint TEST",
+                "accuracy": 0.9057,
+                "balanced_accuracy": 0.9224,
+                "roc_auc": 0.9786,
+                "pr_auc": 0.9467,
+                "n": 58481,
+                "source": "docs/model_evaluation.md",
+            },
+            "five_class": {
+                "task": "5-class Variant Lab model, gene-disjoint",
+                "accuracy": 0.75,
+                "note": "Not 85%. Do not substitute the binary headline for this task.",
+                "source": "docs/ML_PIPELINE.md",
+            },
+        },
+        "note": (
+            "Metrics are copied from registered evaluation artifacts and "
+            "research/reports/extended_eval.json. They are not edited for display. "
+            "Ablation bars show which feature set is stronger — not a patient's risk."
+        ),
+        "leakage_policy": "gene_disjoint; ClinVar significance is a label, never a feature.",
+    }
 
 
 @router.get("/clinical/curated")
@@ -898,6 +1052,8 @@ def _interpret_variant(variant_id: int, patient_id: int | None, user: dict[str, 
     DB.save_acmg(variant_id, patient_id, acmg)
     DB.save_ml(variant_id, ml)
     DB.save_reconciliation(variant_id, patient_id, recon)
+    if patient_id:
+        DB.update_observation_interpretation(variant_id, patient_id, ml, acmg)
     source_type = v.get("source_type") or "UPLOADED_VCF"
     observed = source_type != "CURATED_DATASET"
     observation_status = (

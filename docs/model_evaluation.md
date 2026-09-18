@@ -41,6 +41,10 @@ Validation (same threshold): accuracy=0.9233 balanced_accuracy=0.9352
 Do not report 5-class accuracy as 85% unless that number appears in the 5-class
 benchmark file.
 
+Clinicians can read these registered artifacts at `/model-evaluation`
+(`GET /api/clinical/models/evaluation`). The UI copies JSON; it does not
+rewrite accuracy.
+
 ## Model
 
 XGBoost binary:logistic, n_estimators=400, max_depth=6, lr=0.08, hist.

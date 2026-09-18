@@ -16,6 +16,17 @@ const PROTECTED_PREFIXES = [
   "/knowledge-graph",
   "/provenance",
   "/therapy",
+  "/genomic-timeline",
+  "/model-evaluation",
+  "/evidence-intelligence",
+  "/reanalysis",
+  "/curation",
+  "/phenotype-analysis",
+  "/inheritance",
+  "/acmg-simulator",
+  "/phenopackets",
+  "/model-monitoring",
+  "/interpretations",
 ];
 
 export default function AuthGate({ children }: { children: React.ReactNode }) {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Network, X } from "lucide-react";
 import { api, type GraphEdge, type GraphNode } from "@/lib/api";
@@ -141,6 +142,12 @@ export default function KnowledgeGraph() {
           </p>
         </div>
         <div className="flex gap-2">
+          <Link
+            href="/evidence-intelligence"
+            className="rounded-lg border border-cyan/40 bg-cyan/10 px-4 py-2 text-sm font-semibold text-cyan"
+          >
+            Open Evidence Intelligence
+          </Link>
           {patientIds.map((pt) => (
             <button
               key={pt.id}

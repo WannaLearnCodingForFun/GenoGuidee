@@ -4,21 +4,31 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import {
   Activity,
+  BarChart3,
   Dna,
   FileUp,
   FlaskConical,
-  Stethoscope,
-  LogOut,
+  GitCompare,
+  Layers,
   Network,
   Pill,
+  Radar,
+  RefreshCw,
+  ScrollText,
   ShieldCheck,
+  Stethoscope,
+  TreePine,
+  TrendingUp,
   UserRound,
+  Users,
+  LogOut,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { setLocalToken } from "@/lib/api";
 import { useAccount, type Role } from "@/lib/useAccount";
-import { NAV_BY_ROLE } from "@/lib/nav";
+import { navItemsForRole } from "@/lib/nav";
+import { groupForHref, NAV_GROUP_LABEL, NAV_GROUP_ORDER, type NavGroup } from "@/lib/platformNav";
 import SystemStatus from "@/components/SystemStatus";
 
 const ROLE_LABEL: Record<string, string> = {
@@ -36,13 +46,28 @@ const ICONS: Record<string, typeof Activity> = {
   "Therapy Ranking": Pill,
   "Knowledge Graph": Network,
   Provenance: ShieldCheck,
+  "Genomic Timeline": TrendingUp,
+  "Model Evaluation": BarChart3,
+  "Evidence Intelligence": Radar,
+  Reanalysis: RefreshCw,
+  Curation: Layers,
+  "Phenotype Analysis": ScrollText,
+  Inheritance: Users,
+  "ACMG Simulator": GitCompare,
+  Phenopackets: TreePine,
+  "Model Monitoring": Activity,
 };
 
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { account } = useAccount();
-  const nav = account?.role ? (NAV_BY_ROLE[account.role as Role] ?? []) : [];
+  const nav = account?.role ? navItemsForRole(account.role as Role) : [];
+
+  const grouped = NAV_GROUP_ORDER.map((group) => ({
+    group,
+    items: nav.filter((item) => groupForHref(item.href) === group),
+  })).filter((g) => g.items.length > 0);
 
   async function signOut() {
     if (!isSupabaseConfigured()) {
@@ -71,25 +96,36 @@ export default function Sidebar() {
         </span>
       </Link>
 
-      <nav className="mt-2 flex flex-col gap-1 px-3">
-        {nav.map(({ href, label }) => {
-          const Icon = ICONS[label] ?? Activity;
-          const active = pathname === href;
-          return (
-            <Link
-              key={href}
-              href={href}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
-                active
-                  ? "border border-cyan/25 bg-cyan/10 text-cyan shadow-[0_0_16px_-6px_#b4182d]"
-                  : "border border-transparent text-muted hover:bg-navy-950/5 hover:text-fg"
-              }`}
-            >
-              <Icon className="size-4" />
-              {label}
-            </Link>
-          );
-        })}
+      <nav className="mt-2 min-h-0 flex-1 overflow-y-auto px-3 pb-4">
+        {grouped.map(({ group, items }) => (
+          <div key={group} className="mb-3">
+            {grouped.length > 1 && (
+              <p className="px-3 pb-1 pt-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted">
+                {NAV_GROUP_LABEL[group as NavGroup]}
+              </p>
+            )}
+            <div className="flex flex-col gap-1">
+              {items.map(({ href, label }) => {
+                const Icon = ICONS[label] ?? Activity;
+                const active = pathname === href || pathname.startsWith(`${href}/`);
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
+                      active
+                        ? "border border-cyan/25 bg-cyan/10 text-cyan shadow-[0_0_16px_-6px_#b4182d]"
+                        : "border border-transparent text-muted hover:bg-navy-950/5 hover:text-fg"
+                    }`}
+                  >
+                    <Icon className="size-4 shrink-0" />
+                    {label}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
 
       <div className="mt-auto space-y-3 px-4 pb-5">

@@ -12,6 +12,15 @@ const PROTECTED_PREFIXES = [
   "/knowledge-graph",
   "/provenance",
   "/therapy",
+  "/evidence-intelligence",
+  "/reanalysis",
+  "/curation",
+  "/phenotype-analysis",
+  "/inheritance",
+  "/acmg-simulator",
+  "/phenopackets",
+  "/model-monitoring",
+  "/interpretations",
 ];
 
 export async function updateSession(request: NextRequest) {

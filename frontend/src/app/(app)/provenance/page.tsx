@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   BadgeCheck,
@@ -55,6 +56,7 @@ export default function Provenance() {
   const [showAudit, setShowAudit] = useState(false);
   const [consent, setConsent] = useState<{ patient_id: string; state: string; record: LedgerBlock | null } | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [interpId, setInterpId] = useState("");
 
   const load = useCallback(() => {
     if (loading || !account) return;
@@ -529,6 +531,29 @@ export default function Provenance() {
           </motion.div>
         )}
       </AnimatePresence>
+      <section className="card mt-8 p-5">
+        <h2 className="text-sm font-semibold">Interpretation versions</h2>
+        <p className="mt-1 text-xs text-muted">
+          Platform version history lives alongside this ledger. It does not replace hash-chained provenance.
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <input
+            className="rounded-lg border border-navy-950/10 px-3 py-2 text-sm"
+            value={interpId}
+            onChange={(e) => setInterpId(e.target.value)}
+            placeholder="Interpretation ID"
+          />
+          <Link
+            href={interpId.trim() ? `/interpretations/${encodeURIComponent(interpId.trim())}` : "/reanalysis"}
+            className="rounded-lg border border-cyan/40 bg-cyan/10 px-4 py-2 text-sm font-semibold text-cyan"
+          >
+            Open version history
+          </Link>
+          <Link href="/reanalysis" className="rounded-lg border border-navy-950/10 px-4 py-2 text-sm font-semibold text-muted">
+            Open Reanalysis
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

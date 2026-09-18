@@ -1,0 +1,44 @@
+# Transparent longitudinal scoring. Change weights here; do not hide them in the UI.
+# Scores are decision-support only. Not a mortality model.
+
+classification_severity:
+  Pathogenic: 1.0
+  Likely Pathogenic: 0.8
+  VUS: 0.45
+  Likely Benign: 0.15
+  Benign: 0.05
+  NOT_EVALUABLE: 0.2
+
+variant_trajectory:
+  # Components sum to 1.0 before 0–100 scaling.
+  pathogenicity: 0.30
+  classification: 0.28
+  vaf_trend: 0.16
+  persistence: 0.14
+  evidence_confidence: 0.12
+
+patient_risk:
+  # Weighted aggregation of clinically relevant variants. Not a simple mean.
+  pathogenic: 1.00
+  likely_pathogenic: 0.75
+  vus: 0.35
+  likely_benign: 0.08
+  benign: 0.03
+  vaf_floor: 0.25
+  confidence_floor: 0.20
+
+trend:
+  stable_abs_delta: 3.0
+  mixed_reversal: 6.0
+  min_snapshots_for_trend: 2
+  min_snapshots_for_forecast: 3
+  prefer_forecast: 4
+
+projection:
+  risk_threshold: 70
+  horizon: 3
+  unreliable_r2: 0.15
+
+disclaimer: >
+  Projection is based on observed longitudinal genomic trends and is not a
+  validated mortality prediction. Requires clinician review.
